@@ -139,4 +139,5 @@ ex ()
 }
 
 alias vim="nvim"
-alias config='git --git-dir=$HOME/.dots/ --work-tree=$HOME'
+alias config="git --git-dir=$HOME/.dots/ --work-tree=$HOME"
+alias c="clear"
