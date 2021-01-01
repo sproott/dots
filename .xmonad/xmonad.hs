@@ -14,6 +14,7 @@ import qualified Data.Map        as M
 -- certain contrib modules.
 --
 myTerminal      = "alacritty"
+myTextEditor    = "nvim"
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -241,14 +242,14 @@ myLogHook = return ()
 -- By default, do nothing.
 myStartupHook = do
     spawnOnce "nitrogen --restore &"
-    spawnOnce "compton &"
+    spawnOnce "picom &"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
 
 -- Run xmonad with the settings you specify. No need to modify this.
 --
-main =
+main = do
   xmproc <- spawnPipe "xmobar -x 0 $HOME/.config/xmobar/.xmobarrc"
   xmonad $ docks defaults
 
