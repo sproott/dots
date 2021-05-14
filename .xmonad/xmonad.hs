@@ -251,6 +251,7 @@ myStartupHook = do
 --
 main = do
   xmproc <- spawnPipe "xmobar -x 0 $HOME/.config/xmobar/.xmobarrc"
+  xmproc <- spawnPipe "xmobar -x 1 $HOME/.config/xmobar/.xmobarrc"
   xmonad $ docks defaults
 
 -- A structure containing your configuration settings, overriding
