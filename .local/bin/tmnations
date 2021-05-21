@@ -1,0 +1,3 @@
+#!/bin/sh
+
+steam steam://rungameid/11020 &> /dev/null & disown
