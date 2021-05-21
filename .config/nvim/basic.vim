@@ -1,6 +1,12 @@
 " Enable autocompletion
 filetype plugin on
 syntax on
+set encoding=UTF-8
+
+" Shell to bash
+if &shell =~# 'fish$'
+  set shell=bash
+endif
 
 " Set reasonable split defaults
 set splitbelow splitright
@@ -12,12 +18,16 @@ set hidden nobackup nowritebackup
 set
   \ softtabstop=2
   \ shiftwidth=2
+  \ tabstop=4
   \ smarttab
   \ expandtab
   \ shiftround
 
+" Line breaks
+set linebreak
+
 " Line numbers
-set number relativenumber
+set number
 
 " Configure search
 set hlsearch ignorecase smartcase
@@ -26,11 +36,13 @@ set hlsearch ignorecase smartcase
 set cursorline
 
 set cmdheight=2
-set updatetime=500
+set updatetime=5
 
-" Set gruvbox
+" Set colors
 autocmd VimEnter * colorscheme gruvbox
+autocmd VimEnter * :RainbowParentheses
 
-" Trailing whitespace and final new-line
-autocmd BufWritePre * %s/\s\+$//e
-autocmd BufWritePre * %s/\($\n\s*\)\+\%$/\n/e
+" Terminal
+autocmd TermOpen * set nonumber
+autocmd TermOpen * startinsert
+autocmd TermClose * stopinsert
