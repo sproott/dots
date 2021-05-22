@@ -326,9 +326,7 @@ globalkeys = gears.table.join(
               {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"}),
-    -- Custom
-   awful.key({ "Control", "Alt" }, "k", function() awful.util.spawn_with_shell("layout_switch") end, {description = "switch layout", group = "custom"})
+              {description = "show the menubar", group = "launcher"})
 )
 
 clientkeys = gears.table.join(
@@ -567,3 +565,5 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- Autostart applications
 awful.spawn.with_shell("wallpaper")
+awful.spawn.with_shell("remaps")
+
