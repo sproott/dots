@@ -27,7 +27,7 @@ set
 set linebreak
 
 " Line numbers
-set number
+set relativenumber
 
 " Configure search
 set hlsearch ignorecase smartcase
