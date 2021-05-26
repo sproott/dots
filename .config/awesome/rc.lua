@@ -361,6 +361,10 @@ awful.keyboard.append_global_keybindings({
     }
 })
 
+awful.keyboard.append_global_keybindings({
+   awful.key({ modkey, "Control" }, "l", function () awful.spawn("sxlock") end, {description = "lock the screen", group = "custom"})
+})
+
 client.connect_signal("request::default_mousebindings", function()
     awful.mouse.append_client_mousebindings({
         awful.button({ }, 1, function (c)
