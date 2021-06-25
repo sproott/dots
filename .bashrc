@@ -145,10 +145,11 @@ eval "$(starship init bash)"
 
 export VISUAL="nvim"
 export EDITOR="$VISUAL"
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
 
 alias vim="nvim"
 alias config="git --git-dir=$HOME/.dots/ --work-tree=$HOME"
-alias c="clear"
 alias ls="exa --long --color=auto"
 alias dragon="dragon-drag-and-drop"
-
