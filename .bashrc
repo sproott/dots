@@ -145,6 +145,7 @@ eval "$(starship init bash)"
 
 export VISUAL="nvim"
 export EDITOR="$VISUAL"
+
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
