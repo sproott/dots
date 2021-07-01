@@ -177,15 +177,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
-<<<<<<< HEAD
-            battery_widget,
-=======
-<<<<<<< Updated upstream
-=======
             battery_widget,
             volumecfg.widget,
->>>>>>> Stashed changes
->>>>>>> master
             wibox.widget.systray(),
             mytextclock,
             s.mylayoutbox,
