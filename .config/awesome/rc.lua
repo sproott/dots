@@ -23,6 +23,8 @@ require("awful.hotkeys_popup.keys")
 
 -- Custom widgets
 local battery_widget = require("widgets.battery")
+local volume_control = require("util.volume-control")
+volumecfg = volume_control({})
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -175,7 +177,15 @@ screen.connect_signal("request::desktop_decoration", function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
+<<<<<<< HEAD
             battery_widget,
+=======
+<<<<<<< Updated upstream
+=======
+            battery_widget,
+            volumecfg.widget,
+>>>>>>> Stashed changes
+>>>>>>> master
             wibox.widget.systray(),
             mytextclock,
             s.mylayoutbox,
@@ -368,7 +378,10 @@ awful.keyboard.append_global_keybindings({
 -- custom keybindings
 awful.keyboard.append_global_keybindings({
    awful.key({ modkey, "Control" }, "l", function () awful.spawn("sxlock") end, {description = "lock the screen", group = "custom"}),
-   awful.key({ "Shift" }, "Print", function () awful.spawn("selection_screenshot") end, {description = "select area and copy screenshot", group = "custom"})
+   awful.key({ "Shift" }, "Print", function () awful.spawn("selection_screenshot") end, {description = "select area and copy screenshot", group = "custom"}), 
+   awful.key({}, "XF86AudioRaiseVolume", function() volumecfg:up() end, {description = "raise volume", group = "audio"}),
+   awful.key({}, "XF86AudioLowerVolume", function() volumecfg:down() end, {description = "lower volume", group = "audio"}),
+   awful.key({}, "XF86AudioMute",        function() volumecfg:toggle() end, {description = "mute output", group = "audio"}),
 })
 
 client.connect_signal("request::default_mousebindings", function()
