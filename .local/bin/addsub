@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [ -f $1 ] ; then
+  subliminal download -l en $1
+  name=$(dirname "$1")/$(basename "$1" | sed 's/\(.*\)\..*/\1/')
+  mkvmerge -o $name.subs.mkv $1 $name.en.srt
+  rm $name.en.srt
+else
+  echo "'$1' is not a valid file"
+fi
