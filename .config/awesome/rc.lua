@@ -22,6 +22,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
 -- Custom widgets
+local battery_widget = require("widgets.battery")
 local volume_control = require("util.volume-control")
 volumecfg = volume_control({})
 
@@ -176,6 +177,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
+            battery_widget,
             volumecfg.widget,
             wibox.widget.systray(),
             mytextclock,
