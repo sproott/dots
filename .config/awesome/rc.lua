@@ -370,11 +370,12 @@ awful.keyboard.append_global_keybindings({
 
 -- custom keybindings
 awful.keyboard.append_global_keybindings({
-   awful.key({ modkey, "Control" }, "l", function () awful.spawn("sxlock") end, {description = "lock the screen", group = "custom"}),
-   awful.key({ "Shift" }, "Print", function () awful.spawn("selection_screenshot") end, {description = "select area and copy screenshot", group = "custom"}), 
-   awful.key({}, "XF86AudioRaiseVolume", function() volumecfg:up() end, {description = "raise volume", group = "audio"}),
-   awful.key({}, "XF86AudioLowerVolume", function() volumecfg:down() end, {description = "lower volume", group = "audio"}),
-   awful.key({}, "XF86AudioMute",        function() volumecfg:toggle() end, {description = "mute output", group = "audio"}),
+    awful.key({ modkey, "Control" }, "l", function () awful.spawn("sxlock") end, {description = "lock the screen", group = "custom"}),
+    awful.key({ "Shift" }, "Print", function () awful.spawn("selection_screenshot") end, {description = "select area and copy screenshot", group = "custom"}),
+    awful.key({}, "XF86AudioRaiseVolume", function() volumecfg:up() end, {description = "raise volume", group = "audio"}),
+    awful.key({}, "XF86AudioLowerVolume", function() volumecfg:down() end, {description = "lower volume", group = "audio"}),
+    awful.key({}, "XF86AudioMute",        function() volumecfg:toggle() end, {description = "mute output", group = "audio"}),
+    awful.key({ modkey }, ".", function() awful.spawn("emoji") end, {description = "emoji picker", group = "custom"}),
 })
 
 client.connect_signal("request::default_mousebindings", function()
