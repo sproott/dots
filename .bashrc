@@ -110,6 +110,11 @@ launch() {
   "$@" > /dev/null 2>&1 & disown
 }
 
+mkcd() {
+  mkdir "$1"
+  cd "$1"
+}
+
 eval "$(starship init bash)"
 
 export VISUAL="nvim"
