@@ -123,7 +123,6 @@ export EDITOR="$VISUAL"
 alias vim="nvim"
 alias config="git --git-dir=$HOME/.dots/ --work-tree=$HOME"
 alias ls="exa --long --color=auto"
-alias dragon="dragon-drag-and-drop"
 alias pm="pulsemixer"
 
 [[ -f ~/.bash_functions ]] && . ~/.bash_functions
