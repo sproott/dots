@@ -376,6 +376,8 @@ awful.keyboard.append_global_keybindings({
     awful.key({}, "XF86AudioLowerVolume", function() volumecfg:down() end, {description = "lower volume", group = "audio"}),
     awful.key({}, "XF86AudioMute",        function() volumecfg:toggle() end, {description = "mute output", group = "audio"}),
     awful.key({ modkey }, ".", function() awful.spawn("emoji") end, {description = "emoji picker", group = "custom"}),
+    awful.key({}, "XF86MonBrightnessUp", function() awful.spawn("xbacklight -inc 20") end, {description = "brightness up", group = "video"}),
+    awful.key({}, "XF86MonBrightnessDown", function() awful.spawn("xbacklight -dec 20") end, {description = "brightness down", group = "video"}),
 })
 
 client.connect_signal("request::default_mousebindings", function()
