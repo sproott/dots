@@ -248,7 +248,7 @@ keys.client_keys = gears.table.join(keys.client_keys, awful.key({MODKEY}, "f", f
 end, {
   description = "toggle fullscreen",
   group = "client"
-}), awful.key({MODKEY, "Shift"}, "c", function(c)
+}), awful.key({MODKEY}, "q", function(c)
   c:kill()
 end, {
   description = "close",
