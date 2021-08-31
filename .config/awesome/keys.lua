@@ -3,10 +3,6 @@ local gears = require("gears")
 local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
--- Volume
-local volume_control = require("util.volume-control")
-local volumecfg = volume_control({})
-
 require("globals")
 
 local keys = {global_keys = {}}
