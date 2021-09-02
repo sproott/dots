@@ -1,3 +1,4 @@
+local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
 
@@ -62,19 +63,13 @@ theme.fg_focus      = theme.color.snow_storm[1]
 theme.fg_urgent     = theme.color.snow_storm[1]
 theme.fg_minimize   = theme.color.snow_storm[1]
 
+theme.taglist_fg_empty      = theme.color.polar_night[3]
+
 theme.useless_gap         = dpi(0)
 theme.border_width        = dpi(1)
 theme.border_color_normal = "#000000"
 theme.border_color_active = "#535d6c"
 theme.border_color_marked = "#91231c"
-
-local taglist_square_size = dpi(4)
-theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-    taglist_square_size, theme.fg_normal
-)
-theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
-    taglist_square_size, theme.fg_normal
-)
 
 theme.menu_submenu_icon = themes_path.."default/submenu.png"
 theme.menu_height = dpi(15)
@@ -121,23 +116,43 @@ theme.on_screen_connect = function(s)
 
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist {
-        screen = s,
-        filter = awful.widget.taglist.filter.all,
-        buttons = {awful.button({}, 1, function(t)
-            t:view_only()
-        end), awful.button({MODKEY}, 1, function(t)
-            if client.focus then
-                client.focus:move_to_tag(t)
-            end
-        end), awful.button({}, 3, awful.tag.viewtoggle), awful.button({MODKEY}, 3, function(t)
-            if client.focus then
-                client.focus:toggle_tag(t)
-            end
-        end), awful.button({}, 4, function(t)
-            awful.tag.viewprev(t.screen)
-        end), awful.button({}, 5, function(t)
-            awful.tag.viewnext(t.screen)
-        end)}
+      screen = s,
+      filter = awful.widget.taglist.filter.all,
+      style = {
+        shape = gears.shape.circle
+      },
+      widget_template = {
+        {
+          {
+            {
+              id = 'text_role',
+              widget = wibox.widget.textbox,
+            },
+            layout = wibox.layout.align.horizontal,
+          },
+          left = 10,
+          right = 10,
+          widget = wibox.container.margin
+        },
+        id = 'background_role',
+        widget = wibox.container.background,
+      },
+      buttons = {
+        awful.button({}, 1, function(t) t:view_only() end), 
+        awful.button({MODKEY}, 1, function(t)
+          if client.focus then
+              client.focus:move_to_tag(t)
+          end
+        end),
+        awful.button({}, 3, awful.tag.viewtoggle), 
+        awful.button({MODKEY}, 3, function(t)
+          if client.focus then
+              client.focus:toggle_tag(t)
+          end
+        end),
+        awful.button({}, 4, function(t) awful.tag.viewprev(t.screen) end),
+        awful.button({}, 5, function(t) awful.tag.viewnext(t.screen) end),
+      }
     }
 
     -- Create the wibox
