@@ -1,5 +1,3 @@
--- Standard awesome library
-local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
 
@@ -11,7 +9,11 @@ local dpi = xresources.apply_dpi
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
 
+-- Utils
 local layout = require("util.layout")
+
+-- Widget imports
+local create_volume_widget = require("widgets.volume")
 
 local theme = {}
 
@@ -104,56 +106,14 @@ rnotification.connect_signal('request::rules', function()
     }
 end)
 
--- Volume control
-local volume_bar = wibox.widget {
-  max_value     = 100,
-  value         = 0,
-  forced_width  = 100,
-  forced_height = 2,
-  border_width  = 2,
-  color         = theme.color.aurora.green,
-  background_color = theme.color.polar_night[2],
-  shape     = gears.shape.rounded_bar,
-  margins       = {
-      top    = 8,
-      bottom = 8,
-  },
-  widget        = wibox.widget.progressbar,
-}
-
-local volume_icon = wibox.widget.textbox('')
-
-local volume_icon_markup = function(icon)
-  return '<span color="'..theme.color.aurora.green..'" font="'..theme.fonts.icon..'">'..icon..'</span>'
-end
-
-theme.update_volume = function()
-  awful.spawn.easy_async_with_shell([[
-    printf "%s" $(amixer get Master)]], function(status)
-    local state  = status:match("%[(o[nf]*)%]")
-    local volume = tonumber(status:match("(%d?%d?%d)%%"))
-
-    if state == "off" then
-      volume_icon:set_markup(volume_icon_markup("婢"))
-    elseif volume == 0 then
-      volume_icon:set_markup(volume_icon_markup(""))
-    else
-      volume_icon:set_markup(volume_icon_markup("墳"))
-    end
-
-    volume_bar:set_value(volume)
-  end)
-end
-
-local volume_widget = layout.fixed_horizontal (
-  layout.pad {
-    volume_icon,
-    layout.padding,
-    volume_bar
-  }
+-- Volume widget
+local volume = create_volume_widget(theme.color.aurora.green, theme.color.polar_night[2], theme.fonts.icon)
+local volume_widget = layout.fixed_horizontal(
+  layout.pad(
+    volume.widget
+  )
 )
-
-theme.update_volume()
+theme.update_volume = volume.update_volume
 
 theme.on_screen_connect = function(s)
     -- Each screen has its own tag table.
