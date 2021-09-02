@@ -145,13 +145,12 @@ theme.update_volume = function()
   end)
 end
 
-local volume_widget = {
-  layout = wibox.layout.fixed.horizontal,
-  table.unpack(layout.pad({
+local volume_widget = layout.fixed_horizontal {
+  layout.pad {
     volume_icon,
     layout.padding,
     volume_bar
-  }))
+  }
 }
 
 theme.update_volume()
@@ -190,15 +189,12 @@ theme.on_screen_connect = function(s)
     -- Add widgets to the wibox
     s.mywibox.widget = {
         layout = wibox.layout.align.horizontal,
-        { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
+        layout.fixed_horizontal { -- Left widgets
             s.mytaglist,
         },
-        { -- Center widget
-			      layout = wibox.layout.align.horizontal
+        layout.fixed_horizontal { -- Center widget
 		    },
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
+        layout.fixed_horizontal { -- Right widgets
             volume_widget,
             wibox.widget.systray(),
         }
