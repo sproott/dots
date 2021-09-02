@@ -145,13 +145,13 @@ theme.update_volume = function()
   end)
 end
 
-local volume_widget = layout.fixed_horizontal {
+local volume_widget = layout.fixed_horizontal (
   layout.pad {
     volume_icon,
     layout.padding,
     volume_bar
   }
-}
+)
 
 theme.update_volume()
 
