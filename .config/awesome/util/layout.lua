@@ -13,4 +13,8 @@ layout.fixed_horizontal = function(widgets)
   return gears.table.join({layout = wibox.layout.fixed.horizontal}, widgets)
 end
 
+layout.create_span = function(params)
+  return '<span color="'..params.color..'" font="'..params.font..'">'..params.content..'</span>'
+end
+
 return layout

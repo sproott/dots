@@ -24,7 +24,7 @@ local create = function(color, background_color, icon_font)
   local volume_icon = wibox.widget.textbox('')
 
   local create_volume_icon = function(icon)
-    return '<span color="'..color..'" font="'..icon_font..'">'..icon..'</span>'
+    return layout.create_span({color = color, font = icon_font, content = icon})
   end
 
   local muted_icon = create_volume_icon("婢")
