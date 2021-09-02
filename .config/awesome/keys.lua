@@ -8,6 +8,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- Volume control functions
 local volume = require("util.volume")
 
+-- Global variables
 require("globals")
 
 local keys = {global_keys = {}, client_keys = {}}
