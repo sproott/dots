@@ -1,6 +1,8 @@
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
+-- Theme handling library
+local beautiful = require("beautiful")
 
 -- Hotkeys popup widget
 local hotkeys_popup = require("awful.hotkeys_popup")
@@ -233,16 +235,19 @@ end, {
   group = "custom"
 }), awful.key({}, "XF86AudioRaiseVolume", function()
   volume.up()
+  beautiful.update_volume()
 end, {
   description = "raise volume",
   group = "audio"
 }), awful.key({}, "XF86AudioLowerVolume", function()
   volume.down()
+  beautiful.update_volume()
 end, {
   description = "lower volume",
   group = "audio"
 }), awful.key({}, "XF86AudioMute", function()
   volume.toggle()
+  beautiful.update_volume()
 end, {
   description = "mute output",
   group = "audio"

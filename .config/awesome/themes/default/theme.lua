@@ -1,3 +1,5 @@
+-- Standard awesome library
+local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
 
@@ -8,6 +10,8 @@ local dpi = xresources.apply_dpi
 
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
+
+local layout = require("util.layout")
 
 local theme = {}
 
@@ -30,19 +34,24 @@ theme.color = {
     "#5e81ac",
   },
   aurora = {
-    "#bf616a",
-    "#d08770",
-    "#ebcb8b",
-    "#a3be8c",
-    "#b48ead",
+    red = "#bf616a",
+    orange = "#d08770",
+    yellow = "#ebcb8b",
+    green = "#a3be8c",
+    purple = "#b48ead",
   }
 }
 
-theme.font          = "monospace 10"
+theme.font = "monospace 10"
+
+theme.fonts = {
+  icon = "monospace 13",
+  widget = theme.font,
+}
 
 theme.bg_normal     = theme.color.polar_night[1]
 theme.bg_focus      = theme.color.frost[4]
-theme.bg_urgent     = theme.color.aurora[1]
+theme.bg_urgent     = theme.color.aurora.red
 theme.bg_minimize   = theme.color.polar_night[2]
 theme.bg_systray    = theme.bg_normal
 
@@ -95,11 +104,57 @@ rnotification.connect_signal('request::rules', function()
     }
 end)
 
--- Keyboard map indicator and switcher
-local mykeyboardlayout = awful.widget.keyboardlayout()
+-- Volume control
+local volume_bar = wibox.widget {
+  max_value     = 100,
+  value         = 0,
+  forced_width  = 100,
+  forced_height = 2,
+  border_width  = 2,
+  color         = theme.color.aurora.green,
+  background_color = theme.color.polar_night[2],
+  shape     = gears.shape.rounded_bar,
+  margins       = {
+      top    = 8,
+      bottom = 8,
+  },
+  widget        = wibox.widget.progressbar,
+}
 
--- Create a textclock widget
-local mytextclock = wibox.widget.textclock()
+local volume_icon = wibox.widget.textbox('')
+
+local volume_icon_markup = function(icon)
+  return '<span color="'..theme.color.aurora.green..'" font="'..theme.fonts.icon..'">'..icon..'</span>'
+end
+
+theme.update_volume = function()
+  awful.spawn.easy_async_with_shell([[
+    printf "%s" $(amixer get Master)]], function(status)
+    local state  = status:match("%[(o[nf]*)%]")
+    local volume = tonumber(status:match("(%d?%d?%d)%%"))
+
+    if state == "off" then
+      volume_icon:set_markup(volume_icon_markup("婢"))
+    elseif volume == 0 then
+      volume_icon:set_markup(volume_icon_markup(""))
+    else
+      volume_icon:set_markup(volume_icon_markup("墳"))
+    end
+
+    volume_bar:set_value(volume)
+  end)
+end
+
+local volume_widget = {
+  layout = wibox.layout.fixed.horizontal,
+  layout.padding, 
+  volume_icon, 
+  layout.padding, 
+  volume_bar, 
+  layout.padding
+}
+
+theme.update_volume()
 
 theme.on_screen_connect = function(s)
     -- Each screen has its own tag table.
@@ -144,6 +199,7 @@ theme.on_screen_connect = function(s)
 		    },
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            volume_widget,
             wibox.widget.systray(),
         }
     }
