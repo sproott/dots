@@ -32,7 +32,7 @@ local create = function(color, background_color, icon_font)
   local normal_icon = create_volume_icon("墳")
 
   local update_volume = function()
-    awful.spawn.easy_async_with_shell("amixer get Master", function(status)
+    awful.spawn.easy_async_with_shell("sleep .01 ; amixer get Master", function(status)
       local state  = status:match("%[(o[nf]*)%]")
       local volume = tonumber(status:match("(%d?%d?%d)%%"))
 
