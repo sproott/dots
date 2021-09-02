@@ -233,12 +233,12 @@ end, {
   description = "raise volume",
   group = "audio"
 }), awful.key({}, "XF86AudioLowerVolume", function()
-  volume:down()
+  volume.down()
 end, {
   description = "lower volume",
   group = "audio"
 }), awful.key({}, "XF86AudioMute", function()
-  volume:toggle()
+  volume.toggle()
 end, {
   description = "mute output",
   group = "audio"
