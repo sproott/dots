@@ -8,18 +8,45 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.font          = "sans 8"
+theme.color = {
+  polar_night = {
+    "#2e3440",
+    "#3b4252",
+    "#434c5e",
+    "#4c566a",
+  },
+  snow_storm = {
+    "#d8dee9",
+    "#e5e9f0",
+    "#eceff4",
+  },
+  frost = {
+    "#8fbcbb",
+    "#88c0d0",
+    "#81a1c1",
+    "#5e81ac",
+  },
+  aurora = {
+    "#bf616a",
+    "#d08770",
+    "#ebcb8b",
+    "#a3be8c",
+    "#b48ead",
+  }
+}
 
-theme.bg_normal     = "#222222"
-theme.bg_focus      = "#535d6c"
-theme.bg_urgent     = "#ff0000"
-theme.bg_minimize   = "#444444"
+theme.font          = "monospace 10"
+
+theme.bg_normal     = theme.color.polar_night[1]
+theme.bg_focus      = theme.color.frost[4]
+theme.bg_urgent     = theme.color.aurora[1]
+theme.bg_minimize   = theme.color.polar_night[2]
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#aaaaaa"
-theme.fg_focus      = "#ffffff"
-theme.fg_urgent     = "#ffffff"
-theme.fg_minimize   = "#ffffff"
+theme.fg_normal     = theme.color.snow_storm[3]
+theme.fg_focus      = theme.color.snow_storm[1]
+theme.fg_urgent     = theme.color.snow_storm[1]
+theme.fg_minimize   = theme.color.snow_storm[1]
 
 theme.useless_gap         = dpi(0)
 theme.border_width        = dpi(1)
