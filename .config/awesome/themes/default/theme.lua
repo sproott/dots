@@ -147,11 +147,11 @@ end
 
 local volume_widget = {
   layout = wibox.layout.fixed.horizontal,
-  layout.padding, 
-  volume_icon, 
-  layout.padding, 
-  volume_bar, 
-  layout.padding
+  table.unpack(layout.pad({
+    volume_icon,
+    layout.padding,
+    volume_bar
+  }))
 }
 
 theme.update_volume()

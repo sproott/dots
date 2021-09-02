@@ -2,14 +2,12 @@
 local gears = require("gears")
 local wibox = require("wibox")
 
-local layout = {}
+local padding = wibox.widget.textbox("    ")
 
-layout.padding = wibox.widget.textbox("    ")
-
-local padding = {layout.padding}
+local layout = {padding = padding}
 
 layout.pad = function(widgets)
-  return gears.table.join(padding, widgets, padding)
+  return gears.table.join({padding}, widgets, {padding})
 end
 
 return layout
