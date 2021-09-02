@@ -1,16 +1,28 @@
 local gears = require("gears")
 local wibox = require("wibox")
 
-local padding = wibox.widget.textbox("    ")
-
-local layout = {padding = padding}
-
-layout.pad = function(widgets)
-  return gears.table.join({padding}, widgets, {padding})
-end
+local layout = {}
 
 layout.fixed_horizontal = function(widgets)
   return gears.table.join({layout = wibox.layout.fixed.horizontal}, widgets)
+end
+
+layout.add_padding = function(widgets, padding)
+  return {
+    widgets,
+    top = padding.top or 0,
+    right = padding.right or 0,
+    bottom = padding.bottom or 0,
+    left = padding.left or 0,
+    widget = wibox.container.margin,
+  }
+end
+
+layout.horizontal_spacer = function(spacing)
+  return {
+    left = spacing,
+    widget = wibox.container.margin,
+  }
 end
 
 layout.create_span = function(params)

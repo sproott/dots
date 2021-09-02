@@ -97,6 +97,8 @@ theme.layout_cornerse = themes_path.."default/layouts/cornersew.png"
 
 theme.icon_theme = nil
 
+theme.spacing = {small = dpi(10), normal = dpi(15)}
+
 -- }}}
 
 rnotification.connect_signal('request::rules', function()
@@ -109,11 +111,10 @@ end)
 -- {{{ Widgets
 
 -- Volume widget
-local volume = create_volume_widget(theme.color.aurora.green, theme.color.polar_night[3], theme.fonts.icon)
-local volume_widget = layout.fixed_horizontal(
-  layout.pad(
-    volume.widget
-  )
+local volume = create_volume_widget(theme.color.aurora.green, theme.color.polar_night[3], theme.fonts.icon, theme.spacing.small)
+local volume_widget = layout.add_padding(
+  layout.fixed_horizontal(volume.widget),
+  {left = theme.spacing.normal, right = theme.spacing.normal}
 )
 theme.update_volume = volume.update_volume
 

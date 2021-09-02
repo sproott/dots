@@ -8,7 +8,7 @@ local dpi = xresources.apply_dpi
 local create = function(screen, params)
   params = params or {}
   params.spacing = params.spacing or dpi(10)
-  params.margin = params.margin or dpi(1)
+  params.margin = params.margin or dpi(2)
 
   return awful.widget.taglist {
     screen = screen,

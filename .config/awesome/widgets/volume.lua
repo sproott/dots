@@ -2,9 +2,12 @@ local gears = require("gears")
 local wibox = require("wibox")
 local awful = require("awful")
 
+local xresources = require("beautiful.xresources")
+local dpi = xresources.apply_dpi
+
 local layout = require("util.layout")
 
-local create = function(color, background_color, icon_font)
+local create = function(color, background_color, icon_font, spacing)
   local volume_bar = wibox.widget {
     max_value     = 100,
     value         = 0,
@@ -50,7 +53,7 @@ local create = function(color, background_color, icon_font)
 
   local volume_widget = {
     volume_icon,
-    layout.padding,
+    layout.horizontal_spacer(spacing),
     volume_bar
   }
 
