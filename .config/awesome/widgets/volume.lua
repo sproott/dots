@@ -2,9 +2,6 @@ local gears = require("gears")
 local wibox = require("wibox")
 local awful = require("awful")
 
-local xresources = require("beautiful.xresources")
-local dpi = xresources.apply_dpi
-
 local layout = require("util.layout")
 
 local create = function(color, background_color, icon_font, spacing)
