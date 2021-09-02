@@ -144,10 +144,7 @@ theme.on_screen_connect = function(s)
 		    },
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
-            VOLUME_CFG.widget,
             wibox.widget.systray(),
-            mytextclock,
         }
     }
 end
