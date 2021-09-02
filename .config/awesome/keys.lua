@@ -1,8 +1,11 @@
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
+
+-- Hotkeys popup widget
 local hotkeys_popup = require("awful.hotkeys_popup")
 
+-- Volume control functions
 local volume = require("util.volume")
 
 require("globals")
