@@ -2,7 +2,6 @@ local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
 
-local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local rnotification = require("ruled.notification")
 local dpi = xresources.apply_dpi
@@ -15,6 +14,8 @@ local layout = require("util.layout")
 
 -- Widget imports
 local create_volume_widget = require("widgets.volume")
+
+-- {{{ Theme properties
 
 local theme = {}
 
@@ -56,6 +57,7 @@ theme.bg_normal     = theme.color.polar_night[1]
 theme.bg_focus      = theme.color.frost[4]
 theme.bg_urgent     = theme.color.aurora.red
 theme.bg_minimize   = theme.color.polar_night[2]
+
 theme.bg_systray    = theme.bg_normal
 
 theme.fg_normal     = theme.color.snow_storm[3]
@@ -94,21 +96,35 @@ theme.layout_cornerse = themes_path.."default/layouts/cornersew.png"
 
 theme.icon_theme = nil
 
+-- }}}
+
 rnotification.connect_signal('request::rules', function()
     rnotification.append_rule {
         rule       = { urgency = 'critical' },
-        properties = { bg = '#ff0000', fg = '#ffffff' }
+        properties = { bg = theme.bg_urgent, fg = theme.fg_normal }
     }
 end)
 
+-- {{{ Widgets
+
 -- Volume widget
-local volume = create_volume_widget(theme.color.aurora.green, theme.color.polar_night[2], theme.fonts.icon)
+local volume = create_volume_widget(theme.color.aurora.green, theme.color.polar_night[3], theme.fonts.icon)
 local volume_widget = layout.fixed_horizontal(
   layout.pad(
     volume.widget
   )
 )
 theme.update_volume = volume.update_volume
+
+-- Keyboard layout widget
+-- TODO make it pretty
+local keyboard_layout_widget = awful.widget.keyboardlayout()
+
+-- Clock widget
+-- TODO make it pretty
+local clock_widget = wibox.widget.textclock()
+
+-- }}}
 
 theme.on_screen_connect = function(s)
     -- Each screen has its own tag table.
@@ -158,7 +174,7 @@ theme.on_screen_connect = function(s)
     -- Create the wibox
     s.mywibox = awful.wibar({
         position = "top",
-        screen = s
+        screen = s,
     })
 
     -- Add widgets to the wibox
@@ -170,8 +186,10 @@ theme.on_screen_connect = function(s)
         layout.fixed_horizontal { -- Center widget
 		    },
         layout.fixed_horizontal { -- Right widgets
+            keyboard_layout_widget,
             volume_widget,
-            wibox.widget.systray(),
+            systray_widget,
+            clock_widget,
         }
     }
 end
