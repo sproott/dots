@@ -89,8 +89,6 @@ client.connect_signal("request::default_mousebindings", function()
     end)})
 end)
 
--- }}}
-
 -- {{{ Rules
 -- Rules to apply to new clients.
 ruled.client.connect_signal("request::rules", function()
@@ -161,3 +159,5 @@ end)
 -- Autostart applications
 awful.spawn.with_shell("wallpaper")
 awful.spawn.with_shell("remaps")
+
+awful.spawn.with_shell("picom")
