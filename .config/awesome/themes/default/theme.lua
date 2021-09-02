@@ -1,3 +1,6 @@
+local awful = require("awful")
+local wibox = require("wibox")
+
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local rnotification = require("ruled.notification")
@@ -91,6 +94,67 @@ rnotification.connect_signal('request::rules', function()
         properties = { bg = '#ff0000', fg = '#ffffff' }
     }
 end)
+
+-- Keyboard map indicator and switcher
+local mykeyboardlayout = awful.widget.keyboardlayout()
+
+-- Create a textclock widget
+local mytextclock = wibox.widget.textclock()
+
+theme.on_screen_connect = function(s)
+    -- Each screen has its own tag table.
+    awful.tag({"1", "2", "3", "4", "5", "6", "7", "8", "9"}, s, awful.layout.layouts[1])
+
+    -- Create a promptbox for each screen
+    s.mypromptbox = awful.widget.prompt()
+
+    -- Create a taglist widget
+    s.mytaglist = awful.widget.taglist {
+        screen = s,
+        filter = awful.widget.taglist.filter.all,
+        buttons = {awful.button({}, 1, function(t)
+            t:view_only()
+        end), awful.button({MODKEY}, 1, function(t)
+            if client.focus then
+                client.focus:move_to_tag(t)
+            end
+        end), awful.button({}, 3, awful.tag.viewtoggle), awful.button({MODKEY}, 3, function(t)
+            if client.focus then
+                client.focus:toggle_tag(t)
+            end
+        end), awful.button({}, 4, function(t)
+            awful.tag.viewprev(t.screen)
+        end), awful.button({}, 5, function(t)
+            awful.tag.viewnext(t.screen)
+        end)}
+    }
+
+    -- Create the wibox
+    s.mywibox = awful.wibar({
+        position = "top",
+        screen = s
+    })
+
+    -- Add widgets to the wibox
+    s.mywibox.widget = {
+        layout = wibox.layout.align.horizontal,
+        { -- Left widgets
+            layout = wibox.layout.fixed.horizontal,
+            s.mytaglist,
+            s.mypromptbox,
+        },
+        { -- Center widget
+			      layout = wibox.layout.align.horizontal
+		    },
+        { -- Right widgets
+            layout = wibox.layout.fixed.horizontal,
+            mykeyboardlayout,
+            VOLUME_CFG.widget,
+            wibox.widget.systray(),
+            mytextclock,
+        }
+    }
+end
 
 return theme
 
