@@ -14,6 +14,7 @@ local layout = require("util.layout")
 
 -- Widget imports
 local create_volume_widget = require("widgets.volume")
+local create_taglist_widget = require("widgets.taglist")
 
 -- {{{ Theme properties
 
@@ -131,45 +132,7 @@ theme.on_screen_connect = function(s)
     awful.tag({"1", "2", "3", "4", "5", "6", "7", "8", "9"}, s, awful.layout.layouts[1])
 
     -- Create a taglist widget
-    s.mytaglist = awful.widget.taglist {
-      screen = s,
-      filter = awful.widget.taglist.filter.all,
-      style = {
-        shape = gears.shape.circle
-      },
-      widget_template = {
-        {
-          {
-            {
-              id = 'text_role',
-              widget = wibox.widget.textbox,
-            },
-            layout = wibox.layout.align.horizontal,
-          },
-          left = 10,
-          right = 10,
-          widget = wibox.container.margin
-        },
-        id = 'background_role',
-        widget = wibox.container.background,
-      },
-      buttons = {
-        awful.button({}, 1, function(t) t:view_only() end), 
-        awful.button({MODKEY}, 1, function(t)
-          if client.focus then
-              client.focus:move_to_tag(t)
-          end
-        end),
-        awful.button({}, 3, awful.tag.viewtoggle), 
-        awful.button({MODKEY}, 3, function(t)
-          if client.focus then
-              client.focus:toggle_tag(t)
-          end
-        end),
-        awful.button({}, 4, function(t) awful.tag.viewprev(t.screen) end),
-        awful.button({}, 5, function(t) awful.tag.viewnext(t.screen) end),
-      }
-    }
+    local taglist_widget = create_taglist_widget(s)
 
     -- Create the wibox
     s.mywibox = awful.wibar({
@@ -181,14 +144,13 @@ theme.on_screen_connect = function(s)
     s.mywibox.widget = {
         layout = wibox.layout.align.horizontal,
         layout.fixed_horizontal { -- Left widgets
-            s.mytaglist,
+            taglist_widget,
         },
         layout.fixed_horizontal { -- Center widget
 		    },
         layout.fixed_horizontal { -- Right widgets
             keyboard_layout_widget,
             volume_widget,
-            systray_widget,
             clock_widget,
         }
     }
