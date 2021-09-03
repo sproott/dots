@@ -1,21 +1,21 @@
-local awful = require("awful")
+local awful = require('awful')
 
 local controls = {}
 
 local set = function(value)
-  awful.spawn("amixer set Master " .. value)
+  awful.spawn('amixer set Master ' .. value)
 end
 
 controls.up = function()
-  set("5%+")
+  set('5%+')
 end
 
 controls.down = function()
-  set("5%-")
+  set('5%-')
 end
 
 controls.toggle = function()
-  set("toggle")
+  set('toggle')
 end
 
 return controls

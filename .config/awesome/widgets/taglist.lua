@@ -1,8 +1,8 @@
-local gears = require("gears")
-local wibox = require("wibox")
-local awful = require("awful")
+local gears = require('gears')
+local wibox = require('wibox')
+local awful = require('awful')
 
-local xresources = require("beautiful.xresources")
+local xresources = require('beautiful.xresources')
 local dpi = xresources.apply_dpi
 
 local create = function(screen, params)
@@ -22,36 +22,62 @@ local create = function(screen, params)
           {
             {
               id = 'text_role',
-              widget = wibox.widget.textbox,
+              widget = wibox.widget.textbox
             },
-            layout = wibox.layout.align.horizontal,
+            layout = wibox.layout.align.horizontal
           },
           left = params.spacing / 2,
           right = params.spacing / 2,
           widget = wibox.container.margin
         },
         id = 'background_role',
-        widget = wibox.container.background,
+        widget = wibox.container.background
       },
       top = params.margin,
       bottom = params.margin,
       widget = wibox.container.margin
     },
     buttons = {
-      awful.button({}, 1, function(t) t:view_only() end), 
-      awful.button({MODKEY}, 1, function(t)
-        if client.focus then
+      awful.button(
+        {},
+        1,
+        function(t)
+          t:view_only()
+        end
+      ),
+      awful.button(
+        {MODKEY},
+        1,
+        function(t)
+          if client.focus then
             client.focus:move_to_tag(t)
+          end
         end
-      end),
-      awful.button({}, 3, awful.tag.viewtoggle), 
-      awful.button({MODKEY}, 3, function(t)
-        if client.focus then
+      ),
+      awful.button({}, 3, awful.tag.viewtoggle),
+      awful.button(
+        {MODKEY},
+        3,
+        function(t)
+          if client.focus then
             client.focus:toggle_tag(t)
+          end
         end
-      end),
-      awful.button({}, 4, function(t) awful.tag.viewprev(t.screen) end),
-      awful.button({}, 5, function(t) awful.tag.viewnext(t.screen) end),
+      ),
+      awful.button(
+        {},
+        4,
+        function(t)
+          awful.tag.viewprev(t.screen)
+        end
+      ),
+      awful.button(
+        {},
+        5,
+        function(t)
+          awful.tag.viewnext(t.screen)
+        end
+      )
     }
   }
 end
