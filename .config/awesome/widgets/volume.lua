@@ -4,7 +4,9 @@ local awful = require('awful')
 
 local layout = require('util.layout')
 
-local create = function(color, background_color, icon_font, spacing)
+local create = function(colors, icon_font, spacing)
+  colors.muted = colors.muted or colors.primary
+
   local volume_bar =
     wibox.widget {
     max_value = 100,
@@ -12,8 +14,8 @@ local create = function(color, background_color, icon_font, spacing)
     forced_width = 100,
     forced_height = 2,
     border_width = 2,
-    color = color,
-    background_color = background_color,
+    color = colors.primary,
+    background_color = colors.background,
     shape = gears.shape.rounded_bar,
     margins = {
       top = 8,
@@ -24,13 +26,19 @@ local create = function(color, background_color, icon_font, spacing)
 
   local volume_icon = wibox.widget.textbox('')
 
-  local create_volume_icon = function(icon)
+  local create_volume_icon = function(icon, muted)
+    local color
+    if muted then
+      color = colors.muted
+    else
+      color = colors.primary
+    end
     return layout.create_span({color = color, font = icon_font, content = icon})
   end
 
-  local muted_icon = create_volume_icon('婢')
-  local silent_icon = create_volume_icon('')
-  local normal_icon = create_volume_icon('墳')
+  local muted_icon = create_volume_icon('婢', true)
+  local silent_icon = create_volume_icon('', false)
+  local normal_icon = create_volume_icon('墳', false)
 
   local update_volume = function()
     awful.spawn.easy_async_with_shell(
@@ -41,10 +49,13 @@ local create = function(color, background_color, icon_font, spacing)
 
         if is_muted then
           volume_icon:set_markup(muted_icon)
+          volume_bar:set_color(colors.muted)
         elseif volume == 0 then
           volume_icon:set_markup(silent_icon)
+          volume_bar:set_color(colors.primary)
         else
           volume_icon:set_markup(normal_icon)
+          volume_bar:set_color(colors.primary)
         end
 
         volume_bar:set_value(volume)
