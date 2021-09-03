@@ -3,7 +3,7 @@ local awful = require('awful')
 local controls = {}
 
 local set = function(value)
-  awful.spawn('pamixer ' .. value)
+  awful.spawn.with_shell('pamixer ' .. value)
 end
 
 controls.up = function()
