@@ -34,12 +34,12 @@ local create = function(color, background_color, icon_font, spacing)
 
   local update_volume = function()
     awful.spawn.easy_async_with_shell(
-      'sleep .01 ; amixer get Master',
+      'echo $(pamixer --get-volume) $(pamixer --get-mute)',
       function(status)
-        local state = status:match('%[(o[nf]*)%]')
-        local volume = tonumber(status:match('(%d?%d?%d)%%'))
+        local is_muted = status:match('(true)') == 'true'
+        local volume = tonumber(status:match('^(%d+)'))
 
-        if state == 'off' then
+        if is_muted then
           volume_icon:set_markup(muted_icon)
         elseif volume == 0 then
           volume_icon:set_markup(silent_icon)
