@@ -7,7 +7,7 @@ local dpi = xresources.apply_dpi
 
 local create = function(screen, params)
   params = params or {}
-  params.spacing = params.spacing or dpi(10)
+  params.spacing = params.spacing or dpi(20)
   params.margin = params.margin or dpi(2)
 
   return awful.widget.taglist {
@@ -26,8 +26,8 @@ local create = function(screen, params)
             },
             layout = wibox.layout.align.horizontal,
           },
-          left = params.spacing,
-          right = params.spacing,
+          left = params.spacing / 2,
+          right = params.spacing / 2,
           widget = wibox.container.margin
         },
         id = 'background_role',

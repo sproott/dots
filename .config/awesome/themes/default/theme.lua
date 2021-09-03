@@ -112,7 +112,7 @@ end)
 
 -- Volume widget
 local volume = create_volume_widget(theme.color.aurora.green, theme.color.polar_night[3], theme.fonts.icon, theme.spacing.small)
-local volume_widget = layout.add_padding(
+local volume_widget = layout.add_margin(
   layout.fixed_horizontal(volume.widget),
   {left = theme.spacing.normal, right = theme.spacing.normal}
 )

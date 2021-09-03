@@ -7,13 +7,13 @@ layout.fixed_horizontal = function(widgets)
   return gears.table.join({layout = wibox.layout.fixed.horizontal}, widgets)
 end
 
-layout.add_padding = function(widgets, padding)
+layout.add_margin = function(widgets, margin)
   return {
     widgets,
-    top = padding.top or 0,
-    right = padding.right or 0,
-    bottom = padding.bottom or 0,
-    left = padding.left or 0,
+    top = margin.top or 0,
+    right = margin.right or 0,
+    bottom = margin.bottom or 0,
+    left = margin.left or 0,
     widget = wibox.container.margin,
   }
 end
