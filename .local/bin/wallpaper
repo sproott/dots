@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ls ~/.config/wallpapers/ \
+ls ~/.config/wallpapers/*.* \
   | shuf -n 1 | xargs -I{} xwallpaper --zoom ~/.config/wallpapers/{}
 
 # wallpaper="nord-lighthouse.png"
