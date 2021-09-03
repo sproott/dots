@@ -205,7 +205,7 @@ naughty.connect_signal(
 -- }}}
 
 -- Autostart applications
-awful.spawn.with_shell('wallpaper')
+awful.spawn.with_shell('wallpaper ' .. (beautiful.wallpaper_dir or 'other'))
 awful.spawn.with_shell('remaps')
 
 awful.spawn.with_shell('picom')

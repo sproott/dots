@@ -99,6 +99,8 @@ theme.icon_theme = nil
 
 theme.spacing = {small = dpi(10), normal = dpi(15)}
 
+theme.wallpaper_dir = 'nord'
+
 -- }}}
 
 rnotification.connect_signal(
