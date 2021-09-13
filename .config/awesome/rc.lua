@@ -12,6 +12,10 @@ local beautiful = require('beautiful')
 local naughty = require('naughty')
 -- Declarative object management
 local ruled = require('ruled')
+
+-- Exclude tmux from hotkeys popup
+package.loaded['awful.hotkeys_popup.keys.tmux'] = {}
+
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require('awful.hotkeys_popup.keys')
