@@ -213,4 +213,4 @@ awful.spawn.with_shell('wallpaper ' .. (beautiful.wallpaper_dir or 'other'))
 awful.spawn.with_shell('remaps')
 
 awful.spawn.with_shell('picom')
-awful.spawn.with_shell('udiskie')
+awful.spawn.with_shell('killall udiskie && udiskie')
