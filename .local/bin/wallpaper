@@ -1,5 +1,4 @@
 #!/bin/sh
 
-ls ~/.config/wallpapers/ \
-  | shuf -n 1 | xargs -I{} xwallpaper --zoom ~/.config/wallpapers/{}
-
+ls ~/.config/wallpapers/$1/*.* \
+  | shuf -n 1 | xargs -I{} xwallpaper --zoom {}

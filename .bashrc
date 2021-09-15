@@ -16,16 +16,11 @@ shopt -s expand_aliases
 # Enable history appending instead of overwriting.
 shopt -s histappend
 
-launch() {
-  "$@" > /dev/null 2>&1 & disown
-}
-
-mkcd() {
-  mkdir "$1"
-  cd "$1"
-}
-
+# Starship
 eval "$(starship init bash)"
+
+# nvm
+source /usr/share/nvm/init-nvm.sh
 
 export VISUAL="nvim"
 export EDITOR="$VISUAL"

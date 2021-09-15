@@ -1,219 +1,174 @@
 -- awesome_mode: api-level=4:screen=on
 -- If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
-pcall(require, "luarocks.loader")
+pcall(require, 'luarocks.loader')
 
 -- Standard awesome library
-local gears = require("gears")
-local awful = require("awful")
-require("awful.autofocus")
--- Widget and layout library
-local wibox = require("wibox")
+local awful = require('awful')
+require('awful.autofocus')
 -- Theme handling library
-local beautiful = require("beautiful")
+local beautiful = require('beautiful')
 -- Notification library
-local naughty = require("naughty")
+local naughty = require('naughty')
 -- Declarative object management
-local ruled = require("ruled")
+local ruled = require('ruled')
+
+-- Exclude tmux from hotkeys popup
+package.loaded['awful.hotkeys_popup.keys.tmux'] = {}
+
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
-require("awful.hotkeys_popup.keys")
-
--- Custom widgets
-local battery_widget = require("widgets.battery")
+require('awful.hotkeys_popup.keys')
 
 -- Global variables
-require("globals")
+require('globals')
 
 -- Keybindings
-local keys = require("keys")
+local keys = require('keys')
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
-naughty.connect_signal("request::display_error", function(message, startup)
+naughty.connect_signal(
+  'request::display_error',
+  function(message, startup)
     naughty.notification {
-        urgency = "critical",
-        title = "Oops, an error happened" .. (startup and " during startup!" or "!"),
-        message = message
+      urgency = 'critical',
+      title = 'Oops, an error happened' .. (startup and ' during startup!' or '!'),
+      message = message
     }
-end)
+  end
+)
 -- }}}
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-local theme_path = string.format('%s/.config/awesome/themes/%s/theme.lua', os.getenv('HOME'), 'default')
+local theme_path = string.format('%s/.config/awesome/themes/%s/theme.lua', os.getenv('HOME'), THEME)
 beautiful.init(theme_path)
 
 -- {{{ Tag
 -- Table of layouts to cover with awful.layout.inc, order matters.
-tag.connect_signal("request::default_layouts", function()
-    awful.layout.append_default_layouts({awful.layout.suit.tile, awful.layout.suit.tile.left,
-                                         awful.layout.suit.tile.bottom, awful.layout.suit.tile.top,
-                                         awful.layout.suit.fair, awful.layout.suit.fair.horizontal,
-                                         awful.layout.suit.spiral, awful.layout.suit.spiral.dwindle,
-                                         awful.layout.suit.max, awful.layout.suit.max.fullscreen,
-                                         awful.layout.suit.magnifier, awful.layout.suit.corner.nw,
-                                         awful.layout.suit.floating})
-end)
+tag.connect_signal(
+  'request::default_layouts',
+  function()
+    awful.layout.append_default_layouts(
+      {
+        awful.layout.suit.tile,
+        -- awful.layout.suit.tile.left,
+        awful.layout.suit.tile.bottom
+        -- awful.layout.suit.tile.top,
+        -- awful.layout.suit.fair,
+        -- awful.layout.suit.fair.horizontal,
+        -- awful.layout.suit.spiral,
+        -- awful.layout.suit.spiral.dwindle,
+        -- awful.layout.suit.max,
+        -- awful.layout.suit.max.fullscreen,
+        -- awful.layout.suit.magnifier,
+        -- awful.layout.suit.corner.nw,
+        -- awful.layout.suit.floating,
+      }
+    )
+  end
+)
 -- }}}
 
 -- {{{ Wibar
 
--- Keyboard map indicator and switcher
-local mykeyboardlayout = awful.widget.keyboardlayout()
-
--- Create a textclock widget
-local mytextclock = wibox.widget.textclock()
-
-screen.connect_signal("request::desktop_decoration", function(s)
-    -- Each screen has its own tag table.
-    awful.tag({"1", "2", "3", "4", "5", "6", "7", "8", "9"}, s, awful.layout.layouts[1])
-
-    -- Create a promptbox for each screen
-    s.mypromptbox = awful.widget.prompt()
-
-    -- Create an imagebox widget which will contain an icon indicating which layout we're using.
-    -- We need one layoutbox per screen.
-    s.mylayoutbox = awful.widget.layoutbox {
-        screen = s,
-        buttons = {awful.button({}, 1, function()
-            awful.layout.inc(1)
-        end), awful.button({}, 3, function()
-            awful.layout.inc(-1)
-        end), awful.button({}, 4, function()
-            awful.layout.inc(-1)
-        end), awful.button({}, 5, function()
-            awful.layout.inc(1)
-        end)}
-    }
-
-    -- Create a taglist widget
-    s.mytaglist = awful.widget.taglist {
-        screen = s,
-        filter = awful.widget.taglist.filter.all,
-        buttons = {awful.button({}, 1, function(t)
-            t:view_only()
-        end), awful.button({MODKEY}, 1, function(t)
-            if client.focus then
-                client.focus:move_to_tag(t)
-            end
-        end), awful.button({}, 3, awful.tag.viewtoggle), awful.button({MODKEY}, 3, function(t)
-            if client.focus then
-                client.focus:toggle_tag(t)
-            end
-        end), awful.button({}, 4, function(t)
-            awful.tag.viewprev(t.screen)
-        end), awful.button({}, 5, function(t)
-            awful.tag.viewnext(t.screen)
-        end)}
-    }
-
-    -- Create a tasklist widget
-    s.mytasklist = awful.widget.tasklist {
-        screen = s,
-        filter = awful.widget.tasklist.filter.currenttags,
-        buttons = {awful.button({}, 1, function(c)
-            c:activate{
-                context = "tasklist",
-                action = "toggle_minimization"
-            }
-        end), awful.button({}, 3, function()
-            awful.menu.client_list {
-                theme = {
-                    width = 250
-                }
-            }
-        end), awful.button({}, 4, function()
-            awful.client.focus.byidx(-1)
-        end), awful.button({}, 5, function()
-            awful.client.focus.byidx(1)
-        end)}
-    }
-
-    -- Create the wibox
-    s.mywibox = awful.wibar({
-        position = "top",
-        screen = s
-    })
-
-    -- Add widgets to the wibox
-    s.mywibox.widget = {
-        layout = wibox.layout.align.horizontal,
-        { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
-            s.mytaglist,
-            s.mypromptbox
-        },
-        s.mytasklist, -- Middle widget
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
-            battery_widget,
-            VOLUME_CFG.widget,
-            wibox.widget.systray(),
-            mytextclock,
-            s.mylayoutbox
-        }
-    }
-end)
--- }}}
-
-client.connect_signal("request::default_mousebindings", function()
-    awful.mouse.append_client_mousebindings({awful.button({}, 1, function(c)
-        c:activate{
-            context = "mouse_click"
-        }
-    end), awful.button({MODKEY}, 1, function(c)
-        c:activate{
-            context = "mouse_click",
-            action = "mouse_move"
-        }
-    end), awful.button({MODKEY}, 3, function(c)
-        c:activate{
-            context = "mouse_click",
-            action = "mouse_resize"
-        }
-    end)})
-end)
+awful.screen.connect_for_each_screen(
+  function(s)
+    beautiful.on_screen_connect(s)
+  end
+)
 
 -- }}}
+
+client.connect_signal(
+  'request::default_mousebindings',
+  function()
+    awful.mouse.append_client_mousebindings(
+      {
+        awful.button(
+          {},
+          1,
+          function(c)
+            c:activate {
+              context = 'mouse_click'
+            }
+          end
+        ),
+        awful.button(
+          {MODKEY},
+          1,
+          function(c)
+            c:activate {
+              context = 'mouse_click',
+              action = 'mouse_move'
+            }
+          end
+        ),
+        awful.button(
+          {MODKEY},
+          3,
+          function(c)
+            c:activate {
+              context = 'mouse_click',
+              action = 'mouse_resize'
+            }
+          end
+        )
+      }
+    )
+  end
+)
 
 -- {{{ Rules
 -- Rules to apply to new clients.
-ruled.client.connect_signal("request::rules", function()
+ruled.client.connect_signal(
+  'request::rules',
+  function()
     -- All clients will match this rule.
     ruled.client.append_rule {
-        id = "global",
-        rule = {},
-        properties = {
-            focus = awful.client.focus.filter,
-            raise = true,
-            screen = awful.screen.preferred,
-            placement = awful.placement.no_overlap + awful.placement.no_offscreen,
-            keys = keys.client_keys,
-        }
+      id = 'global',
+      rule = {},
+      properties = {
+        focus = awful.client.focus.filter,
+        raise = true,
+        screen = awful.screen.preferred,
+        placement = awful.placement.no_overlap + awful.placement.no_offscreen,
+        keys = keys.client_keys
+      }
     }
 
     -- Floating clients.
     ruled.client.append_rule {
-        id = "floating",
-        rule_any = {
-            instance = {"copyq", "pinentry"},
-            class = {"Arandr", "Blueman-manager", "Gpick", "Kruler", "Sxiv", "Tor Browser", "Wpa_gui", "veromix",
-                     "xtightvncviewer"},
-            -- Note that the name property shown in xprop might be set slightly after creation of the client
-            -- and the name shown there might not match defined rules here.
-            name = {"Event Tester" -- xev.
-            },
-            role = {"AlarmWindow", -- Thunderbird's calendar.
-            "ConfigManager", -- Thunderbird's about:config.
-            "pop-up" -- e.g. Google Chrome's (detached) Developer Tools.
-            }
+      id = 'floating',
+      rule_any = {
+        instance = {'copyq', 'pinentry'},
+        class = {
+          'Arandr',
+          'Blueman-manager',
+          'Gpick',
+          'Kruler',
+          'Sxiv',
+          'Tor Browser',
+          'Wpa_gui',
+          'veromix',
+          'xtightvncviewer'
         },
-        properties = {
-            floating = true
+        -- Note that the name property shown in xprop might be set slightly after creation of the client
+        -- and the name shown there might not match defined rules here.
+        name = {
+          'Event Tester' -- xev.
+        },
+        role = {
+          'AlarmWindow', -- Thunderbird's calendar.
+          'ConfigManager', -- Thunderbird's about:config.
+          'pop-up' -- e.g. Google Chrome's (detached) Developer Tools.
         }
+      },
+      properties = {
+        floating = true
+      }
     }
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
@@ -221,31 +176,41 @@ ruled.client.connect_signal("request::rules", function()
     --     rule       = { class = "Firefox"     },
     --     properties = { screen = 1, tag = "2" }
     -- }
-end)
+  end
+)
 
 -- }}
 
 -- {{{ Notifications
 
-ruled.notification.connect_signal('request::rules', function()
+ruled.notification.connect_signal(
+  'request::rules',
+  function()
     -- All notifications will match this rule.
     ruled.notification.append_rule {
-        rule = {},
-        properties = {
-            screen = awful.screen.preferred,
-            implicit_timeout = 5
-        }
+      rule = {},
+      properties = {
+        screen = awful.screen.preferred,
+        implicit_timeout = 5
+      }
     }
-end)
+  end
+)
 
-naughty.connect_signal("request::display", function(n)
+naughty.connect_signal(
+  'request::display',
+  function(n)
     naughty.layout.box {
-        notification = n
+      notification = n
     }
-end)
+  end
+)
 
 -- }}}
 
 -- Autostart applications
-awful.spawn.with_shell("wallpaper")
-awful.spawn.with_shell("remaps")
+awful.spawn.with_shell('wallpaper ' .. (beautiful.wallpaper_dir or 'other'))
+awful.spawn.with_shell('remaps')
+
+awful.spawn.with_shell('picom')
+awful.spawn.with_shell('killall udiskie && udiskie')
