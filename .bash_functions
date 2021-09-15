@@ -15,7 +15,7 @@ marshall() {
     connect 2C:4D:79:C4:9C:F4
 }
 
-function title() {
+title() {
   unset PROMPT_COMMAND
   if [[ -z "$ORIG" ]]; then
     ORIG=$PS1
