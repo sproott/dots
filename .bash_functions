@@ -1,4 +1,4 @@
-function title() {
+title() {
   unset PROMPT_COMMAND
   if [[ -z "$ORIG" ]]; then
     ORIG=$PS1
