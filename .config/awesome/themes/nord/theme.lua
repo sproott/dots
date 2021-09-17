@@ -14,7 +14,11 @@ local layout = require('util.layout')
 
 -- Widget imports
 local create_volume_widget = require('widgets.volume')
+<<<<<<< HEAD
 local create_battery_widget = require('widgets.battery')
+=======
+local create_keyboard_layout_widget = require('widgets.keyboard_layout')
+>>>>>>> master
 local create_taglist_widget = require('widgets.taglist')
 
 -- {{{ Theme properties
@@ -143,8 +147,9 @@ local volume_widget = wrap_widget(volume.widget)
 theme.update_volume = volume.update_volume
 
 -- Keyboard layout widget
--- TODO make it pretty
-local keyboard_layout_widget = awful.widget.keyboardlayout()
+local keyboard_layout =
+  create_keyboard_layout_widget({primary = theme.color.frost[2]}, {widget = theme.fonts.widget}, theme.spacing.small)
+local keyboard_layout_widget = wrap_widget(keyboard_layout.widget)
 
 -- Clock widget
 -- TODO make it pretty
