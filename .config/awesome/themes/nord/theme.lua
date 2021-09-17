@@ -119,6 +119,10 @@ rnotification.connect_signal(
 
 -- {{{ Widgets
 
+local wrap_widget = function(widget)
+  return layout.add_margin(layout.fixed_horizontal(widget), {left = theme.spacing.normal, right = theme.spacing.normal})
+end
+
 -- Volume widget
 local volume =
   create_volume_widget(
@@ -126,8 +130,7 @@ local volume =
   theme.fonts.icon,
   theme.spacing.small
 )
-local volume_widget =
-  layout.add_margin(layout.fixed_horizontal(volume.widget), {left = theme.spacing.normal, right = theme.spacing.normal})
+local volume_widget = wrap_widget(volume.widget)
 theme.update_volume = volume.update_volume
 
 -- Keyboard layout widget
