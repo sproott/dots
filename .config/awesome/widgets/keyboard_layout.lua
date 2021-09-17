@@ -3,11 +3,6 @@ local wibox = require('wibox')
 
 local layout = require('util.layout')
 
-local map = {
-  [00000000] = 'us',
-  [00001000] = 'cz'
-}
-
 local create = function(colors, fonts, spacing)
   local keyboard_icon =
     wibox.widget.textbox(layout.create_span({color = colors.primary, font = fonts.widget, content = ''}))
