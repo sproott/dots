@@ -4,11 +4,10 @@ local awful = require('awful')
 local layout = require('util.layout')
 
 local create = function(colors, fonts, spacing)
-  local battery_icon =
-    wibox.widget.textbox(string.format('<span color="' .. colors.primary .. '" font="' .. fonts.icon .. '"></span>'))
+  local battery_icon = wibox.widget.textbox('')
 
   local create_battery_icon = function(icon)
-    return layout.create_span({color = colors.primary, font = fonts.widget, content = icon})
+    return layout.create_span({color = colors.primary, font = fonts.icon, content = icon})
   end
 
   local battery_percentage =
