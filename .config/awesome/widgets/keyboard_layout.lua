@@ -5,7 +5,7 @@ local layout = require('util.layout')
 
 local create = function(colors, fonts, spacing)
   local keyboard_icon =
-    wibox.widget.textbox(layout.create_span({color = colors.primary, font = fonts.widget, content = ''}))
+    wibox.widget.textbox(layout.create_span({color = colors.primary, font = fonts.icon, content = ''}))
   local layout_code = wibox.widget.textbox('')
 
   local update = function()

@@ -12,11 +12,6 @@ local themes_path = gfs.get_themes_dir()
 -- Utils
 local layout = require('util.layout')
 
--- Widget imports
-local create_volume_widget = require('widgets.volume')
-local create_keyboard_layout_widget = require('widgets.keyboard_layout')
-local create_taglist_widget = require('widgets.taglist')
-
 -- {{{ Theme properties
 
 local theme = {}
@@ -124,6 +119,7 @@ local wrap_widget = function(widget)
 end
 
 -- Volume widget
+local create_volume_widget = require('widgets.volume')
 local volume =
   create_volume_widget(
   {primary = theme.color.aurora.green, background = theme.color.polar_night[3], muted = theme.color.aurora.red},
@@ -134,13 +130,34 @@ local volume_widget = wrap_widget(volume.widget)
 theme.update_volume = volume.update_volume
 
 -- Keyboard layout widget
+local create_keyboard_layout_widget = require('widgets.keyboard_layout')
 local keyboard_layout =
-  create_keyboard_layout_widget({primary = theme.color.frost[2]}, {widget = theme.fonts.widget}, theme.spacing.small)
+  create_keyboard_layout_widget(
+  {primary = theme.color.frost[2]},
+  {icon = theme.fonts.icon, widget = theme.fonts.widget},
+  theme.spacing.small
+)
 local keyboard_layout_widget = wrap_widget(keyboard_layout.widget)
 
+-- Calendar widget
+local create_calendar_widget = require('widgets.calendar')
+local calendar =
+  create_calendar_widget(
+  {primary = theme.color.aurora.orange},
+  {icon = theme.fonts.icon, widget = theme.fonts.widget},
+  theme.spacing.small
+)
+local calendar_widget = wrap_widget(calendar.widget)
+
 -- Clock widget
--- TODO make it pretty
-local clock_widget = wibox.widget.textclock()
+local create_clock_widget = require('widgets.clock')
+local clock =
+  create_clock_widget(
+  {primary = theme.color.aurora.purple},
+  {icon = theme.fonts.icon, widget = theme.fonts.widget},
+  theme.spacing.small
+)
+local clock_widget = wrap_widget(clock.widget)
 
 -- }}}
 
@@ -149,6 +166,7 @@ theme.on_screen_connect = function(s)
   awful.tag({'1', '2', '3', '4', '5', '6', '7', '8', '9'}, s, awful.layout.layouts[1])
 
   -- Create a taglist widget
+  local create_taglist_widget = require('widgets.taglist')
   local taglist_widget = create_taglist_widget(s)
 
   -- Create the wibox
@@ -172,6 +190,7 @@ theme.on_screen_connect = function(s)
       -- Right widgets
       keyboard_layout_widget,
       volume_widget,
+      calendar_widget,
       clock_widget
     }
   }
