@@ -46,7 +46,7 @@ theme.color = {
 theme.font = 'monospace 10'
 
 theme.fonts = {
-  icon = 'monospace 13',
+  icon = 'monospace 14',
   widget = theme.font
 }
 
