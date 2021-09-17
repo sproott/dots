@@ -13,12 +13,9 @@ local themes_path = gfs.get_themes_dir()
 local layout = require('util.layout')
 
 -- Widget imports
-local create_volume_widget = require('widgets.volume')
-<<<<<<< HEAD
-local create_battery_widget = require('widgets.battery')
-=======
 local create_keyboard_layout_widget = require('widgets.keyboard_layout')
->>>>>>> master
+local create_battery_widget = require('widgets.battery')
+local create_volume_widget = require('widgets.volume')
 local create_taglist_widget = require('widgets.taglist')
 
 -- {{{ Theme properties
@@ -127,6 +124,11 @@ local wrap_widget = function(widget)
   return layout.add_margin(layout.fixed_horizontal(widget), {left = theme.spacing.normal, right = theme.spacing.normal})
 end
 
+-- Keyboard layout widget
+local keyboard_layout =
+  create_keyboard_layout_widget({primary = theme.color.frost[2]}, {widget = theme.fonts.widget}, theme.spacing.small)
+local keyboard_layout_widget = wrap_widget(keyboard_layout.widget)
+
 -- Battery widget
 local battery =
   create_battery_widget(
@@ -145,11 +147,6 @@ local volume =
 )
 local volume_widget = wrap_widget(volume.widget)
 theme.update_volume = volume.update_volume
-
--- Keyboard layout widget
-local keyboard_layout =
-  create_keyboard_layout_widget({primary = theme.color.frost[2]}, {widget = theme.fonts.widget}, theme.spacing.small)
-local keyboard_layout_widget = wrap_widget(keyboard_layout.widget)
 
 -- Clock widget
 -- TODO make it pretty
