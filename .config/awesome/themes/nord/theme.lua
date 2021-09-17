@@ -14,6 +14,7 @@ local layout = require('util.layout')
 
 -- Widget imports
 local create_volume_widget = require('widgets.volume')
+local create_battery_widget = require('widgets.battery')
 local create_taglist_widget = require('widgets.taglist')
 
 -- {{{ Theme properties
