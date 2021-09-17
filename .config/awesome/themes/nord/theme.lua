@@ -14,7 +14,7 @@ local layout = require('util.layout')
 
 -- Widget imports
 local create_volume_widget = require('widgets.volume')
--- local create_battery_widget = require('widgets.battery')
+local create_battery_widget = require('widgets.battery')
 local create_taglist_widget = require('widgets.taglist')
 
 -- {{{ Theme properties
@@ -119,15 +119,27 @@ rnotification.connect_signal(
 
 -- {{{ Widgets
 
+local wrap_widget = function(widget)
+  return layout.add_margin(layout.fixed_horizontal(widget), {left = theme.spacing.normal, right = theme.spacing.normal})
+end
+
+-- Battery widget
+local battery =
+  create_battery_widget(
+  {primary = theme.color.aurora.yellow},
+  {icon = theme.fonts.icon, widget = theme.fonts.widget},
+  theme.spacing.small
+)
+local battery_widget = wrap_widget(battery.widget)
+
 -- Volume widget
 local volume =
   create_volume_widget(
   {primary = theme.color.aurora.green, background = theme.color.polar_night[3], muted = theme.color.aurora.red},
-  theme.fonts.icon,
+  {icon = theme.fonts.icon},
   theme.spacing.small
 )
-local volume_widget =
-  layout.add_margin(layout.fixed_horizontal(volume.widget), {left = theme.spacing.normal, right = theme.spacing.normal})
+local volume_widget = wrap_widget(volume.widget)
 theme.update_volume = volume.update_volume
 
 -- Keyboard layout widget
@@ -167,6 +179,7 @@ theme.on_screen_connect = function(s)
     layout.fixed_horizontal {
       -- Right widgets
       keyboard_layout_widget,
+      battery_widget,
       volume_widget,
       clock_widget
     }
