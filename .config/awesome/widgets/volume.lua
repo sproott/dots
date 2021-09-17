@@ -71,6 +71,15 @@ local create = function(colors, icon_font, spacing)
 
   update_volume()
 
+  local listener = awful.spawn.with_line_callback({'stdbuf', '-oL', 'alsactl', 'monitor'}, {stdout = update_volume})
+
+  awesome.connect_signal(
+    'exit',
+    function()
+      awesome.kill(listener, awesome.unix_signal.SIGTERM)
+    end
+  )
+
   return {widget = volume_widget, update_volume = update_volume}
 end
 
