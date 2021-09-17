@@ -4,7 +4,7 @@ local awful = require('awful')
 
 local layout = require('util.layout')
 
-local create = function(colors, icon_font, spacing)
+local create = function(colors, fonts, spacing)
   colors.muted = colors.muted or colors.primary
 
   local volume_bar =
@@ -33,12 +33,8 @@ local create = function(colors, icon_font, spacing)
     else
       color = colors.primary
     end
-    return layout.create_span({color = color, font = icon_font, content = icon})
+    return layout.create_span({color = color, font = fonts.icon, content = icon})
   end
-
-  local muted_icon = create_volume_icon('婢', true)
-  local silent_icon = create_volume_icon('', false)
-  local normal_icon = create_volume_icon('墳', false)
 
   local update_volume = function()
     awful.spawn.easy_async_with_shell(
@@ -47,16 +43,20 @@ local create = function(colors, icon_font, spacing)
         local is_muted = status:match('(true)') == 'true'
         local volume = tonumber(status:match('^(%d+)'))
 
+        local icon
+
         if is_muted then
-          volume_icon:set_markup(muted_icon)
+          icon = create_volume_icon('婢', true)
           volume_bar:set_color(colors.muted)
         elseif volume == 0 then
-          volume_icon:set_markup(silent_icon)
+          icon = create_volume_icon('', false)
           volume_bar:set_color(colors.primary)
         else
-          volume_icon:set_markup(normal_icon)
+          icon = create_volume_icon('墳', false)
           volume_bar:set_color(colors.primary)
         end
+
+        volume_icon:set_markup(icon)
 
         volume_bar:set_value(volume)
       end
