@@ -33,6 +33,16 @@ call plug#end()
 
 colorscheme onedark
 
+set
+  \ softtabstop=2
+  \ shiftwidth=2
+  \ tabstop=4
+  \ smarttab
+  \ expandtab
+  \ shiftround
+  \ number
+  \ relativenumber
+
 luafile $HOME/.config/nvim/lua/init.lua
 
 runtime! keys.vim
