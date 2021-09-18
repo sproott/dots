@@ -35,4 +35,5 @@ colorscheme onedark
 
 luafile $HOME/.config/nvim/lua/init.lua
 
+runtime! keys.vim
 runtime! plugins.vim
