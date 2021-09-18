@@ -122,7 +122,7 @@ end
 local create_battery_widget = require('widgets.battery')
 local battery =
   create_battery_widget(
-  {primary = theme.color.aurora.yellow},
+  {primary = theme.color.aurora.yellow, battery_empty = theme.color.aurora.red},
   {icon = theme.fonts.icon, widget = theme.fonts.widget},
   theme.spacing.small
 )
