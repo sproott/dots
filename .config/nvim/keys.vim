@@ -30,4 +30,10 @@ nnoremap <leader>R :edit<CR>
 " CHADTree
 nnoremap <leader>n :CHADopen --always-focus<CR>
 
+" Disable arrow keys
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+
 command! W SudoWrite
