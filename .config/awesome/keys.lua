@@ -400,7 +400,7 @@ keys.global_keys =
     {MODKEY, 'Control'},
     'l',
     function()
-      awful.spawn('sxlock')
+      awful.spawn.with_shell('sxlock')
     end,
     {
       description = 'lock the screen',
@@ -411,7 +411,7 @@ keys.global_keys =
     {'Shift'},
     'Print',
     function()
-      awful.spawn('selection_screenshot')
+      awful.spawn.with_shell('selection_screenshot')
     end,
     {
       description = 'select area and copy screenshot',
@@ -458,7 +458,7 @@ keys.global_keys =
     {},
     'XF86MonBrightnessUp',
     function()
-      awful.spawn('xbacklight -inc 20')
+      awful.spawn.with_shell('xbacklight -inc 20')
     end,
     {description = 'brightness up', group = 'video'}
   ),
@@ -466,7 +466,7 @@ keys.global_keys =
     {},
     'XF86MonBrightnessDown',
     function()
-      awful.spawn('xbacklight -dec 20')
+      awful.spawn.with_shell('xbacklight -dec 20')
     end,
     {description = 'brightness down', group = 'video'}
   ),
@@ -474,7 +474,7 @@ keys.global_keys =
     {MODKEY},
     '.',
     function()
-      awful.spawn('emoji')
+      awful.spawn.with_shell('emoji')
     end,
     {
       description = 'emoji picker',
