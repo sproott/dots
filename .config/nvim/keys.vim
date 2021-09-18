@@ -36,4 +36,9 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
-command! W SudoWrite
+" LSP
+nnoremap gd :lua vim.lsp.buf.definition()<CR>
+nnoremap gr :lua vim.lsp.buf.rename()<CR>
+nnoremap gh :lua vim.lsp.buf.hover()<CR>
+nnoremap <leader>f :lua vim.lsp.buf.formatting()<CR>
+
