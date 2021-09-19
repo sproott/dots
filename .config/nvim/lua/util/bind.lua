@@ -1,5 +1,6 @@
 local vim = vim
 local a = vim.api
+local f = vim.fn
 
 return function(mode, lhs, rhs, ...)
   -- for every optional argument we make a field in the opts table
@@ -7,7 +8,7 @@ return function(mode, lhs, rhs, ...)
   -- we do this because the neovim api wants {thing1: true, thing2: true, ...}
   local opt = {}
   local args = {}
-  if #({...}) == 1 and type(({...})[1]) == 'table' then
+  if f.len({...}) == 1 and type(({...})[1]) == 'table' then
     args = ({...})[1]
   else
     args = ({...})

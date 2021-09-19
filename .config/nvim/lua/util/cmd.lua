@@ -14,4 +14,10 @@ fns.silent = function(str)
   run_command('silent', str)
 end
 
-return fns
+local meta = {
+  __call = function(_, ...)
+    vim.cmd(...)
+  end
+}
+
+return setmetatable(fns, meta)
