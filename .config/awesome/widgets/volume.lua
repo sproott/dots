@@ -4,7 +4,7 @@ local awful = require('awful')
 
 local layout = require('util.layout')
 
-local create = function(colors, icon_font, spacing)
+return function(colors, fonts, spacing)
   colors.muted = colors.muted or colors.primary
 
   local volume_bar =
@@ -33,7 +33,7 @@ local create = function(colors, icon_font, spacing)
     else
       color = colors.primary
     end
-    return layout.create_span({color = color, font = icon_font, content = icon})
+    return layout.create_span({color = color, font = fonts.icon, content = icon})
   end
 
   local muted_icon = create_volume_icon('婢', true)
@@ -83,4 +83,3 @@ local create = function(colors, icon_font, spacing)
   return {widget = volume_widget, update_volume = update_volume}
 end
 
-return create

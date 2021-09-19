@@ -123,7 +123,7 @@ local create_volume_widget = require('widgets.volume')
 local volume =
   create_volume_widget(
   {primary = theme.color.aurora.green, background = theme.color.polar_night[3], muted = theme.color.aurora.red},
-  theme.fonts.icon,
+  {icon = theme.fonts.icon},
   theme.spacing.small
 )
 local volume_widget = wrap_widget(volume.widget)
