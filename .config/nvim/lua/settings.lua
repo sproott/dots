@@ -1,3 +1,5 @@
+local cmd = require('util.cmd')
+
 local vim = vim
 
 vim.opt.softtabstop = 2
@@ -10,7 +12,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.termguicolors = true
 
-vim.cmd('colorscheme onedark')
+cmd('colorscheme onedark')
 
 require('settings.plugins')
 require('settings.keys')
