@@ -3,7 +3,7 @@ local awful = require('awful')
 
 local layout = require('util.layout')
 
-local create = function(colors, fonts, spacing)
+return function(colors, fonts, spacing)
   colors.battery_empty = colors.battery_empty or colors.primary
 
   local battery_icon = wibox.widget.textbox('')
@@ -50,4 +50,3 @@ local create = function(colors, fonts, spacing)
   return {widget = battery_widget}
 end
 
-return create
