@@ -24,7 +24,7 @@ local extra_plugins =
 )
 
 if (f.len(extra_plugins) > 0) then
-  cmd.echo('Removing ' .. #extra_plugins .. ' extra plugins')
+  cmd.echo('Removing ' .. f.len(extra_plugins) .. ' extra plugins')
   cmd('PlugClean! | q')
 end
 
@@ -38,6 +38,6 @@ local missing_plugins =
 )
 
 if (f.len(missing_plugins) > 0) then
-  cmd.echo('Installing ' .. #missing_plugins .. ' missing plugins')
+  cmd.echo('Installing ' .. f.len(missing_plugins) .. ' missing plugins')
   cmd('PlugInstall --sync | q')
 end
