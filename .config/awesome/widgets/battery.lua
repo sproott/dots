@@ -17,7 +17,7 @@ return function(colors, fonts, spacing)
     'acpi -b',
     60,
     function(widget, stdout)
-      local charge = tonumber(string.match(stdout, '.+: %a+, (%d?%d?%d)%%,?.*'))
+      local charge = tonumber(string.match(stdout, '(%d?%d?%d)%%'))
 
       local icon
       local color = colors.primary
