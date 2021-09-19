@@ -4,7 +4,7 @@ local awful = require('awful')
 
 local layout = require('util.layout')
 
-local create = function(colors, fonts, spacing)
+return function(colors, fonts, spacing)
   colors.muted = colors.muted or colors.primary
 
   local volume_bar =
@@ -83,4 +83,3 @@ local create = function(colors, fonts, spacing)
   return {widget = volume_widget, update_volume = update_volume}
 end
 
-return create

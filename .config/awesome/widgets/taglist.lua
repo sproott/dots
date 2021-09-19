@@ -5,7 +5,7 @@ local awful = require('awful')
 local xresources = require('beautiful.xresources')
 local dpi = xresources.apply_dpi
 
-local create = function(screen, params)
+return function(screen, params)
   params = params or {}
   params.spacing = params.spacing or dpi(20)
   params.margin = params.margin or dpi(2)
@@ -82,4 +82,3 @@ local create = function(screen, params)
   }
 end
 
-return create
