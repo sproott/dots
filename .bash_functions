@@ -4,7 +4,7 @@ connect() {
 }
 
 ds4() {
-    connect DC:AF:68:08:78:03
+    connect 40:1B:5F:B4:AC:BF
 }
 
 jbl() {
