@@ -29,6 +29,7 @@ return function(colors, fonts, spacing)
         if (string.match(status, ': disconnected')) then
           icon = '睊'
           color = colors.wifi_disconnected
+          NAME = nil
         elseif (string.match(status, ': connecting')) then
           icon = '睊'
           color = colors.wifi_connecting
