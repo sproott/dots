@@ -11,9 +11,8 @@ local plug_path = f.stdpath('data') .. '/site/autoload/plug.vim'
 -- Install vim-plug if not installed
 if (f.filereadable(plug_path) == 0) then
   cmd.echo 'Downloading junegunn/vim-plug to manage plugins…'
-  vim.cmd(
-    'silent !curl -fLo ' ..
-      plug_path .. ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  cmd.silent(
+    '!curl -fLo ' .. plug_path .. ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   )
 end
 
