@@ -49,4 +49,3 @@ return function(colors, fonts, spacing)
 
   return {widget = battery_widget}
 end
-
