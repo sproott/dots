@@ -7,13 +7,6 @@ local vim = vim
 local f = vim.fn
 local g = vim.g
 
--- Install vim-plug if not installed
-if (not f.filereadable(f.expand('~/.local/share/nvim/site/autoload/plug.vim'))) then
-  cmd.echo 'Downloading junegunn/vim-plug to manage plugins…'
-  cmd.silent 'mkdir -p ~/.local/share/nvim/site/autoload/'
-  cmd.silent 'curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ~/.local/share/nvim/site/autoload/plug.vim'
-end
-
 -- Remove extra plugins
 local extra_plugins =
   f.filter(

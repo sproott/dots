@@ -1,6 +1,21 @@
 require('globals')
 
+local cmd = require('util.cmd')
 local Plug = require('util.plug')
+
+local vim = vim
+local f = vim.fn
+
+local plug_path = f.stdpath('data') .. '/site/autoload/plug.vim'
+
+-- Install vim-plug if not installed
+if (f.filereadable(plug_path) == 0) then
+  cmd.echo 'Downloading junegunn/vim-plug to manage plugins…'
+  vim.cmd(
+    'silent !curl -fLo ' ..
+      plug_path .. ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  )
+end
 
 Plug.beginPlug(PLUG_DIR)
 
