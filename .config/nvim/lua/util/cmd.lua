@@ -3,11 +3,11 @@ local vim = vim
 local fns = {}
 
 local run_command = function(cmd, str)
-  vim.cmd(cmd .. ' "' .. str .. '"')
+  vim.cmd(cmd .. ' ' .. str)
 end
 
 fns.echo = function(str)
-  run_command('echo', str)
+  run_command('echo', '"' .. str .. '"')
 end
 
 fns.silent = function(str)
