@@ -26,6 +26,7 @@ Plug('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
 Plug('neovim/nvim-lspconfig')
 
 Plug('kyazdani42/nvim-web-devicons')
+Plug('iamcco/markdown-preview.nvim', {run = 'cd app && yarn install'})
 
 Plug('morhetz/gruvbox')
 Plug('joshdick/onedark.vim')
