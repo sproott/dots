@@ -139,6 +139,20 @@ local volume =
 local volume_widget = wrap_widget(volume.widget)
 theme.update_volume = volume.update_volume
 
+-- Wifi widget
+local create_wifi_widget = require('widgets.wifi')
+local wifi =
+  create_wifi_widget(
+  {
+    primary = theme.color.aurora.green,
+    wifi_disconnected = theme.color.aurora.red,
+    wifi_connecting = theme.color.aurora.yellow
+  },
+  {icon = theme.fonts.icon, widget = theme.fonts.widget},
+  theme.spacing.small
+)
+local wifi_widget = wrap_widget(wifi.widget)
+
 -- Keyboard layout widget
 local create_keyboard_layout_widget = require('widgets.keyboard_layout')
 local keyboard_layout =
@@ -201,6 +215,7 @@ theme.on_screen_connect = function(s)
       keyboard_layout_widget,
       battery_widget,
       volume_widget,
+      wifi_widget,
       calendar_widget,
       clock_widget
     }
