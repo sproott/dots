@@ -33,3 +33,7 @@ mkcd() {
   cd "$1"
 }
 
+schedule() {
+  feh ~/Data/School/VUT/schedule.png
+}
+
