@@ -14,3 +14,4 @@ lsp.hls.setup {
 }
 -- lsp.html.setup {}
 -- lsp.jsonls.setup {}
+lsp.texlab.setup {}
