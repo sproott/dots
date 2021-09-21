@@ -12,3 +12,5 @@ g.chadtree_settings = {
     text_colour_set = 'nerdtree_syntax_dark'
   }
 }
+
+g.livepreview_previewer = 'zathura'
