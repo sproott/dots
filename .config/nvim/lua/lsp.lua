@@ -1,6 +1,5 @@
 require('treesitter')
 
--- Defaults
 local lsp = require('lspconfig')
 
 -- lsp.cssls.setup {}
