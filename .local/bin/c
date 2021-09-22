@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+if [ $1 = "run" ] ; then
+  run=true
+  filename=$2
+else
+  run=false
+  filename=$1
+fi
+
+output=$(basename $filename .c)
+
+cc -std=c99 -Wall -Werror -g -o $output $filename
+
+if $run ; then
+  ./$output
+fi
+
