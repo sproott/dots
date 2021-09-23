@@ -25,6 +25,9 @@ source /usr/share/nvm/init-nvm.sh
 # fuck
 eval "$(thefuck --alias)"
 
+# shellmarks
+source ~/.local/bin/shellmarks.sh
+
 export VISUAL="nvim"
 export EDITOR="$VISUAL"
 
