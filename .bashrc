@@ -33,5 +33,6 @@ alias config="git --git-dir=$HOME/.dots/ --work-tree=$HOME"
 alias ls="exa --long --color=auto"
 alias pm="pulsemixer"
 alias :q="exit"
+alias cwd="pwd | tr -d '\n' | xclip -selection clipboard"
 
 [[ -f ~/.bash_functions ]] && . ~/.bash_functions
