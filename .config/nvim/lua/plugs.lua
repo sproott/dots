@@ -22,6 +22,23 @@ Plug('ms-jpq/coq_nvim', {branch = 'coq'})
 Plug('ms-jpq/coq.artifacts', {branch = 'artifacts'})
 Plug('ms-jpq/chadtree', {branch = 'chad', run = 'python3 -m chadtree deps'})
 
+Plug('folke/lsp-colors.nvim')
+Plug('folke/trouble.nvim')
+Plug('folke/which-key.nvim')
+
+Plug('tpope/vim-commentary')
+Plug('tpope/vim-endwise')
+Plug('tpope/vim-eunuch')
+Plug('tpope/vim-repeat')
+Plug('tpope/vim-sensible')
+Plug('tpope/vim-surround')
+
+Plug('windwp/nvim-autopairs')
+Plug('windwp/nvim-ts-autotag')
+
+Plug('mhinz/vim-signify')
+Plug('mhinz/vim-startify')
+
 Plug('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
 Plug('neovim/nvim-lspconfig')
 Plug('easymotion/vim-easymotion')
