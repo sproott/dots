@@ -22,6 +22,9 @@ eval "$(starship init bash)"
 # nvm
 source /usr/share/nvm/init-nvm.sh
 
+# fuck
+eval "$(thefuck --alias)"
+
 export VISUAL="nvim"
 export EDITOR="$VISUAL"
 
