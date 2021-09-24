@@ -10,9 +10,9 @@ fi
 
 output=$(basename $filename .c)
 
-cc -std=c99 -Wall -Werror -g -o $output $filename
+cc -std=c99 -Wall -Wextra -Werror -g -o $output $filename
 
-if $run ; then
+if [ $? -eq 0 ] && $run ; then
   ./$output
 fi
 
