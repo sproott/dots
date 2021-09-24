@@ -12,6 +12,8 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.termguicolors = true
 
+vim.env.BASH_ENV = '~/.bash_functions'
+
 cmd('colorscheme onedark')
 
 require('settings.plugins')
