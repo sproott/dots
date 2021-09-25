@@ -41,5 +41,5 @@ alias ls="exa --long --color=auto"
 alias pm="pulsemixer"
 alias :q="exit"
 
-include ~/.bash_functions.sh
+include ~/.bash_functions
 include ~/.profile

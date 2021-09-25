@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 connect() {
     bluetoothctl power on
     bluetoothctl connect $1
