@@ -10,7 +10,7 @@ lsp.ccls.setup {}
 -- lsp.cssls.setup {}
 lsp.efm.setup {
   init_options = {documentFormatting = true},
-  fileTypes = {'lua'},
+  filetypes = {'lua'},
   settings = {
     rootMarkers = {'.git/'},
     languages = {
