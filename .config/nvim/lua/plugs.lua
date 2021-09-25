@@ -3,7 +3,6 @@ require('globals')
 local cmd = require('util.cmd')
 local Plug = require('util.plug')
 
-local vim = vim
 local f = vim.fn
 
 local plug_path = f.stdpath('data') .. '/site/autoload/plug.vim'

@@ -1,4 +1,3 @@
-local vim = vim
 local bind = require('util.bind')
 
 local leader = '<leader>'

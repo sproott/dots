@@ -3,7 +3,6 @@ require('globals')
 local cmd = require('util.cmd')
 local fs = require('util.fs')
 
-local vim = vim
 local f = vim.fn
 local g = vim.g
 
