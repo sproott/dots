@@ -17,14 +17,20 @@ end
 
 Plug.beginPlug(PLUG_DIR)
 
+-- General
+Plug('nvim-lua/plenary.nvim')
+
+-- ms-jpq
 Plug('ms-jpq/coq_nvim', {branch = 'coq'})
 Plug('ms-jpq/coq.artifacts', {branch = 'artifacts'})
 Plug('ms-jpq/chadtree', {branch = 'chad', run = 'python3 -m chadtree deps'})
 
+-- folke
 Plug('folke/lsp-colors.nvim')
 Plug('folke/trouble.nvim')
 Plug('folke/which-key.nvim')
 
+-- tpope
 Plug('tpope/vim-commentary')
 Plug('tpope/vim-endwise')
 Plug('tpope/vim-eunuch')
@@ -32,20 +38,26 @@ Plug('tpope/vim-repeat')
 Plug('tpope/vim-sensible')
 Plug('tpope/vim-surround')
 
+-- windwp
 Plug('windwp/nvim-autopairs')
 Plug('windwp/nvim-ts-autotag')
 
+-- mhinz
 Plug('mhinz/vim-signify')
 Plug('mhinz/vim-startify')
 
+-- Utility
 Plug('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
 Plug('neovim/nvim-lspconfig')
 Plug('easymotion/vim-easymotion')
+Plug('nvim-telescope/telescope.nvim')
 
+-- Visual
 Plug('kyazdani42/nvim-web-devicons')
 Plug('iamcco/markdown-preview.nvim', {run = 'cd app && yarn install'})
 Plug('xuhdev/vim-latex-live-preview', {ft = 'tex'})
 
+-- Color schemes
 Plug('morhetz/gruvbox')
 Plug('joshdick/onedark.vim')
 
