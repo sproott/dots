@@ -33,10 +33,6 @@ mkcd() {
   cd "$1"
 }
 
-schedule() {
-  feh ~/Data/School/VUT/schedule.png
-}
-
 cwd() { 
   pwd | tr -d '\n' | xclip -selection clipboard 
 }
