@@ -37,4 +37,4 @@ alias ls="exa --long --color=auto"
 alias pm="pulsemixer"
 alias :q="exit"
 
-[[ -f ~/.bash_functions.sh ]] && . ~/.bash_functions.sh
+[[ -f ~/.bash_functions.sh ]] && source ~/.bash_functions.sh
