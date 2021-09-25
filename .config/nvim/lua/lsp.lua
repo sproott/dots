@@ -23,7 +23,7 @@ lsp.efm.setup {
     }
   }
 }
-lsp.graphql.setup {}
+-- lsp.graphql.setup {}
 lsp.hls.setup(coq_setup {
   settings = {haskell = {formattingProvider = 'stylish-haskell'}}
 })
