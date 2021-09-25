@@ -3,7 +3,7 @@
 #
 
 include() {
-  test -f "$1" && source "$@"
+  test -f "$1" && . "$@"
 }
 
 [ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
