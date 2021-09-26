@@ -2,6 +2,10 @@
 # ~/.bashrc
 #
 
+include() {
+  test -f "$1" && . "$@"
+}
+
 [ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
 
 alias cp="cp -i"                          # confirm before overwriting something
@@ -37,4 +41,5 @@ alias ls="exa --long --color=auto"
 alias pm="pulsemixer"
 alias :q="exit"
 
-[[ -f ~/.bash_functions ]] && . ~/.bash_functions
+include ~/.bash_functions
+include ~/.profile

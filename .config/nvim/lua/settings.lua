@@ -1,7 +1,5 @@
 local cmd = require('util.cmd')
 
-local vim = vim
-
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 4

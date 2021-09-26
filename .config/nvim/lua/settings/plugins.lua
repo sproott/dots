@@ -1,4 +1,3 @@
-local vim = vim
 local g = vim.g
 
 g.coq_settings = {auto_start = 'shut-up', keymap = {jump_to_mark = '<C-y>'}}

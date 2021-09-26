@@ -2,14 +2,12 @@
 # ~/.bash_profile
 #
 
-[[ -f ~/.bashrc ]] && . ~/.bashrc
+source ~/.bashrc
 
 if [ -d "$HOME/.local/bin" ] ; then
   PATH="$HOME/.local/bin:$PATH"
 fi
 
-if [ -d "$HOME/.ghcup/bin" ] ; then
-  PATH="$HOME/.ghcup/bin:$PATH"
+if [ -d "$GHCUP_INSTALL_BASE_PREFIX/.ghcup/bin" ] ; then
+  PATH="$GHCUP_INSTALL_BASE_PREFIX/.ghcup/bin:$PATH"
 fi
-
-[[ -f ~/.profile ]] && . ~/.profile

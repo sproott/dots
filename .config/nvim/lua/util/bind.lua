@@ -1,4 +1,3 @@
-local vim = vim
 local a = vim.api
 local f = vim.fn
 

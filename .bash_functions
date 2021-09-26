@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 connect() {
     bluetoothctl power on
     bluetoothctl connect $1
@@ -31,10 +33,6 @@ launch() {
 mkcd() {
   mkdir "$1"
   cd "$1"
-}
-
-schedule() {
-  feh ~/Data/School/VUT/schedule.png
 }
 
 cwd() { 

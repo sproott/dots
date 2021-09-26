@@ -1,5 +1,3 @@
-local vim = vim
-
 local Plug = {
   beginPlug = vim.fn['plug#begin'],
   endPlug = vim.fn['plug#end']

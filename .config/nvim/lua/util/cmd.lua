@@ -1,5 +1,3 @@
-local vim = vim
-
 local fns = {}
 
 local run_command = function(cmd, str)
