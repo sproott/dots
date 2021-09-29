@@ -8,6 +8,6 @@ if [ -d "$HOME/.local/bin" ] ; then
   PATH="$HOME/.local/bin:$PATH"
 fi
 
-if [ -d "$GHCUP_INSTALL_BASE_PREFIX/.ghcup/bin" ] ; then
-  PATH="$GHCUP_INSTALL_BASE_PREFIX/.ghcup/bin:$PATH"
+if [ -d "$HOME/.ghcup/bin" ] ; then
+  PATH="$HOME/.ghcup/bin:$PATH"
 fi
