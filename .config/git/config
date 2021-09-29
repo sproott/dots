@@ -1,3 +1,5 @@
+[core]
+	commentchar = ";"
 [init]
 	defaultBranch = main
 [pull]
