@@ -1,6 +1,6 @@
 local g = vim.g
 
-g.coq_settings = {auto_start = 'shut-up', keymap = {jump_to_mark = '<C-y>'}}
+g.coq_settings = {auto_start = 'shut-up', keymap = {recommended = false, jump_to_mark = '<C-y>'}}
 
 g.chadtree_settings = {
   view = {

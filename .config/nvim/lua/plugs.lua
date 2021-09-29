@@ -32,7 +32,6 @@ Plug('folke/which-key.nvim')
 
 -- tpope
 Plug('tpope/vim-commentary')
-Plug('tpope/vim-endwise')
 Plug('tpope/vim-eunuch')
 Plug('tpope/vim-repeat')
 Plug('tpope/vim-sensible')
