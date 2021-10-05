@@ -29,8 +29,8 @@ source /usr/share/nvm/init-nvm.sh
 # fuck
 eval "$(thefuck --alias)"
 
-# bashmarks
-source /usr/share/bashmarks/bashmarks.sh
+# pat.hs
+source /usr/share/paths/paths.sh
 
 export VISUAL="nvim"
 export EDITOR="$VISUAL"
