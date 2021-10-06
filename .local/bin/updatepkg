@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+test -f PKGBUILD || exit
+
 makepkg -f
 makepkg --printsrcinfo > .SRCINFO
 
