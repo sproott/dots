@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
 
-if [ $1 = "run" ] ; then
-  run=true
-  filename=$2
+if [ "$1" = "run" ] ; then
+  RUN=true
+  FILENAME=$2
 else
-  run=false
-  filename=$1
+  RUN=false
+  FILENAME=$1
 fi
 
-output=$(basename $filename .c)
+FILENAME=${FILENAME:-main}
+FILES=$(ls *.c)
 
-cc -std=c99 -Wall -Wextra -Werror -g -o $output $filename
+cc -std=c99 -Wall -Wextra -Werror -g -o $FILENAME $FILES
 
-if [ $? -eq 0 ] && $run ; then
-  ./$output
+if [ $? -eq 0 ] && $RUN ; then
+  ./$FILENAME
 fi
 
