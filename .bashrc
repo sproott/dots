@@ -32,6 +32,9 @@ eval "$(thefuck --alias)"
 # pat.hs
 source /usr/share/paths/paths.sh
 
+# complete alias
+source /usr/share/bash-complete-alias/complete_alias
+
 export VISUAL="nvim"
 export EDITOR="$VISUAL"
 
@@ -40,6 +43,9 @@ alias config="git --git-dir=$HOME/.dots/ --work-tree=$HOME"
 alias ls="exa --long --color=auto"
 alias pm="pulsemixer"
 alias :q="exit"
+alias pl="paths list"
+alias go="paths go"
+complete -F _complete_alias go
 
 include ~/.bash_functions
 include ~/.profile
