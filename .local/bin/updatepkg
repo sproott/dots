@@ -2,3 +2,8 @@
 
 makepkg -f
 makepkg --printsrcinfo > .SRCINFO
+
+ver=$(cat PKGBUILD | grep pkgver= | sed 's/pkgver=//')
+git commit -am "$ver"
+
+rm *.zst
