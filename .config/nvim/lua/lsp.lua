@@ -32,6 +32,8 @@ lsp.hls.setup(coq_setup {
 
 lsp.lemminx.setup {cmd = {'/usr/bin/lemminx'}}
 
+lsp.rust_analyzer.setup{}
+
 local sumneko_binary_path = 'lua-language-server'
 local sumneko_root_path = '/usr/share/lua-language-server'
 
