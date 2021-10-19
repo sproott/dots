@@ -50,6 +50,7 @@ Plug('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
 Plug('neovim/nvim-lspconfig')
 Plug('easymotion/vim-easymotion')
 Plug('nvim-telescope/telescope.nvim')
+Plug('lervag/vimtex')
 
 -- Visual
 Plug('kyazdani42/nvim-web-devicons')
