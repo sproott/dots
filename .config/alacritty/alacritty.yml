@@ -7,9 +7,6 @@ font:
     family: monospace
   size: 10
 
-  colors:
-    primary: 0x1d2021
-
 selection:
   save_to_clipboard: false
 
