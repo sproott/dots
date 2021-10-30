@@ -455,22 +455,6 @@ keys.global_keys =
     }
   ),
   awful.key(
-    {},
-    'XF86MonBrightnessUp',
-    function()
-      awful.spawn.with_shell('xbacklight -inc 20')
-    end,
-    {description = 'brightness up', group = 'video'}
-  ),
-  awful.key(
-    {},
-    'XF86MonBrightnessDown',
-    function()
-      awful.spawn.with_shell('xbacklight -dec 20')
-    end,
-    {description = 'brightness down', group = 'video'}
-  ),
-  awful.key(
     {MODKEY},
     '.',
     function()
