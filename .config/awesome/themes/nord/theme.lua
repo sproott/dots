@@ -69,9 +69,9 @@ theme.hotkeys_modifiers_fg = theme.color.polar_night[4]
 
 theme.useless_gap = dpi(0)
 theme.border_width = dpi(1)
-theme.border_color_normal = '#000000'
-theme.border_color_active = '#535d6c'
-theme.border_color_marked = '#91231c'
+theme.border_color_normal = theme.color.polar_night[1]
+theme.border_color_active = theme.color.frost[3]
+theme.border_color_marked = theme.color.aurora.red
 
 theme.menu_submenu_icon = themes_path .. 'default/submenu.png'
 theme.menu_height = dpi(15)
