@@ -107,9 +107,13 @@ element {
     text-color: rgb(216, 222, 233);
 }
 
-element selected.normal {
+element.selected {
 	background-color: @nord7;
 	text-color: #2e3440;
+}
+
+element.active {
+    background-color: @nord3;
 }
 
 element-text, element-icon {
