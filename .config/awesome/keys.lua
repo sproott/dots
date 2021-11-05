@@ -61,7 +61,7 @@ keys.global_keys =
     {MODKEY},
     'r',
     function()
-      awful.util.spawn('rofi -show run')
+      awful.spawn('rofi -show run')
     end,
     {
       description = 'rofi run prompt',
@@ -72,7 +72,7 @@ keys.global_keys =
     {MODKEY},
     'p',
     function()
-      awful.util.spawn('rofi -show')
+      awful.spawn('rofi -show')
     end,
     {
       description = 'rofi window switch',
