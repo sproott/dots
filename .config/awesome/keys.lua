@@ -398,7 +398,7 @@ keys.global_keys =
   keys.global_keys,
   awful.key(
     {MODKEY, 'Control'},
-    'l',
+    's',
     function()
       awful.spawn('sxlock')
     end,
