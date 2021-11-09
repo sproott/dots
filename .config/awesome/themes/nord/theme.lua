@@ -65,7 +65,7 @@ theme.fg_minimize = theme.fg_focus
 theme.taglist_fg_empty = theme.color.polar_night[3]
 
 theme.hotkeys_fg = theme.color.snow_storm[3]
-theme.hotkeys_modifiers_fg = theme.color.polar_night[4]
+theme.hotkeys_modifiers_fg = theme.color.frost[4]
 
 theme.useless_gap = dpi(0)
 theme.border_width = dpi(1)
