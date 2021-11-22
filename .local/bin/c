@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "run" ] ; then
+  DEBUG=false
   RUN=true
   FILENAME=$2
+elif [ "$1" = "debug" ] ; then
+  DEBUG=true
+  RUN=false
+  FILENAME=$2
 else
+  DEBUG=false
   RUN=false
   FILENAME=$1
 fi
@@ -11,9 +17,19 @@ fi
 FILENAME=${FILENAME:-main}
 FILES=$(ls *.c)
 
-cc -std=c99 -Wall -Wextra -Werror -g -o $FILENAME $FILES
+if $DEBUG ; then
+  cc -std=c99 -Wall -Wextra -Werror -g -o $FILENAME $FILES
+  STATUS="$?"
+  if [ $STATUS -ne 0 ] ; then
+    exit
+  fi
+  gdb $FILENAME
+else 
+  cc -std=c99 -Wall -Wextra -Werror -o $FILENAME $FILES
+  STATUS="$?"
+fi
 
-if [ $? -ne 0 ] ; then
+if [ $STATUS -ne 0 ] ; then
   exit
 fi
 
