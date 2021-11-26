@@ -122,8 +122,13 @@ ruled.client.connect_signal('request::rules', function()
   }
 
   ruled.client.append_rule {
-    rule_any = {class = {'discord', 'Caprine', 'Slack', 'Mailspring', 'Teams'}},
+    rule_any = {class = {'discord', 'Caprine', 'Slack'}},
     properties = {tag = '4'}
+  }
+
+  ruled.client.append_rule {
+    rule_any = {class = {'Mailspring', 'Teams'}},
+    properties = {tag = '5'}
   }
 end)
 
