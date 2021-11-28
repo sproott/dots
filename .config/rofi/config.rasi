@@ -1,11 +1,15 @@
 configuration {
+	width: 30;
+	line-margin: 10;
+	lines: 6;
+	columns: 2;
 /*	modi: "window,run,ssh";*/
-/*	font: "mono 12";*/
+	font: "monospace 10";
 /*	location: 0;*/
 /*	yoffset: 0;*/
 /*	xoffset: 0;*/
 /*	fixed-num-lines: true;*/
-/*	show-icons: false;*/
+    show-icons:     true;
 /*	terminal: "rofi-sensible-terminal";*/
 /*	ssh-client: "ssh";*/
 /*	ssh-command: "{terminal} -e {ssh-client} {host} [-p {port}]";*/
@@ -42,7 +46,7 @@ configuration {
 /*	scroll-method: 0;*/
 /*	window-format: "{w}    {c}   {t}";*/
 /*	click-to-exit: true;*/
-theme: "nord";
+/*	theme: ;*/
 /*	max-history-size: 25;*/
 /*	combi-hide-mode-prefix: false;*/
 /*	matching-negate-char: '-' /* unsupported */;*/
@@ -54,12 +58,13 @@ theme: "nord";
 /*	steal-focus: false;*/
 /*	application-fallback-icon: ;*/
 /*	pid: "/run/user/1000/rofi.pid";*/
-/*	display-window: ;*/
+    display-window: "";
 /*	display-windowcd: ;*/
-/*	display-run: ;*/
-/*	display-ssh: ;*/
+    display-drun:   "";
+    display-run:    "";
+    display-ssh:    "";
 /*	display-drun: ;*/
-/*	display-combi: ;*/
+    display-combi:  "";
 /*	display-keys: ;*/
 /*	display-filebrowser: ;*/
 /*	kb-primary-paste: "Control+V,Shift+Insert";*/
@@ -145,3 +150,5 @@ theme: "nord";
       sorting-method:    "name";
   }
 }
+
+@theme "nord"
