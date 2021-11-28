@@ -1,18 +1,3 @@
-configuration {
-	font: "monospace 10";
-	width: 30;
-	line-margin: 10;
-	lines: 6;
-	columns: 2;
-
-    display-ssh:    "";
-    display-run:    "";
-    display-drun:   "";
-    display-window: "";
-    display-combi:  "";
-    show-icons:     true;
-}
-
 * {
 	nord0: #2e3440;
 	nord1: #3b4252;
