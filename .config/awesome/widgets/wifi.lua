@@ -3,7 +3,7 @@ local awful = require('awful')
 
 local layout = require('util.layout')
 
-return function(colors, fonts, spacing)
+return function(colors, fonts, spacing, device)
   colors.wifi_connecting = colors.wifi_connecting or colors.primary
   colors.wifi_disconnected = colors.wifi_disconnected or colors.primary
 
@@ -19,6 +19,10 @@ return function(colors, fonts, spacing)
     'nmcli monitor',
     {
       stdout = function(status)
+        if (not string.match(status, device)) then
+          return
+        end
+
         if (string.match(status, ': using connection')) then
           NAME = string.match(status, ": using connection '(.*)'")
         end

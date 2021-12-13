@@ -149,7 +149,8 @@ local wifi =
     wifi_connecting = theme.color.aurora.yellow
   },
   {icon = theme.fonts.icon, widget = theme.fonts.widget},
-  theme.spacing.small
+  theme.spacing.small,
+  'wlp2s0'
 )
 local wifi_widget = wrap_widget(wifi.widget)
 
