@@ -47,8 +47,8 @@ alias clip="xclip -selection clipboard"
 alias pl="paths list"
 alias valgrind="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose"
 alias btoff="bluetoothctl power off"
-alias zzon="wg-quick up Zauzoo-DHrabe"
-alias zzoff="wg-quick down Zauzoo-DHrabe"
+alias zzon="sudo wg-quick up Zauzoo-DHrabe"
+alias zzoff="sudo wg-quick down Zauzoo-DHrabe"
 
 alias go="paths go"
 complete -F _complete_alias go
