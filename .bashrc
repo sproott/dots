@@ -46,6 +46,8 @@ alias :q="exit"
 alias clip="xclip -selection clipboard"
 alias pl="paths list"
 alias valgrind="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose"
+alias zzon="wg-quick up Zauzoo-DHrabe"
+alias zzoff="wg-quick down Zauzoo-DHrabe"
 
 alias paru-r="paru -Rns"
 complete -F _complete_alias paru-r
