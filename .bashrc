@@ -47,7 +47,7 @@ alias clip="xclip -selection clipboard"
 alias pl="paths list"
 alias valgrind="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose"
 
-alias paru-r="paru -Rcns"
+alias paru-r="paru -Rns"
 complete -F _complete_alias paru-r
 
 alias go="paths go"
