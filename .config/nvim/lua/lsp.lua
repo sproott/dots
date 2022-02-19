@@ -28,7 +28,7 @@ lsp.hls.setup(coq_setup {
   settings = {haskell = {formattingProvider = 'stylish-haskell'}}
 })
 -- lsp.html.setup {}
--- lsp.jsonls.setup {}
+lsp.jsonls.setup(coq_setup {})
 
 lsp.lemminx.setup {cmd = {'/usr/bin/lemminx'}}
 
