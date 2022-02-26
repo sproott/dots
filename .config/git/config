@@ -6,3 +6,5 @@
 	rebase = true
 [rebase]
 	autoStash = true
+[alias]
+	ac = commit -am
