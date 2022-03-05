@@ -8,7 +8,7 @@ pixel_scale=10,1000
 solid_color=3b4252
 wallpaper_cmd="feh --bg-fill"
 
-loginbox=2e344066
+loginbox=00000000
 loginshadow=2e344000
 locktext="Type your password..."
 font="monospace"
