@@ -30,7 +30,7 @@ resolver:
 #   - auto-update
 #   - wai
 packages:
-- .
+  - .
 # Dependency packages to be pulled from upstream that are not in the resolver.
 # These entries can reference officially published versions as well as
 # forks / in-progress versions pinned to a git hash. For example:
@@ -40,9 +40,14 @@ packages:
 # - git: https://github.com/commercialhaskell/stack.git
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
-extra-deps: 
-- xmobar-0.41@sha256:ff09056df9932affa170ebac46daf826ef811833402838198da78562f2470c35,14139
-
+extra-deps:
+  - github: xmonad/x11
+    commit: 401bb378a6b5238e37113a712e4360dc6e3bf5c8
+  - github: xmonad/xmonad
+    commit: f4a5b88e64b2e9b80ddf81a0ba178ec4d005cfa8
+  - github: xmonad/xmonad-contrib
+    commit: ca25b36aa0397043207eb75aff0ebeb6d3e1af62
+  - xmobar-0.42
 # Override default flag values for local packages and extra-deps
 # flags: {}
 

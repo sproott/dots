@@ -1,5 +1,4 @@
 -- IMPORTS
-
 import Control.Monad (when)
 import Data.Foldable (traverse_)
 import qualified Data.Map as M
@@ -11,6 +10,7 @@ import XMonad.Hooks.EwmhDesktops (ewmh)
 import XMonad.Hooks.ManageDocks (avoidStruts, docks)
 import XMonad.Hooks.RefocusLast (refocusLastLayoutHook, toggleFocus)
 import XMonad.Hooks.WorkspaceHistory (workspaceHistory, workspaceHistoryHook)
+import XMonad.Layout.IndependentScreens (countScreens)
 import XMonad.Layout.Tabbed (simpleTabbed)
 import qualified XMonad.StackSet as W
 import XMonad.Util.SpawnOnce (spawnOnce)
@@ -91,7 +91,7 @@ myKeys conf@XConfig {XMonad.modMask = modm} =
       -- Quit xmonad
       ((modm .|. shiftMask, xK_q), io exitSuccess),
       -- Restart xmonad
-      ((modm .|. controlMask, xK_r), spawn "xmonad --recompile; xmonad --restart")
+      ((modm .|. controlMask, xK_r), spawn "xmonad --recompile; killall xmobar; xmonad --restart")
       -- TODO implement help window somehow
       -- TODO screen switching
     ]
@@ -161,11 +161,12 @@ myEventHook = mempty
 
 -- Perform an arbitrary action on each internal state change or X event
 myLogHook :: X ()
-myLogHook = workspaceHistoryHook
+myLogHook =
+  workspaceHistoryHook
 
 -- Startup hook
 myStartupHook :: X ()
-myStartupHook =
+myStartupHook = do
   traverse_
     spawnOnce
     [ "wallpaper nord",
@@ -173,19 +174,18 @@ myStartupHook =
       "picom &",
       "killall udiskie ; udiskie"
     ]
+  nScreens <- countScreens :: X Int
+  traverse_ spawn $ ("xmobar -x " <>) . show <$> [0 .. nScreens - 1]
 
 -- Run XMonad
 main :: IO ()
 main = do
-  -- xmproc <- spawnPipe "xmobar -x 0 $HOME/.config/xmobar/.xmobarrc"
-  -- xmproc <- spawnPipe "xmobar -x 1 $HOME/.config/xmobar/.xmobarrc"
   xmonad $ docks defaults
 
 defaults =
-  ewmh
+  ewmh $
     def
-      { -- simple stuff
-        terminal = myTerminal,
+      { terminal = myTerminal,
         focusFollowsMouse = myFocusFollowsMouse,
         clickJustFocuses = myClickJustFocuses,
         borderWidth = myBorderWidth,
@@ -193,10 +193,8 @@ defaults =
         workspaces = myWorkspaces,
         normalBorderColor = myNormalBorderColor,
         focusedBorderColor = myFocusedBorderColor,
-        -- key bindings
         keys = myKeys,
         mouseBindings = myMouseBindings,
-        -- hooks, layouts
         layoutHook = myLayout,
         manageHook = myManageHook,
         handleEventHook = myEventHook,
