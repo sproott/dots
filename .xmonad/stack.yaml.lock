@@ -5,12 +5,45 @@
 
 packages:
 - completed:
-    hackage: xmobar-0.41@sha256:ff09056df9932affa170ebac46daf826ef811833402838198da78562f2470c35,14139
+    size: 162526
+    url: https://github.com/xmonad/x11/archive/401bb378a6b5238e37113a712e4360dc6e3bf5c8.tar.gz
+    name: X11
+    version: 1.10.2.9
+    sha256: 03c188d8b9044653328782ffd235fac23b00b2fc69a2d41734cc20acc036329d
     pantry-tree:
-      size: 8558
-      sha256: 2fc57ba20380cfd8f07722f2457e0773020caa2023bae02550b664380168d40e
+      size: 3503
+      sha256: 36a2b4f4709b64f3c74fe8888e1d0d154481fff35c78c2b0e3dd2306975b3375
   original:
-    hackage: xmobar-0.41@sha256:ff09056df9932affa170ebac46daf826ef811833402838198da78562f2470c35,14139
+    url: https://github.com/xmonad/x11/archive/401bb378a6b5238e37113a712e4360dc6e3bf5c8.tar.gz
+- completed:
+    size: 104980
+    url: https://github.com/xmonad/xmonad/archive/f4a5b88e64b2e9b80ddf81a0ba178ec4d005cfa8.tar.gz
+    name: xmonad
+    version: 0.17.0.9
+    sha256: 1d99a4d6625f4a520112383612223ec72af2d6252d34a8b2ec13bc423bf0a086
+    pantry-tree:
+      size: 3649
+      sha256: 5eb7deed834f0772e6eb696b3d3af1e603e5c381e7831712d0042299bd1886fa
+  original:
+    url: https://github.com/xmonad/xmonad/archive/f4a5b88e64b2e9b80ddf81a0ba178ec4d005cfa8.tar.gz
+- completed:
+    size: 643484
+    url: https://github.com/xmonad/xmonad-contrib/archive/ca25b36aa0397043207eb75aff0ebeb6d3e1af62.tar.gz
+    name: xmonad-contrib
+    version: 0.17.0.9
+    sha256: ca9d9351ae479d63897bc64cc347deefc95a4e759636dde97567584d920ffab3
+    pantry-tree:
+      size: 23618
+      sha256: f6e3b5af8a8082f302ce18da554e927fef895073de812d5ca7f36202cf96f4a8
+  original:
+    url: https://github.com/xmonad/xmonad-contrib/archive/ca25b36aa0397043207eb75aff0ebeb6d3e1af62.tar.gz
+- completed:
+    hackage: xmobar-0.42@sha256:a4583cea362e6e10a9633dc083987377a6016c1c0756802ef06dbb6c2ef77e30,14676
+    pantry-tree:
+      size: 9019
+      sha256: b35b11bd2c2656dc0f033c530a76a7803e48857859802551980fef35de112ba0
+  original:
+    hackage: xmobar-0.42
 snapshots:
 - completed:
     size: 590102
