@@ -8,8 +8,6 @@ name:           xmonad-config
 version:        0.1.0.0
 author:         sproott
 maintainer:     sproott
-license:        BSD3
-license-file:   LICENSE
 build-type:     Simple
 
 executable xmobar
