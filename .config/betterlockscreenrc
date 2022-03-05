@@ -10,7 +10,7 @@ wallpaper_cmd="feh --bg-fill"
 
 loginbox=00000000
 loginshadow=2e344000
-locktext="Type your password..."
+locktext="Type your password…"
 font="monospace"
 ringcolor=eceff4ff
 insidecolor=2e344000
