@@ -2,17 +2,16 @@
 
 import Data.Foldable (traverse_)
 import qualified Data.Map as M
-import System.Exit
+import Data.Semigroup (All, Endo)
+import System.Exit (exitSuccess)
 import Theme.Nord
 import XMonad
-import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.ManageDocks (avoidStruts, docks)
 import qualified XMonad.StackSet as W
-import XMonad.Util.Run (spawnPipe)
-import XMonad.Util.SpawnOnce
+import XMonad.Util.SpawnOnce (spawnOnce)
 
-myTerminal, myTextEditor :: String
+myTerminal :: String
 myTerminal = "alacritty"
-myTextEditor = "nvim"
 
 myFocusFollowsMouse, myClickJustFocuses :: Bool
 -- Whether focus follows the mouse pointer.
@@ -20,14 +19,18 @@ myFocusFollowsMouse = False
 -- Whether clicking on a window to focus also passes the click to the window
 myClickJustFocuses = False
 
+myBorderWidth :: Dimension
 myBorderWidth = 1
 
+myModMask :: KeyMask
 myModMask = mod4Mask
 
+myWorkspaces :: [[Char]]
 myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 -- Key bindings
-myKeys conf@(XConfig {XMonad.modMask = modm}) =
+myKeys :: XConfig l -> M.Map (KeyMask, KeySym) (X ())
+myKeys conf@XConfig {XMonad.modMask = modm} =
   M.fromList $
     -- launch a terminal
     [ ((modm, xK_Return), spawn $ XMonad.terminal conf),
@@ -110,7 +113,6 @@ myMouseBindings XConfig {XMonad.modMask = modm} =
           focus w >> mouseResizeWindow w
             >> windows W.shiftMaster
       )
-      -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
 
 -- Layouts
@@ -129,6 +131,7 @@ myLayout = avoidStruts (tiled ||| Mirror tiled ||| Full)
     delta = 3 / 100
 
 -- Window rules
+myManageHook :: Query (Endo WindowSet)
 myManageHook =
   composeAll
     [ className =? "MPlayer" --> doFloat,
@@ -138,9 +141,11 @@ myManageHook =
     ]
 
 -- Event handling
+myEventHook :: Event -> X All
 myEventHook = mempty
 
 -- Perform an arbitrary action on each internal state change or X event
+myLogHook :: X ()
 myLogHook = return ()
 
 -- Startup hook
@@ -155,6 +160,7 @@ myStartupHook =
     ]
 
 -- Run XMonad
+main :: IO ()
 main = do
   -- xmproc <- spawnPipe "xmobar -x 0 $HOME/.config/xmobar/.xmobarrc"
   -- xmproc <- spawnPipe "xmobar -x 1 $HOME/.config/xmobar/.xmobarrc"
