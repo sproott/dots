@@ -18,10 +18,10 @@ config =
       textOffsets = [19],
       position = TopH 25,
       bgColor = Theme.backgroundColor,
-      commands = [Run Volume, Run $ Date (textColor Theme.accent1 $ calendarIcon <> " %d.%m.%Y") "calendar" 50, Run $ Date (textColor Theme.accent4 $ clockIcon <> " %H:%M") "clock" 50],
+      commands = [Run KeyboardLayout, Run Volume, Run $ Date (textColor Theme.calendarWidgetColor $ calendarIcon <> " %d.%m.%Y") "calendar" 50, Run $ Date (textColor Theme.clockWidgetColor $ clockIcon <> " %H:%M") "clock" 50],
       sepChar = "%",
       X.alignSep = alignSep,
-      template = alignSep <> intercalate spacer ["%volume%", "%calendar%", "%clock%"] <> spacer
+      template = alignSep <> intercalate spacer ["%keyboardLayout%", "%volume%", "%calendar%", "%clock%"] <> spacer
     }
   where
     -- Templating utilities
@@ -29,17 +29,20 @@ config =
     spacer = "   "
 
 -- Styling functions
+textColor :: String -> String -> String
 textColor c = xmobarColor c Theme.backgroundColor
 
+icon :: String -> String
 icon = xmobarFont 1
 
 -- Icons
-clockIcon, calendarIcon, volumeMutedIcon, volumeSilentIcon, volumeNormalIcon :: String
+clockIcon, calendarIcon, volumeMutedIcon, volumeSilentIcon, volumeNormalIcon, keyboardIcon :: String
 clockIcon = icon "\xf64f"
 calendarIcon = icon "\xf5ec"
 volumeMutedIcon = icon "\xfa80"
 volumeSilentIcon = icon "\xf026"
 volumeNormalIcon = icon "\xfa7d"
+keyboardIcon = icon "\xf11c"
 
 data Volume = Volume deriving (Read, Show)
 
@@ -60,9 +63,17 @@ instance Exec Volume where
               | isMuted -> volumeMutedIcon
               | volume == 0 -> volumeSilentIcon
               | otherwise -> volumeNormalIcon
-    let color = if isMuted then Theme.accent0 else Theme.accent3
+    let color = if isMuted then Theme.red else Theme.green
     pure $ textColor color $ volumeIcon <> " " <> show volume <> "%"
+  rate _ = 1
 
+data KeyboardLayout = KeyboardLayout deriving (Read, Show)
+
+instance Exec KeyboardLayout where
+  alias _ = "keyboardLayout"
+  run _ = do
+    layout <- getCommandOutput "xkblayout-state print \"%s\""
+    pure $ textColor Theme.keyboardWidgetColor $ keyboardIcon <> " " <> layout
   rate _ = 1
 
 main :: IO ()
