@@ -45,6 +45,8 @@ myKeys conf@XConfig {XMonad.modMask = modm} =
       ((modm, xK_p), spawn "rofi -show"),
       -- lock the screen
       ((modm .|. controlMask, xK_s), spawn "lockscreen"),
+      -- lock the screen
+      ((modm .|. shiftMask, xK_Print), spawn "selection_screenshot"),
       -- emoji picker
       ((modm, xK_period), spawn "emoji"),
       -- close focused window

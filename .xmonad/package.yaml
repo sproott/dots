@@ -1,12 +1,12 @@
-name:                xmonad-config
-version:             0.1.0.0
-author:              "sproott"
+name: xmonad-config
+version: 0.1.0.0
+author: "sproott"
 
 ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -j -dynamic
 
 dependencies:
   - base >= 4.7 && < 5
-  - xmonad-contrib >= 0.16
+  - xmonad-contrib
 
 source-dirs: src
 
@@ -16,7 +16,7 @@ executables:
     dependencies:
       - xmonad
       - containers
-      - X11 >= 1.10
+      - X11
   xmobar:
     main: xmobar.hs
     dependencies:
