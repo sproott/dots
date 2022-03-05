@@ -18,15 +18,29 @@ config =
       textOffsets = [19],
       position = TopH 25,
       bgColor = Theme.backgroundColor,
-      commands = [Run KeyboardLayout, Run Volume, Run $ Date (textColor Theme.calendarWidgetColor $ calendarIcon <> " %d.%m.%Y") "calendar" 50, Run $ Date (textColor Theme.clockWidgetColor $ clockIcon <> " %H:%M") "clock" 50],
+      commands =
+        [ Run KeyboardLayout,
+          Run Volume,
+          Run $ Date (textColor Theme.calendarWidgetColor $ calendarIcon <> " %d.%m.%Y") "calendar" 50,
+          Run $ Date (textColor Theme.clockWidgetColor $ clockIcon <> " %H:%M") "clock" 50
+        ],
       sepChar = "%",
       X.alignSep = alignSep,
-      template = alignSep <> intercalate spacer ["%keyboardLayout%", "%volume%", "%calendar%", "%clock%"] <> spacer
+      template =
+        alignSep
+          <> intercalate
+            spacer
+            [ "%keyboardLayout%",
+              "%volume%",
+              "%calendar%",
+              "%clock%"
+            ]
+          <> spacer
     }
   where
     -- Templating utilities
     alignSep = "}{"
-    spacer = "   "
+    spacer = "    "
 
 -- Styling functions
 textColor :: String -> String -> String
