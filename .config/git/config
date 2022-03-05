@@ -8,3 +8,5 @@
 	autoStash = true
 [alias]
 	ac = commit -am
+  prune-branches = !git remote prune origin && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -d
+  prune-branches-f = !git remote prune origin && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
