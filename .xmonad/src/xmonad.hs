@@ -3,8 +3,9 @@ import Control.Monad (when)
 import Data.Foldable (traverse_)
 import qualified Data.Map as M
 import Data.Semigroup (All, Endo)
+import Graphics.X11.ExtraTypes
 import System.Exit (exitSuccess)
-import Theme.Nord
+import qualified Theme.Nord as Theme
 import XMonad
 import XMonad.Hooks.EwmhDesktops (ewmh)
 import XMonad.Hooks.ManageDocks (avoidStruts, docks)
@@ -49,6 +50,12 @@ myKeys conf@XConfig {XMonad.modMask = modm} =
       ((modm .|. shiftMask, xK_Print), spawn "selection_screenshot"),
       -- emoji picker
       ((modm, xK_period), spawn "emoji"),
+      -- volume up
+      ((noModMask, xF86XK_AudioRaiseVolume), spawn "pamixer --increase 5"),
+      -- volume down
+      ((noModMask, xF86XK_AudioLowerVolume), spawn "pamixer --decrease 5"),
+      -- toggle mute
+      ((noModMask, xF86XK_AudioMute), spawn "pamixer --toggle-mute"),
       -- close focused window
       ((modm, xK_q), kill),
       -- Rotate through the available layout algorithms
@@ -191,8 +198,8 @@ defaults =
         borderWidth = myBorderWidth,
         modMask = myModMask,
         workspaces = myWorkspaces,
-        normalBorderColor = myNormalBorderColor,
-        focusedBorderColor = myFocusedBorderColor,
+        normalBorderColor = Theme.normalBorderColor,
+        focusedBorderColor = Theme.focusedBorderColor,
         keys = myKeys,
         mouseBindings = myMouseBindings,
         layoutHook = myLayout,
