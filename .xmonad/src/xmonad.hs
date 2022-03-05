@@ -6,7 +6,9 @@ import Data.Semigroup (All, Endo)
 import System.Exit (exitSuccess)
 import Theme.Nord
 import XMonad
+import XMonad.Hooks.EwmhDesktops (ewmh)
 import XMonad.Hooks.ManageDocks (avoidStruts, docks)
+import XMonad.Hooks.RefocusLast (refocusLastLayoutHook, toggleFocus)
 import qualified XMonad.StackSet as W
 import XMonad.Util.SpawnOnce (spawnOnce)
 
@@ -38,6 +40,8 @@ myKeys conf@XConfig {XMonad.modMask = modm} =
       ((modm, xK_r), spawn "rofi -show run"),
       -- rofi app menu
       ((modm, xK_p), spawn "rofi -show"),
+      -- emoji picker
+      ((modm, xK_period), spawn "emoji"),
       -- close focused window
       ((modm, xK_q), kill),
       -- Rotate through the available layout algorithms
@@ -45,9 +49,7 @@ myKeys conf@XConfig {XMonad.modMask = modm} =
       -- Resize viewed windows to the correct size
       ((modm, xK_n), refresh),
       -- Move focus to the next window
-      -- TODO focus previous window somehow
-      -- , ((modm,               xK_Tab   ), windows undefined)
-
+      ((modm, xK_Tab), toggleFocus),
       -- Move focus to the next window
       ((modm, xK_j), windows W.focusDown),
       -- Move focus to the previous window
@@ -84,14 +86,14 @@ myKeys conf@XConfig {XMonad.modMask = modm} =
       -- TODO implement help window somehow
     ]
       ++
-      --
       -- mod-[1..9], Switch to workspace N
+      [((modm, k), windows $ W.greedyView i) | (i, k) <- workspaceKeys]
+      ++
       -- mod-shift-[1..9], Move client to workspace N
-      --
-      [ ((m .|. modm, k), windows $ f i)
-        | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9],
-          (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
-      ]
+      [((modm .|. shiftMask, k), windows $ W.shift i) | (i, k) <- workspaceKeys]
+  where
+    workspaceKeys :: [(String, KeySym)]
+    workspaceKeys = zip (XMonad.workspaces conf) [xK_1 .. xK_9]
 
 -- TODO screen switching and moving windows
 
@@ -116,7 +118,7 @@ myMouseBindings XConfig {XMonad.modMask = modm} =
     ]
 
 -- Layouts
-myLayout = avoidStruts (tiled ||| Mirror tiled ||| Full)
+myLayout = refocusLastLayoutHook $ avoidStruts (tiled ||| Mirror tiled ||| Full)
   where
     -- default tiling algorithm partitions the screen into two panes
     tiled = Tall nmaster delta ratio
@@ -146,7 +148,7 @@ myEventHook = mempty
 
 -- Perform an arbitrary action on each internal state change or X event
 myLogHook :: X ()
-myLogHook = return ()
+myLogHook = pure ()
 
 -- Startup hook
 myStartupHook :: X ()
@@ -167,23 +169,24 @@ main = do
   xmonad $ docks defaults
 
 defaults =
-  def
-    { -- simple stuff
-      terminal = myTerminal,
-      focusFollowsMouse = myFocusFollowsMouse,
-      clickJustFocuses = myClickJustFocuses,
-      borderWidth = myBorderWidth,
-      modMask = myModMask,
-      workspaces = myWorkspaces,
-      normalBorderColor = myNormalBorderColor,
-      focusedBorderColor = myFocusedBorderColor,
-      -- key bindings
-      keys = myKeys,
-      mouseBindings = myMouseBindings,
-      -- hooks, layouts
-      layoutHook = myLayout,
-      manageHook = myManageHook,
-      handleEventHook = myEventHook,
-      logHook = myLogHook,
-      startupHook = myStartupHook
-    }
+  ewmh
+    def
+      { -- simple stuff
+        terminal = myTerminal,
+        focusFollowsMouse = myFocusFollowsMouse,
+        clickJustFocuses = myClickJustFocuses,
+        borderWidth = myBorderWidth,
+        modMask = myModMask,
+        workspaces = myWorkspaces,
+        normalBorderColor = myNormalBorderColor,
+        focusedBorderColor = myFocusedBorderColor,
+        -- key bindings
+        keys = myKeys,
+        mouseBindings = myMouseBindings,
+        -- hooks, layouts
+        layoutHook = myLayout,
+        manageHook = myManageHook,
+        handleEventHook = myEventHook,
+        logHook = myLogHook,
+        startupHook = myStartupHook
+      }
