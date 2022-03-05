@@ -400,7 +400,7 @@ keys.global_keys =
     {MODKEY, 'Control'},
     's',
     function()
-      awful.spawn('sxlock')
+      awful.spawn('betterlockscreen -l')
     end,
     {
       description = 'lock the screen',
