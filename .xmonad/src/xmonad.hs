@@ -1,5 +1,6 @@
 -- IMPORTS
 
+import Control.Monad (when)
 import Data.Foldable (traverse_)
 import qualified Data.Map as M
 import Data.Semigroup (All, Endo)
@@ -9,6 +10,8 @@ import XMonad
 import XMonad.Hooks.EwmhDesktops (ewmh)
 import XMonad.Hooks.ManageDocks (avoidStruts, docks)
 import XMonad.Hooks.RefocusLast (refocusLastLayoutHook, toggleFocus)
+import XMonad.Hooks.WorkspaceHistory (workspaceHistory, workspaceHistoryHook)
+import XMonad.Layout.Tabbed (simpleTabbed)
 import qualified XMonad.StackSet as W
 import XMonad.Util.SpawnOnce (spawnOnce)
 
@@ -40,15 +43,19 @@ myKeys conf@XConfig {XMonad.modMask = modm} =
       ((modm, xK_r), spawn "rofi -show run"),
       -- rofi app menu
       ((modm, xK_p), spawn "rofi -show"),
+      -- lock the screen
+      ((modm .|. controlMask, xK_s), spawn "lockscreen"),
       -- emoji picker
       ((modm, xK_period), spawn "emoji"),
       -- close focused window
       ((modm, xK_q), kill),
       -- Rotate through the available layout algorithms
       ((modm, xK_space), sendMessage NextLayout),
+      -- Toggle previous workspace
+      ((modm, xK_Escape), toggleGreedyWS),
       -- Resize viewed windows to the correct size
       ((modm, xK_n), refresh),
-      -- Move focus to the next window
+      -- Toggle previous window
       ((modm, xK_Tab), toggleFocus),
       -- Move focus to the next window
       ((modm, xK_j), windows W.focusDown),
@@ -84,6 +91,7 @@ myKeys conf@XConfig {XMonad.modMask = modm} =
       -- Restart xmonad
       ((modm .|. controlMask, xK_r), spawn "xmonad --recompile; xmonad --restart")
       -- TODO implement help window somehow
+      -- TODO screen switching
     ]
       ++
       -- mod-[1..9], Switch to workspace N
@@ -95,7 +103,10 @@ myKeys conf@XConfig {XMonad.modMask = modm} =
     workspaceKeys :: [(String, KeySym)]
     workspaceKeys = zip (XMonad.workspaces conf) [xK_1 .. xK_9]
 
--- TODO screen switching and moving windows
+    toggleGreedyWS :: X ()
+    toggleGreedyWS = do
+      history <- workspaceHistory
+      when (length history >= 2) $ windows $ W.greedyView $ history !! 1
 
 -- Mouse bindings
 myMouseBindings :: XConfig l -> M.Map (KeyMask, Button) (Window -> X ())
@@ -118,7 +129,7 @@ myMouseBindings XConfig {XMonad.modMask = modm} =
     ]
 
 -- Layouts
-myLayout = refocusLastLayoutHook $ avoidStruts (tiled ||| Mirror tiled ||| Full)
+myLayout = refocusLastLayoutHook $ avoidStruts (tiled ||| Mirror tiled ||| Full ||| simpleTabbed)
   where
     -- default tiling algorithm partitions the screen into two panes
     tiled = Tall nmaster delta ratio
@@ -148,7 +159,7 @@ myEventHook = mempty
 
 -- Perform an arbitrary action on each internal state change or X event
 myLogHook :: X ()
-myLogHook = pure ()
+myLogHook = workspaceHistoryHook
 
 -- Startup hook
 myStartupHook :: X ()
