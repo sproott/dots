@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-if [ -f $1 ] ; then
-  NAME=$(dirname "$1")/$(basename "$1" | sed 's/\(.*\)\..*/\1/')
+if [ -f "$1" ] ; then
+  name="$(dirname "$1")/$(basename "$1" | sed 's/\(.*\)\..*/\1/')"
 
   ## SUBLIMINAL
   # subliminal download -l en $1
@@ -9,9 +9,9 @@ if [ -f $1 ] ; then
   # rm $NAME.en.srt
 
   ## SUBDL
-  subdl $1
-  mkvmerge -o $NAME.subs.mkv $1 $NAME.srt
-  rm $NAME.srt
+  subdl "$1"
+  mkvmerge -o "$name".subs.mkv "$1" "$name".srt
+  rm "$name".srt
 else
   echo "'$1' is not a valid file"
 fi

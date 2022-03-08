@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-SELECTION=$(hacksaw -f "-i %i -g %g")
-shotgun $SELECTION - | xclip -t 'image/png' -selection clipboard
+selection="$(hacksaw -f "-i %i -g %g")"
+shotgun "$selection" - | xclip -t 'image/png' -selection clipboard

@@ -1,4 +1,4 @@
 #!/bin/sh
 
-ls ~/.config/wallpapers/$1/*.* \
+find ~/.config/wallpapers/"$1"/*.* \
   | shuf -n 1 | xargs -i sh -c "feh --bg-fill {} && betterlockscreen -u {} --fx"
