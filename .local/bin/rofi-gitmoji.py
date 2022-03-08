@@ -6,7 +6,10 @@ import requests
 import subprocess
 
 def get_data_file() -> str:
-    data_file_name = os.environ.get('XDG_DATA_HOME', os.environ['HOME'] + '/.local/share') + '/gitmojis.json'
+    data_file_folder = os.environ.get('XDG_DATA_HOME', os.environ['HOME'] + '/.local/share') + '/rofi-gitmoji'
+    if not os.path.exists(data_file_folder):
+        os.mkdir(data_file_folder)
+    data_file_name = data_file_folder + '/gitmojis.json'
     if not os.path.exists(data_file_name):
         r = requests.get('https://gitmoji.dev/api/gitmojis')
         file = open(data_file_name, 'wb')
