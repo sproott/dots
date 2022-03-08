@@ -13,7 +13,6 @@ build-type:     Simple
 executable xmobar
   main-is: xmobar.hs
   other-modules:
-      Theme.Nord
       Paths_xmonad_config
   hs-source-dirs:
       src
@@ -27,7 +26,6 @@ executable xmobar
 executable xmonad
   main-is: xmonad.hs
   other-modules:
-      Theme.Nord
       Paths_xmonad_config
   hs-source-dirs:
       src

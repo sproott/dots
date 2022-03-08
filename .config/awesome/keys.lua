@@ -480,6 +480,17 @@ keys.global_keys =
       description = 'emoji picker',
       group = 'custom'
     }
+  ),
+  awful.key(
+    {MODKEY, 'Shift'},
+    '.',
+    function()
+      awful.spawn('rofi-gitmoji')
+    end,
+    {
+      description = 'gitmoji picker',
+      group = 'custom'
+    }
   )
 )
 

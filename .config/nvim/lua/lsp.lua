@@ -32,6 +32,8 @@ lsp.jsonls.setup(coq_setup {})
 
 lsp.lemminx.setup {cmd = {'/usr/bin/lemminx'}}
 
+lsp.pyright.setup(coq_setup {})
+
 lsp.rust_analyzer.setup{}
 
 local sumneko_binary_path = 'lua-language-server'
