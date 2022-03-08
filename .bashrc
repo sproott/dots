@@ -49,6 +49,7 @@ alias valgrind="valgrind --leak-check=full --show-leak-kinds=all --track-origins
 alias btoff="bluetoothctl power off"
 alias zzon="sudo wg-quick up Zauzoo-DHrabe"
 alias zzoff="sudo wg-quick down Zauzoo-DHrabe"
+alias sl="sl -ad -4"
 
 alias paru-r="paru -Rns"
 complete -F _complete_alias paru-r
