@@ -1,38 +1,38 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "run" ] ; then
-  DEBUG=false
-  RUN=true
-  FILENAME=$2
+  debug=false
+  run=true
+  filename="$2"
 elif [ "$1" = "debug" ] ; then
-  DEBUG=true
-  RUN=false
-  FILENAME=$2
+  debug=true
+  run=false
+  filename="$2"
 else
-  DEBUG=false
-  RUN=false
-  FILENAME=$1
+  debug=false
+  run=false
+  filename="$1"
 fi
 
-FILENAME=${FILENAME:-main}
-FILES=$(ls *.c)
+filename="${filename:-main}"
+files="$(ls ./*.c)"
 
-if $DEBUG ; then
-  cc -std=c99 -Wall -Wextra -Werror -g -o $FILENAME $FILES
-  STATUS="$?"
-  if [ $STATUS -ne 0 ] ; then
+if "$debug" ; then
+  cc -std=c99 -Wall -Wextra -Werror -g -o "$filename" "$files"
+  status="$?"
+  if [ "$status" -ne 0 ] ; then
     exit
   fi
-  gdb $FILENAME
+  gdb "$filename"
 else 
-  cc -std=c99 -Wall -Wextra -Werror -o $FILENAME $FILES
-  STATUS="$?"
+  cc -std=c99 -Wall -Wextra -Werror -o "$filename" "$files"
+  status="$?"
 fi
 
-if [ $STATUS -ne 0 ] ; then
+if [ "$status" -ne 0 ] ; then
   exit
 fi
 
-if $RUN ; then
-  ./$FILENAME
+if "$run" ; then
+  ./"$filename"
 fi
