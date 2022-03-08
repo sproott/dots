@@ -39,7 +39,6 @@ export VISUAL="nvim"
 export EDITOR="$VISUAL"
 
 alias vim="nvim"
-alias config="git --git-dir=$HOME/.dots/ --work-tree=$HOME"
 alias ls="exa --long --color=auto"
 alias pm="pulsemixer"
 alias :q="exit"
@@ -55,6 +54,9 @@ complete -F _complete_alias paru-r
 
 alias go="paths go"
 complete -F _complete_alias go
+
+alias config="git --git-dir=$HOME/.dots/ --work-tree=$HOME"
+complete -F _complete_alias config
 
 include ~/.bash_functions
 include ~/.profile
