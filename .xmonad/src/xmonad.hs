@@ -50,6 +50,8 @@ myKeys conf@XConfig {XMonad.modMask = modm} =
       ((shiftMask, xK_Print), spawn "selection_screenshot"),
       -- emoji picker
       ((modm, xK_period), spawn "emoji"),
+      -- gitmoji picker
+      ((modm .|. shiftMask, xK_period), spawn "rofi-gitmoji"),
       -- volume up
       ((noModMask, xF86XK_AudioRaiseVolume), spawn "pamixer --increase 5"),
       -- volume down
