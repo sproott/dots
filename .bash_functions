@@ -30,3 +30,7 @@ wcyd() {
 pls() {
   sudo $(history 2 | head -1 | cut -f4- -d" ")
 }
+
+config_merges() {
+  config checkout work && config pull && config merge master && config checkout laptop && config pull && config merge master && config push --all
+}
