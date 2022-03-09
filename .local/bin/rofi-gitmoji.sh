@@ -12,7 +12,7 @@ if [ ! -f "$filename" ]; then
   rofi-gitmoji-download.py "$folder"
 fi
 
-cat "$filename" | gawk '{
+gawk '{
   match($0,/^"(.*)","(.*)"/,matches)
   print matches[1] " " matches[2] "\0info\x1f" matches[1]
-}'
+}' < "$filename"
