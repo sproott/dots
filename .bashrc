@@ -49,7 +49,6 @@ alias btoff="bluetoothctl power off"
 alias zzon="sudo wg-quick up Zauzoo-DHrabe"
 alias zzoff="sudo wg-quick down Zauzoo-DHrabe"
 alias sl="sl -ad -4"
-alias steam="LD_PRELOAD=sdl_block_screensaver_inhibit.so SDL_VIDEO_ALLOW_SCREENSAVER=1 steam"
 
 alias paru-r="paru -Rns"
 complete -F _complete_alias paru-r
