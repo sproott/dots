@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE TypeApplications #-}
 
@@ -13,9 +12,9 @@ config :: Config
 config =
   defaultConfig
     { font = "xft:monospace:size=10:antialias=true:hinting=true",
-      additionalFonts = ["xft:Symbols Nerd Font:size=14"],
+      additionalFonts = ["xft:Symbols Nerd Font:size=13", "xft:Symbols Nerd Font:size=22"],
       textOffset = 18,
-      textOffsets = [19],
+      textOffsets = [19, 22],
       position = TopH 25,
       bgColor = Theme.backgroundColor,
       commands =
@@ -27,7 +26,9 @@ config =
       sepChar = "%",
       X.alignSep = alignSep,
       template =
-        alignSep
+        " "
+          <> haskellIcon
+          <> alignSep
           <> intercalate
             spacer
             [ "%keyboardLayout%",
@@ -50,7 +51,8 @@ icon :: String -> String
 icon = xmobarFont 1
 
 -- Icons
-clockIcon, calendarIcon, volumeMutedIcon, volumeSilentIcon, volumeNormalIcon, keyboardIcon :: String
+haskellIcon, clockIcon, calendarIcon, volumeMutedIcon, volumeSilentIcon, volumeNormalIcon, keyboardIcon :: String
+haskellIcon = textColor Theme.haskellIconColor $ xmobarFont 2 "\xe777"
 clockIcon = icon "\xf64f"
 calendarIcon = icon "\xf5ec"
 volumeMutedIcon = icon "\xfa80"
