@@ -10,7 +10,7 @@ lsp.ccls.setup(coq_setup {})
 -- lsp.cssls.setup {}
 lsp.efm.setup {
   init_options = {documentFormatting = true},
-  filetypes = {'lua'},
+  filetypes = {'lua', 'sh'},
   settings = {
     rootMarkers = {'.git/'},
     languages = {
@@ -18,6 +18,18 @@ lsp.efm.setup {
         {
           formatCommand = 'lua-format -i --indent-width=2 --double-quote-to-single-quote',
           formatStdin = true
+        }
+      },
+      sh = {
+        {
+          formatCommand = 'shfmt -ci -i 2 -s -bn',
+          formatStdin = true,
+          lintCommand = 'shellcheck -f gcc -x',
+          lintSource = 'shellcheck',
+          lintFormats = {
+            '%f:%l:%c: %trror: %m', '%f:%l:%c: %tarning: %m',
+            '%f:%l:%c: %tote: %m'
+          }
         }
       }
     }
@@ -34,7 +46,7 @@ lsp.lemminx.setup {cmd = {'/usr/bin/lemminx'}}
 
 lsp.pyright.setup(coq_setup {})
 
-lsp.rust_analyzer.setup{}
+lsp.rust_analyzer.setup {}
 
 local sumneko_binary_path = 'lua-language-server'
 local sumneko_root_path = '/usr/share/lua-language-server'
