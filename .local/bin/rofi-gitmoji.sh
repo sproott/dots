@@ -9,10 +9,10 @@ folder="${XDG_DATA_HOME:-"$HOME/.local/share/rofi-gitmoji"}"
 filename="$folder/gitmojis.csv"
 
 if [ ! -f "$filename" ]; then
-  rofi-gitmoji-download.py "$folder"
+  curl https://gitmoji.dev/api/gitmojis | jq -r '.gitmojis[] | ([.emoji,.description]) | @csv' > "$filename"
 fi
 
-gawk '{
+awk '{
   match($0,/^"(.*)","(.*)"/,matches)
   print matches[1] " " matches[2] "\0info\x1f" matches[1]
 }' < "$filename"
