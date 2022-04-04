@@ -9,6 +9,7 @@ folder="${XDG_DATA_HOME:-"$HOME/.local/share/rofi-gitmoji"}"
 filename="$folder/gitmojis.csv"
 
 if [ ! -f "$filename" ]; then
+  mkdir -p "$folder"
   curl https://gitmoji.dev/api/gitmojis | jq -r '.gitmojis[] | ([.emoji,.description]) | @csv' > "$filename"
 fi
 
