@@ -51,6 +51,7 @@ Plug('neovim/nvim-lspconfig')
 Plug('easymotion/vim-easymotion')
 Plug('nvim-telescope/telescope.nvim')
 Plug('lervag/vimtex')
+Plug('github/copilot.vim')
 
 -- Visual
 Plug('kyazdani42/nvim-web-devicons')

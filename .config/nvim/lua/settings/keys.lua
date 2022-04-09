@@ -38,6 +38,10 @@ bind(normal, leader .. 'R', ':edit<CR>', noremap)
 -- CHADTree
 bind(normal, leader .. 'n', ':CHADopen --always-focus<CR>', noremap)
 
+-- Telescope
+bind(normal, leader .. 'tp', ':Telescope find_files<CR>', noremap)
+bind(normal, leader .. 'tl', ':Telescope live_grep<CR>', noremap)
+
 -- Disable arrow keys
 bind(any, '<Up>', nop, noremap)
 bind(any, '<Down>', nop, noremap)
