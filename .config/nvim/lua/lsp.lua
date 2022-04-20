@@ -10,7 +10,7 @@ lsp.ccls.setup(coq_setup {})
 -- lsp.cssls.setup {}
 lsp.efm.setup {
   init_options = {documentFormatting = true},
-  filetypes = {'lua', 'sh'},
+  filetypes = {'lua', 'python', 'sh'},
   settings = {
     rootMarkers = {'.git/'},
     languages = {
@@ -31,13 +31,19 @@ lsp.efm.setup {
             '%f:%l:%c: %tote: %m'
           }
         }
+      },
+      python = {
+        {
+          formatCommand = 'yapf --quiet',
+          formatStdin = true
+        }
       }
     }
   }
 }
 -- lsp.graphql.setup {}
 lsp.hls.setup(coq_setup {
-  settings = {haskell = {formattingProvider = 'stylish-haskell'}}
+  settings = {haskell = {formattingProvider = 'ormolu'}}
 })
 -- lsp.html.setup {}
 lsp.jsonls.setup(coq_setup {})
