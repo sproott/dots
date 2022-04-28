@@ -32,19 +32,13 @@ lsp.efm.setup {
           }
         }
       },
-      python = {
-        {
-          formatCommand = 'yapf --quiet',
-          formatStdin = true
-        }
-      }
+      python = {{formatCommand = 'yapf --quiet', formatStdin = true}}
     }
   }
 }
 -- lsp.graphql.setup {}
-lsp.hls.setup(coq_setup {
-  settings = {haskell = {formattingProvider = 'ormolu'}}
-})
+lsp.hls
+    .setup(coq_setup {settings = {haskell = {formattingProvider = 'ormolu'}}})
 -- lsp.html.setup {}
 lsp.jsonls.setup(coq_setup {})
 
