@@ -9,10 +9,10 @@ lsp.bashls.setup(coq_setup {})
 lsp.ccls.setup(coq_setup {})
 -- lsp.cssls.setup {}
 lsp.efm.setup {
-  init_options = {documentFormatting = true},
-  filetypes = {'lua', 'python', 'sh'},
+  init_options = { documentFormatting = true },
+  filetypes = { 'lua', 'python', 'sh' },
   settings = {
-    rootMarkers = {'.git/'},
+    rootMarkers = { '.git/' },
     languages = {
       lua = {
         {
@@ -36,17 +36,27 @@ lsp.efm.setup {
     }
   }
 }
--- lsp.graphql.setup {}
-lsp.hls
-    .setup(coq_setup {settings = {haskell = {formattingProvider = 'ormolu'}}})
+lsp.hls.setup(coq_setup {
+  settings = { haskell = { formattingProvider = 'ormolu' } }
+})
 -- lsp.html.setup {}
 lsp.jsonls.setup(coq_setup {})
 
-lsp.lemminx.setup {cmd = {'/usr/bin/lemminx'}}
+lsp.lemminx.setup { cmd = { '/usr/bin/lemminx' } }
 
 lsp.pyright.setup(coq_setup {})
 
-lsp.rust_analyzer.setup(coq_setup {})
+lsp.rust_analyzer.setup(coq_setup {
+  settings = {
+    ["rust-analyzer"] = {
+      rustfmt = {
+        extraArgs = {
+          "--config", "tab_spaces=2"
+        }
+      }
+    }
+  }
+})
 
 local sumneko_binary_path = 'lua-language-server'
 local sumneko_root_path = '/usr/share/lua-language-server'
@@ -56,12 +66,12 @@ table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
 lsp.sumneko_lua.setup(coq_setup {
-  cmd = {sumneko_binary_path, '-E', sumneko_root_path .. '/main.lua'},
+  cmd = { sumneko_binary_path, '-E', sumneko_root_path .. '/main.lua' },
   settings = {
     Lua = {
-      runtime = {version = 'LuaJIT', path = runtime_path},
-      diagnostics = {globals = {'vim'}},
-      workspace = {library = vim.api.nvim_get_runtime_file('', true)}
+      runtime = { version = 'LuaJIT', path = runtime_path },
+      diagnostics = { globals = { 'vim' } },
+      workspace = { library = vim.api.nvim_get_runtime_file('', true) }
     }
   }
 })
