@@ -2,7 +2,7 @@
 
 title() {
   unset PROMPT_COMMAND
-  if [[ -z "$ORIG" ]]; then
+  if [[ -z $ORIG ]]; then
     ORIG=$PS1
   fi
   TITLE="\[\e]2;$*\a\]"
@@ -10,7 +10,8 @@ title() {
 }
 
 launch() {
-  "$@" > /dev/null 2>&1 & disown
+  "$@" >/dev/null 2>&1 &
+  disown
 }
 
 mkcd() {
@@ -18,13 +19,16 @@ mkcd() {
   cd "$1"
 }
 
-cwd() { 
-  pwd | tr -d '\n' | xclip -selection clipboard 
+cwd() {
+  pwd | tr -d '\n' | xclip -selection clipboard
 }
 
 wcyd() {
-  echo 'What can you do.' 
-  $(mpv ~/Data/Audio/wcyd.wav &>/dev/null & disown)
+  echo 'What can you do.'
+  $(
+    mpv ~/Data/Audio/wcyd.wav &>/dev/null &
+    disown
+  )
 }
 
 pls() {
@@ -36,8 +40,7 @@ config_merges() {
 }
 
 asm() {
- nasm -f elf32 -g -o "$1".o "$1".asm
- gcc -m32 -o "$1" "$1".o
+  nasm -f elf32 -g -o "$1".o "$1".asm && gcc -m32 -o "$1" "$1".o
 }
 
 pydev() {
