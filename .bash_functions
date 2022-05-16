@@ -35,6 +35,11 @@ config_merges() {
   config checkout work && config pull && config merge master && config checkout laptop && config pull && config merge master && config checkout master && config push --all
 }
 
+asm() {
+ nasm -f elf32 -g -o "$1".o "$1".asm
+ gcc -m32 -o "$1" "$1".o
+}
+
 pydev() {
   echo "$1" | entr sh -c "clear; ./$1"
 }
