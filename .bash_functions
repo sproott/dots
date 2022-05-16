@@ -57,6 +57,11 @@ asm() {
  gcc -m32 -o "$1" "$1".o 
 }
 
+asm() {
+ nasm -f elf32 -g -o "$1".o "$1".asm
+ gcc -m32 -o "$1" "$1".o
+}
+
 pydev() {
   echo "$1" | entr sh -c "clear; ./$1"
 }
