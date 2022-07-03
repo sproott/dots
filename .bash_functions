@@ -1,5 +1,25 @@
 #!/usr/bin/env bash
 
+<<<<<<< Updated upstream
+=======
+connect() {
+    bluetoothctl power on
+    bluetoothctl connect $1
+}
+
+ds4() {
+    connect 40:1B:5F:B4:AC:BF
+}
+
+jbl() {
+    connect D8:37:3B:24:E7:42
+}
+
+sc() {
+    connect E8:EE:CC:06:4D:82
+}
+
+>>>>>>> Stashed changes
 title() {
   unset PROMPT_COMMAND
   if [[ -z $ORIG ]]; then
@@ -36,7 +56,15 @@ pls() {
 }
 
 config_merges() {
+<<<<<<< Updated upstream
   config checkout work && config pull && config merge master && config checkout laptop && config pull && config merge master && config checkout master && config push --all
+=======
+  config checkout work && config pull && config merge master && config checkout laptop && config pull && config merge master && config push --all
+}
+
+asm() {
+  nasm -f elf32 -g -o "$1".o "$1".asm && gcc -m32 -o "$1" "$1".o
+>>>>>>> Stashed changes
 }
 
 asm() {
