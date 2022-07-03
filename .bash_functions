@@ -13,8 +13,8 @@ jbl() {
     connect D8:37:3B:24:E7:42
 }
 
-marshall() {
-    connect 2C:4D:79:C4:9C:F4
+sc() {
+    connect E8:EE:CC:06:4D:82
 }
 
 title() {
@@ -57,8 +57,7 @@ config_merges() {
 }
 
 asm() {
- nasm -f elf32 -g -o "$1".o "$1".asm
- gcc -m32 -o "$1" "$1".o 
+  nasm -f elf32 -g -o "$1".o "$1".asm && gcc -m32 -o "$1" "$1".o
 }
 
 asm() {
