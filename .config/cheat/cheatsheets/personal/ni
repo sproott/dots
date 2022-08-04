@@ -1,0 +1,29 @@
+# To install dependencies:
+ni
+
+# To add a dependency:
+ni vite
+
+# To run script:
+nr dev
+
+# To interactively select the script to run:
+nr
+
+# npx vitest
+# yarn dlx vitest
+# pnpm dlx vitest
+nx vitest
+
+# To upgrade dependencies:
+nu
+
+# To remove dependencies:
+nun webpack
+
+# To invoke the appropriate agent:
+na
+
+# To change directory before executing a command:
+ni -C packages/foo vite
+nr -C playground dev
