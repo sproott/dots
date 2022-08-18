@@ -63,3 +63,7 @@ asm() {
 pydev() {
   echo "$1" | entr sh -c "clear; ./$1"
 }
+
+freeport() {
+  kill -9 $(lsof -ti:"$1")
+}
