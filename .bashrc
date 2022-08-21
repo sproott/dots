@@ -24,10 +24,10 @@ shopt -s histappend
 eval "$(starship init bash)"
 
 # nvm
-source /usr/share/nvm/init-nvm.sh
+# source /usr/share/nvm/init-nvm.sh
 
 # fuck
-eval "$(thefuck --alias)"
+# eval "$(thefuck --alias)"
 
 # pat.hs
 source /usr/share/paths/paths.sh
