@@ -40,6 +40,7 @@ export EDITOR="$VISUAL"
 
 alias vim="nvim"
 alias ls="exa --long --color=auto"
+alias la="ls -a"
 alias pm="pulsemixer"
 alias :q="exit"
 alias clip="xclip -selection clipboard"
