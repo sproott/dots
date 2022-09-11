@@ -37,6 +37,7 @@ source /usr/share/bash-complete-alias/complete_alias
 
 export VISUAL="nvim"
 export EDITOR="$VISUAL"
+export SUDO_ASKPASS=/usr/bin/xaskpass
 
 alias vim="nvim"
 alias ls="exa --long --color=auto"
