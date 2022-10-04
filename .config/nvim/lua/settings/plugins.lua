@@ -1,4 +1,5 @@
 local g = vim.g
+local b = vim.b
 
 g.coq_settings = {auto_start = 'shut-up', keymap = {recommended = false, jump_to_mark = '<C-y>'}}
 
@@ -13,3 +14,5 @@ g.chadtree_settings = {
 }
 
 g.livepreview_previewer = 'zathura'
+
+b.copilot_enabled = false
