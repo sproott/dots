@@ -52,7 +52,7 @@ bind(any, '<Right>', nop, noremap)
 bind(normal, 'gd', ':lua vim.lsp.buf.definition()<CR>', noremap)
 bind(normal, 'gr', ':lua vim.lsp.buf.rename()<CR>', noremap)
 bind(normal, 'gh', ':lua vim.lsp.buf.hover()<CR>', noremap)
-bind(normal, leader .. 'f', ':lua vim.lsp.buf.formatting()<CR>', noremap)
+bind(normal, leader .. 'f', ':lua vim.lsp.buf.format({async=true})<CR>', noremap)
 
 -- Copilot
 bind(normal, leader .. 'co', ':Copilot enable<CR>', noremap)
