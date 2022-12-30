@@ -15,17 +15,16 @@ else
 fi
 
 filename="${filename:-main}"
-files="$(ls ./*.c)"
 
 if "$debug" ; then
-  cc -std=c99 -Wall -Wextra -Werror -g -o "$filename" "$files"
+  cc -std=c99 -Wall -Wextra -Werror -g -o "$filename" "$filename".c
   status="$?"
   if [ "$status" -ne 0 ] ; then
     exit
   fi
   gdb "$filename"
 else 
-  cc -std=c99 -Wall -Wextra -Werror -o "$filename" "$files"
+  cc -std=c99 -Wall -Wextra -Werror -o "$filename" "$filename".c
   status="$?"
 fi
 
