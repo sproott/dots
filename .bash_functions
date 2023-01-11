@@ -40,14 +40,6 @@ cwd() {
   pwd | tr -d '\n' | xclip -selection clipboard
 }
 
-wcyd() {
-  echo 'What can you do.'
-  $(
-    mpv ~/Data/Audio/wcyd.wav &>/dev/null &
-    disown
-  )
-}
-
 pls() {
   sudo $(history 2 | head -1 | cut -f4- -d" ")
 }
