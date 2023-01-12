@@ -15,6 +15,8 @@ require('globals')
 
 local keys = {global_keys = {}, client_keys = {}}
 
+local disable_close = false
+
 -- General Awesome keys
 keys.global_keys =
   gears.table.join(
@@ -497,10 +499,39 @@ keys.client_keys =
     {MODKEY},
     'q',
     function(c)
+      if disable_close then
+        return  
+      end
       c:kill()
     end,
     {
       description = 'close',
+      group = 'client'
+    }
+  ),
+  awful.key(
+     {MODKEY, 'Control', 'Shift'},
+     'q',
+      function(c)
+        if not disable_close then
+          return
+        end
+        c:kill()
+      end,
+      {
+        description = 'close with protection enabled',
+        group = 'client'
+      }
+  ),
+  awful.key(
+    {MODKEY, 'Control', 'Mod1'},
+    'q',
+    function()
+      disable_close = not disable_close
+      awful.spawn.with_shell('notify-send "Close protection ' .. (disable_close and 'enabled' or 'disabled') .. '"')
+    end,
+    {
+      description = 'toggle close protection',
       group = 'client'
     }
   ),
