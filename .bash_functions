@@ -45,7 +45,7 @@ pls() {
 }
 
 config_merges() {
-  config checkout work && config pull && config merge master && config checkout laptop && config pull && config merge master && config push --all
+  config checkout laptop && config pull && config merge master && config push --all
 }
 
 asm() {
