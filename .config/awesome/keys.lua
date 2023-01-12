@@ -1,6 +1,7 @@
 -- Standard awesome library
 local gears = require('gears')
 local awful = require('awful')
+local naughty = require('naughty')
 -- Theme handling library
 local beautiful = require('beautiful')
 
@@ -16,6 +17,14 @@ require('globals')
 local keys = {global_keys = {}, client_keys = {}}
 
 local disable_close = false
+
+local function kill(c)
+  if (c.class == 'factorio') then
+    return
+  end
+
+  c:kill()
+end
 
 -- General Awesome keys
 keys.global_keys =
@@ -500,9 +509,10 @@ keys.client_keys =
     'q',
     function(c)
       if disable_close then
-        return  
+        return
       end
-      c:kill()
+
+      kill(c)
     end,
     {
       description = 'close',
@@ -516,7 +526,8 @@ keys.client_keys =
         if not disable_close then
           return
         end
-        c:kill()
+
+        kill(c)
       end,
       {
         description = 'close with protection enabled',
@@ -528,7 +539,11 @@ keys.client_keys =
     'q',
     function()
       disable_close = not disable_close
-      awful.spawn.with_shell('notify-send "Close protection ' .. (disable_close and 'enabled' or 'disabled') .. '"')
+      naughty.notify {
+        text = 'Close protection ' .. (disable_close and 'enabled' or 'disabled'),
+        timeout = 1,
+        position = 'top_right',
+      }
     end,
     {
       description = 'toggle close protection',
