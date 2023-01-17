@@ -1,0 +1,13 @@
+browser firefox-developer-edition
+color   background                white   default
+color   listnormal                white   default
+color   listfocus                 yellow  black   bold
+color   listnormal_unread         white   default bold
+color   listfocus_unread          yellow  black   bold
+color   title                     red     black   bold
+color   info                      yellow  black   bold
+color   hint-key                  red     black   bold
+color   hint-keys-delimiter       red     black
+color   hint-separator            red     black   bold
+color   hint-description          red     black
+color   article                   white   black
