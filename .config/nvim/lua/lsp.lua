@@ -32,13 +32,12 @@ lsp.efm.setup {
           }
         }
       },
-      python = {{formatCommand = 'yapf --quiet', formatStdin = true}}
+      python = { { formatCommand = 'yapf --quiet', formatStdin = true } }
     }
   }
 }
-lsp.hls.setup(coq_setup {
-  settings = { haskell = { formattingProvider = 'ormolu' } }
-})
+lsp.hls
+    .setup(coq_setup { settings = { haskell = { formattingProvider = 'ormolu' } } })
 -- lsp.html.setup {}
 lsp.jsonls.setup(coq_setup {})
 
@@ -48,13 +47,7 @@ lsp.pyright.setup(coq_setup {})
 
 lsp.rust_analyzer.setup(coq_setup {
   settings = {
-    ["rust-analyzer"] = {
-      rustfmt = {
-        extraArgs = {
-          "--config", "tab_spaces=2"
-        }
-      }
-    }
+    ['rust-analyzer'] = { rustfmt = { extraArgs = { '--config', 'tab_spaces=2' } } }
   }
 })
 
@@ -71,7 +64,10 @@ lsp.sumneko_lua.setup(coq_setup {
     Lua = {
       runtime = { version = 'LuaJIT', path = runtime_path },
       diagnostics = { globals = { 'vim' } },
-      workspace = { library = vim.api.nvim_get_runtime_file('', true) }
+      workspace = {
+        library = vim.api.nvim_get_runtime_file('', true),
+        checkThirdParty = false
+      }
     }
   }
 })
