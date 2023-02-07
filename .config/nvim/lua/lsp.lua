@@ -2,9 +2,11 @@ require('treesitter')
 
 local lsp = require('lspconfig')
 local coq = require('coq')
+local cmd = require('util.cmd')
 
 local coq_setup = coq.lsp_ensure_capabilities
 
+lsp.astro.setup{}
 lsp.bashls.setup(coq_setup {})
 lsp.ccls.setup(coq_setup {})
 -- lsp.cssls.setup {}
