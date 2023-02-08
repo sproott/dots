@@ -2,11 +2,10 @@ require('treesitter')
 
 local lsp = require('lspconfig')
 local coq = require('coq')
-local cmd = require('util.cmd')
 
 local coq_setup = coq.lsp_ensure_capabilities
 
-lsp.astro.setup{}
+lsp.astro.setup(coq_setup {})
 lsp.bashls.setup(coq_setup {})
 lsp.ccls.setup(coq_setup {})
 -- lsp.cssls.setup {}
@@ -41,9 +40,21 @@ lsp.efm.setup {
 lsp.hls
     .setup(coq_setup { settings = { haskell = { formattingProvider = 'ormolu' } } })
 -- lsp.html.setup {}
+lsp.intelephense.setup(coq_setup {
+  settings = {
+    intelephense = {
+      files = {
+        maxSize = 1000000;
+      },
+      format = {
+        braces = "k&r"
+      }
+    }
+  }
+})
 lsp.jsonls.setup(coq_setup {})
 
-lsp.lemminx.setup { cmd = { '/usr/bin/lemminx' } }
+lsp.lemminx.setup(coq_setup { cmd = { '/usr/bin/lemminx' } })
 
 lsp.pyright.setup(coq_setup {})
 
