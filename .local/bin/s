@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [ -z "$1" ]; then
+    echo "Usage: s <file>"
+    exit 1
+fi
+
 grep ^"$1" ~/Data/Audio/text | awk '{ st = index($0," ");print substr($0,st+1)}'
 mpv ~/Data/Audio/"$1" &>/dev/null &
 disown
