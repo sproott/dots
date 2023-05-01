@@ -155,3 +155,4 @@ awful.spawn.with_shell('remaps')
 
 awful.spawn.with_shell('picom')
 awful.spawn.with_shell('killall udiskie ; udiskie')
+awful.spawn.with_shell('/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1')
