@@ -36,6 +36,10 @@ return function(colors, fonts, spacing)
     return layout.create_span({color = color, font = fonts.icon, content = icon})
   end
 
+  local muted_icon = create_volume_icon('󰖁', true)
+  local silent_icon = create_volume_icon('󰕿', false)
+  local normal_icon = create_volume_icon('󰕾', false)
+
   local update_volume = function()
     awful.spawn.easy_async_with_shell(
       'echo $(pamixer --get-volume) $(pamixer --get-mute)',
@@ -46,13 +50,13 @@ return function(colors, fonts, spacing)
         local icon
 
         if is_muted then
-          icon = create_volume_icon('婢', true)
+          icon = muted_icon
           volume_bar:set_color(colors.muted)
         elseif volume == 0 then
-          icon = create_volume_icon('', false)
+          icon = silent_icon
           volume_bar:set_color(colors.primary)
         else
-          icon = create_volume_icon('墳', false)
+          icon = normal_icon
           volume_bar:set_color(colors.primary)
         end
 

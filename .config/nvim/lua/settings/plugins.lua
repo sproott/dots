@@ -1,3 +1,4 @@
+local cmd = require('util.cmd')
 local g = vim.g
 
 g.coq_settings = {
@@ -11,3 +12,6 @@ g.chadtree_settings = {
 }
 
 g.livepreview_previewer = 'zathura'
+
+g.user_emmet_install_global = 0
+cmd('autocmd FileType html,css EmmetInstall')

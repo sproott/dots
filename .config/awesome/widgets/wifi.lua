@@ -3,6 +3,10 @@ local awful = require('awful')
 
 local layout = require('util.layout')
 
+local I_DISCONNECTED = '󰖪'
+local I_CONNECTING = '󱚵'
+local I_CONNECTED = '󰖩'
+
 return function(colors, fonts, spacing, device)
   colors.wifi_connecting = colors.wifi_connecting or colors.primary
   colors.wifi_disconnected = colors.wifi_disconnected or colors.primary
@@ -31,14 +35,14 @@ return function(colors, fonts, spacing, device)
         local color
 
         if (string.match(status, ': disconnected')) then
-          icon = '睊'
+          icon = I_DISCONNECTED
           color = colors.wifi_disconnected
           NAME = nil
         elseif (string.match(status, ': connecting')) then
-          icon = '睊'
+          icon = I_CONNECTING
           color = colors.wifi_connecting
         elseif (string.match(status, ': connected')) then
-          icon = '直'
+          icon = I_CONNECTED
           color = colors.primary
         else
           return
@@ -74,13 +78,13 @@ return function(colors, fonts, spacing, device)
 
         -- If it's not found then there is no active connection
         if (index_of_UUID_column == nil) then
-          return '睊', colors.wifi_disconnected
+          return I_DISCONNECTED, colors.wifi_disconnected
         end
 
         -- Get SSID and trim whitespace
         NAME = string.gsub(string.sub(lines[2], 1, index_of_UUID_column - 1), '%s*$', '')
 
-        return '直', colors.primary
+        return I_CONNECTED, colors.primary
       end
 
       local icon, color = process(stdout)
