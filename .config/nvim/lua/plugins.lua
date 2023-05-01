@@ -49,6 +49,7 @@ require('lazy').setup({
   'nvim-telescope/telescope.nvim',
   'lervag/vimtex',
   'github/copilot.vim',
+  'mattn/emmet-vim',
 
   -- Visual
   'kyazdani42/nvim-web-devicons',
@@ -58,4 +59,5 @@ require('lazy').setup({
   -- Color schemes
   'morhetz/gruvbox',
   'joshdick/onedark.vim',
+  'catppuccin/nvim'
 })

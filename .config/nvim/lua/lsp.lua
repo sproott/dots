@@ -11,7 +11,7 @@ lsp.ccls.setup(coq_setup {})
 -- lsp.cssls.setup {}
 lsp.efm.setup {
   init_options = { documentFormatting = true },
-  filetypes = { 'lua', 'python', 'sh' },
+  filetypes = { 'lua', 'python', 'sh', 'html' },
   settings = {
     rootMarkers = { '.git/' },
     languages = {
@@ -33,7 +33,10 @@ lsp.efm.setup {
           }
         }
       },
-      python = { { formatCommand = 'yapf --quiet', formatStdin = true } }
+      python = { { formatCommand = 'yapf --quiet', formatStdin = true } },
+      html = {{
+        formatCommand = 'prettier --tab-width 2 --single-quote true --parser html'
+      }}
     }
   }
 }
