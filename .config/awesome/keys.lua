@@ -469,7 +469,7 @@ keys.global_keys =
     {},
     'XF86MonBrightnessUp',
     function()
-      awful.spawn('xbacklight -inc 20')
+      awful.spawn.with_shell('xbacklight -inc 20')
     end,
     {description = 'brightness up', group = 'video'}
   ),
@@ -477,7 +477,7 @@ keys.global_keys =
     {},
     'XF86MonBrightnessDown',
     function()
-      awful.spawn('xbacklight -dec 20')
+      awful.spawn.with_shell('xbacklight -dec 20')
     end,
     {description = 'brightness down', group = 'video'}
   ),
@@ -485,7 +485,7 @@ keys.global_keys =
     {MODKEY},
     'F5',
     function()
-      awful.spawn('toggle-touchpad')
+      awful.spawn.with_shell('toggle-touchpad')
     end,
     {
       description = 'toggle touchpad',
@@ -507,7 +507,7 @@ keys.global_keys =
     {MODKEY, 'Shift'},
     '.',
     function()
-      awful.spawn('rofi-gitmoji')
+      awful.spawn.with_shell('rofi-gitmoji')
     end,
     {
       description = 'gitmoji picker',
