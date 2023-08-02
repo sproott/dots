@@ -483,6 +483,17 @@ keys.global_keys =
   ),
   awful.key(
     {MODKEY},
+    'F5',
+    function()
+      awful.spawn('toggle-touchpad')
+    end,
+    {
+      description = 'toggle touchpad',
+      group = 'custom'
+    }
+  ),
+  awful.key(
+    {MODKEY},
     '.',
     function()
       awful.spawn.with_shell('emoji')
