@@ -422,7 +422,7 @@ keys.global_keys =
     {'Shift'},
     'Print',
     function()
-      awful.spawn('selection_screenshot')
+      awful.spawn.with_shell('selection_screenshot')
     end,
     {
       description = 'select area and copy screenshot',
