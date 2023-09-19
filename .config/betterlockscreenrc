@@ -7,6 +7,7 @@ blur_level=1
 pixel_scale=10,1000
 solid_color=3b4252
 wallpaper_cmd="feh --bg-fill"
+quiet=false
 
 loginbox=00000000
 loginshadow=2e344000
