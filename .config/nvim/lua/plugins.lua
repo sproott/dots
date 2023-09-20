@@ -42,6 +42,9 @@ require('lazy').setup({
   'mhinz/vim-signify',
   'mhinz/vim-startify',
 
+  -- junegunn
+  'junegunn/vim-easy-align',
+
   -- Utility
   {'nvim-treesitter/nvim-treesitter', build = ':TSUpdate'},
   'neovim/nvim-lspconfig',
@@ -50,6 +53,7 @@ require('lazy').setup({
   'lervag/vimtex',
   'github/copilot.vim',
   'mattn/emmet-vim',
+  'ledger/vim-ledger',
 
   -- Visual
   'kyazdani42/nvim-web-devicons',
