@@ -23,7 +23,6 @@ require('lazy').setup({
   {'ms-jpq/chadtree', branch = 'chad', build = 'python3 -m chadtree deps'},
 
   -- folke
-  'folke/lsp-colors.nvim',
   'folke/trouble.nvim',
   'folke/which-key.nvim',
 
@@ -54,6 +53,7 @@ require('lazy').setup({
   'github/copilot.vim',
   'mattn/emmet-vim',
   'ledger/vim-ledger',
+  {'kaarmu/typst.vim', ft = 'typst', lazy = false},
 
   -- Visual
   'kyazdani42/nvim-web-devicons',

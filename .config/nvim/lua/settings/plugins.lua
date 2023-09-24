@@ -17,3 +17,5 @@ g.user_emmet_install_global = 0
 cmd('autocmd FileType html,css EmmetInstall')
 
 g.easy_align_delimiters = { [';'] = { pattern = ';', left_margin = 2 } }
+
+g.typst_pdf_viewer = 'zathura'
