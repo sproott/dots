@@ -33,7 +33,7 @@ lsp.efm.setup {
           }
         }
       },
-      python = { { formatCommand = 'yapf --quiet', formatStdin = true } },
+      python = { { formatCommand = 'black --quiet -', formatStdin = true } },
       html = {{
         formatCommand = 'prettier --tab-width 2 --single-quote true --parser html'
       }}
