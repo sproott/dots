@@ -53,7 +53,7 @@ asm() {
 }
 
 pydev() {
-  echo "$1" | entr sh -c "clear; ./$1"
+  echo "$1" | entr -cc "./$1"
 }
 
 freeport() {
