@@ -93,3 +93,5 @@ lsp.svelte.setup(coq_setup {})
 lsp.texlab.setup(coq_setup {})
 
 lsp.tsserver.setup(coq_setup {})
+
+lsp.typst_lsp.setup(coq_setup {})

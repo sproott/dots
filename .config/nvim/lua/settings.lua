@@ -12,6 +12,8 @@ vim.opt.termguicolors = true
 vim.opt.linebreak = true
 vim.opt.mouse = {}
 
+vim.filetype.add({ extension = { typ = 'typst' } })
+
 vim.env.BASH_ENV = '~/.bash_functions'
 
 cmd('colorscheme onedark')
