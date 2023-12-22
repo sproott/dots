@@ -13,16 +13,14 @@ return function(screen, params)
   return awful.widget.taglist {
     screen = screen,
     filter = awful.widget.taglist.filter.all,
-    style = {
-      shape = gears.shape.circle
-    },
+    style = { shape = gears.shape.circle },
     widget_template = {
       {
         {
           {
             {
-              id = 'text_role',
-              widget = wibox.widget.textbox
+              { id = 'text_role', widget = wibox.widget.textbox },
+              widget = wibox.container.place
             },
             layout = wibox.layout.align.horizontal
           },
@@ -38,47 +36,14 @@ return function(screen, params)
       widget = wibox.container.margin
     },
     buttons = {
-      awful.button(
-        {},
-        1,
-        function(t)
-          t:view_only()
-        end
-      ),
-      awful.button(
-        {MODKEY},
-        1,
-        function(t)
-          if client.focus then
-            client.focus:move_to_tag(t)
-          end
-        end
-      ),
-      awful.button({}, 3, awful.tag.viewtoggle),
-      awful.button(
-        {MODKEY},
-        3,
-        function(t)
-          if client.focus then
-            client.focus:toggle_tag(t)
-          end
-        end
-      ),
-      awful.button(
-        {},
-        4,
-        function(t)
-          awful.tag.viewprev(t.screen)
-        end
-      ),
-      awful.button(
-        {},
-        5,
-        function(t)
-          awful.tag.viewnext(t.screen)
-        end
-      )
+      awful.button({}, 1, function(t) t:view_only() end),
+      awful.button({ MODKEY }, 1, function(t)
+        if client.focus then client.focus:move_to_tag(t) end
+      end), awful.button({}, 3, awful.tag.viewtoggle),
+      awful.button({ MODKEY }, 3, function(t)
+        if client.focus then client.focus:toggle_tag(t) end
+      end), awful.button({}, 4, function(t) awful.tag.viewprev(t.screen) end),
+      awful.button({}, 5, function(t) awful.tag.viewnext(t.screen) end)
     }
   }
 end
-
