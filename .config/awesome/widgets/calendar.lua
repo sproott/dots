@@ -11,7 +11,7 @@ return function(colors, fonts, spacing)
   local calendar_widget = {
     calendar_icon,
     layout.horizontal_spacer(spacing),
-    wibox.container.place(calendar)
+    calendar
   }
 
   return {widget = calendar_widget}

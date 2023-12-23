@@ -4,23 +4,17 @@ local wibox = require('wibox')
 local layout = require('util.layout')
 
 return function(colors, fonts, spacing)
-  local keyboard_icon = wibox.widget.textbox(
-    layout.create_span({
-      color = colors.primary,
-      font = fonts.icon,
-      content = ''
-    }))
+  local keyboard_icon =
+    wibox.widget.textbox(layout.create_span({color = colors.primary, font = fonts.icon, content = ''}))
   local layout_code = wibox.widget.textbox('')
 
   local update = function()
-    awful.spawn.easy_async_with_shell('xkblayout-state print "%s"',
+    awful.spawn.easy_async_with_shell(
+      'xkblayout-state print "%s"',
       function(code)
-        layout_code:set_markup(layout.create_span({
-          color = colors.primary,
-          font = fonts.widget,
-          content = code
-        }))
-      end)
+        layout_code:set_markup(layout.create_span({color = colors.primary, font = fonts.widget, content = code}))
+      end
+    )
   end
 
   update()
@@ -29,9 +23,11 @@ return function(colors, fonts, spacing)
   awesome.connect_signal('xkb::group_changed', update)
 
   local keyboard_layout_widget = {
-    keyboard_icon, layout.horizontal_spacer(spacing),
-    wibox.container.place(layout_code)
+    keyboard_icon,
+    layout.horizontal_spacer(spacing),
+    layout_code
   }
 
-  return { widget = keyboard_layout_widget }
+  return {widget = keyboard_layout_widget}
 end
+

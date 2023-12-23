@@ -11,7 +11,7 @@ return function(colors, fonts, spacing)
   local clock_widget = {
     clock_icon,
     layout.horizontal_spacer(spacing),
-    wibox.container.place(clock)
+    clock
   }
 
   return {widget = clock_widget}
