@@ -1,20 +1,24 @@
 #!/usr/bin/env bash
 
 connect() {
-    bluetoothctl power on
-    bluetoothctl connect $1
+  bluetoothctl power on
+  bluetoothctl connect $1
 }
 
 ds4() {
-    connect 40:1B:5F:B4:AC:BF
+  connect 40:1B:5F:B4:AC:BF
 }
 
 jbl() {
-    connect D8:37:3B:24:E7:42
+  connect D8:37:3B:24:E7:42
 }
 
 sc() {
-    connect E8:EE:CC:06:4D:82
+  connect E8:EE:CC:06:4D:82
+}
+
+mouse() {
+  connect DA:66:E9:2C:26:AD
 }
 
 title() {
