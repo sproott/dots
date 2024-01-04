@@ -122,7 +122,7 @@ ruled.client.connect_signal('request::rules', function()
   }
 
   ruled.client.append_rule {
-    rule_any = {class = {'discord', 'Caprine', 'Slack'}},
+    rule_any = {class = {'discord', 'Caprine', 'Slack', 'TelegramDesktop'}},
     properties = {tag = '4'}
   }
 
