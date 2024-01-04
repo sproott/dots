@@ -14,7 +14,7 @@ return function(colors, fonts, spacing)
 
   local battery_percentage =
     awful.widget.watch(
-    'acpi -b',
+    'sh -c "acpi -b | grep -v \"rate information unavailable\""',
     60,
     function(widget, stdout)
       local charge = tonumber(string.match(stdout, '(%d?%d?%d)%%'))
