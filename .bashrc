@@ -54,6 +54,7 @@ alias ce="code . && exit"
 alias d="fvm dart"
 alias fl="fvm flutter"
 alias stop="killall mpv"
+alias hledger="hledger --strict"
 
 alias paru-r="paru -Rns"
 complete -F _complete_alias paru-r
