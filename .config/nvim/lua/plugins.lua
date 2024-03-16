@@ -54,6 +54,7 @@ require('lazy').setup({
   'mattn/emmet-vim',
   'ledger/vim-ledger',
   {'kaarmu/typst.vim', ft = 'typst', lazy = false},
+  { 'stevearc/oil.nvim', opts = {}, },
 
   -- Visual
   'kyazdani42/nvim-web-devicons',

@@ -36,5 +36,6 @@ bind('i', '<bs>', 'v:lua.MUtils.BS()', 'expr', 'noremap')
 require('which-key').setup {}
 require('trouble').setup {}
 require('nvim-ts-autotag').setup()
+require("oil").setup()
 
 cmd.silent(':COQnow -s')
