@@ -12,4 +12,3 @@ PATH="$HOME/.local/share/coursier/bin:$PATH"
 ## Completion scripts setup. Remove the following line to uninstall
 [ -f /home/davidh/.dart-cli-completion/bash-config.bash ] && . /home/davidh/.dart-cli-completion/bash-config.bash || true
 ## [/Completion]
-
