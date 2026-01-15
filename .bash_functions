@@ -5,6 +5,10 @@ connect() {
   bluetoothctl connect $1
 }
 
+disconnect() {
+  bluetoothctl disconnect $1
+}
+
 ds4() {
   connect 40:1B:5F:B4:AC:BF
 }
@@ -13,8 +17,14 @@ jbl() {
   connect D8:37:3B:24:E7:42
 }
 
+SOUNDCORE="E8:EE:CC:06:4D:82"
+
 sc() {
-  connect E8:EE:CC:06:4D:82
+  connect "$SOUNDCORE"
+}
+
+scoff() {
+  disconnect "$SOUNDCORE"
 }
 
 mouse() {
