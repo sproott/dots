@@ -45,7 +45,7 @@ require('lazy').setup({
   'junegunn/vim-easy-align',
 
   -- Utility
-  {'nvim-treesitter/nvim-treesitter', build = ':TSUpdate'},
+  {'nvim-treesitter/nvim-treesitter', branch = 'main', lazy = false, build = ':TSUpdate'},
   'neovim/nvim-lspconfig',
   'easymotion/vim-easymotion',
   'nvim-telescope/telescope.nvim',
