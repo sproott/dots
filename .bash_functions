@@ -73,3 +73,13 @@ pydev() {
 freeport() {
   kill -9 $(lsof -ti:"$1")
 }
+
+chocen() {
+  xrandr --output HDMI-A-0 --mode 1680x1050 --right-of eDP
+  wallpaper nord > /dev/null
+}
+
+brno() {
+  xrandr --output HDMI-A-0 --mode 1920x1080 --right-of eDP
+  wallpaper nord > /dev/null
+}
