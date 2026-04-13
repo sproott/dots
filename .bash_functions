@@ -71,7 +71,7 @@ pydev() {
 }
 
 freeport() {
-  kill -9 $(lsof -ti:"$1")
+  kill -9 $(lsof -tiTCP:"$1" -sTCP:LISTEN)
 }
 
 chocen() {
