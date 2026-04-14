@@ -153,7 +153,8 @@ naughty.connect_signal('request::display',
 awful.spawn.with_shell('wallpaper ' .. (beautiful.wallpaper_dir or 'other'))
 awful.spawn.with_shell('remaps')
 
-awful.spawn.with_shell('picom')
-awful.spawn.with_shell('killall udiskie ; udiskie')
-awful.spawn.with_shell('stretchly')
-awful.spawn.with_shell('/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1')
+awful.spawn.once('picom')
+awful.spawn.once('udiskie')
+awful.spawn.once('stretchly')
+awful.spawn.once('/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1')
+awful.spawn.once('xss-lock -- lockscreen')
