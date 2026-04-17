@@ -1,0 +1,4 @@
+strategy = "patch"
+target = "/etc/pacman.conf"
+source = "pacman.conf.patch"
+description = "Enable Color, ILoveCandy"

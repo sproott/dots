@@ -1,0 +1,4 @@
+strategy = "overwrite"
+target = "/etc/docker/daemon.json"
+source = "daemon.json"
+description = "Docker bridge on link-local range to avoid captive portal conflicts"

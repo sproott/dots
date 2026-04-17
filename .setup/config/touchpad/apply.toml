@@ -1,0 +1,4 @@
+strategy = "overwrite"
+target = "/etc/X11/xorg.conf.d/30-touchpad.conf"
+source = "30-touchpad.conf"
+description = "Natural scrolling and tap-to-click via libinput"
