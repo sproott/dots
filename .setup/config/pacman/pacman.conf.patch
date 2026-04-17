@@ -1,0 +1,13 @@
+--- /etc/pacman.conf	2026-01-12 21:27:06.000000000 +0100
++++ /etc/pacman.conf	2026-04-16 13:30:01.900609086 +0200
+@@ -30,9 +30,10 @@
+
+ # Misc options
+ #UseSyslog
+-#Color
++Color
+ #NoProgressBar
+ CheckSpace
+ #VerbosePkgLists
++ILoveCandy
+ ParallelDownloads = 5

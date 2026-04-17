@@ -1,0 +1,3 @@
+strategy = "overwrite"
+target = "~/.config/keepassxc/keepassxc.ini"
+source = "keepassxc.ini"

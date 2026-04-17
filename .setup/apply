@@ -1,0 +1,420 @@
+#!/usr/bin/env python3
+"""Apply config overrides from ~/.setup/config/ to their target locations."""
+
+import argparse
+import os
+import shutil
+import subprocess
+import sys
+from datetime import datetime
+from pathlib import Path
+
+SETUP_DIR = Path(__file__).resolve().parent
+CONFIG_DIR = SETUP_DIR / "config"
+
+
+def load_configs():
+    """Discover all config directories with apply.toml metadata."""
+    configs = {}
+    if not CONFIG_DIR.is_dir():
+        return configs
+    for d in sorted(CONFIG_DIR.iterdir()):
+        meta = d / "apply.toml"
+        if d.is_dir() and meta.exists():
+            configs[d.name] = parse_toml(meta, d)
+    return configs
+
+
+def parse_toml(path, config_dir):
+    """Minimal TOML parser for our simple key = \"value\" format."""
+    data = {}
+    for line in path.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        key, _, value = line.partition("=")
+        data[key.strip()] = value.strip().strip('"').strip("'")
+    target = data["target"]
+    if target.startswith("~"):
+        target = str(Path.home() / target[2:])
+    data["target"] = target
+    data["source_path"] = config_dir / data["source"]
+    data["config_dir"] = config_dir
+    return data
+
+
+def needs_sudo(target):
+    """Check if the target path requires root privileges."""
+    target = Path(target)
+    # Check if we can write to the target or its parent
+    check = target if target.exists() else target.parent
+    return not os.access(check, os.W_OK)
+
+
+def run_cmd(cmd, sudo=False, capture=True):
+    """Run a command, optionally with sudo."""
+    if sudo:
+        cmd = ["sudo"] + cmd
+    result = subprocess.run(cmd, capture_output=capture, text=True)
+    return result
+
+
+def backup(target):
+    """Create a timestamped backup of the target file."""
+    target = Path(target)
+    if not target.exists():
+        return None
+    stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    bak = target.with_name(f"{target.name}.bak.{stamp}")
+    sudo = needs_sudo(str(target))
+    if sudo:
+        run_cmd(["cp", "-p", str(target), str(bak)], sudo=True)
+    else:
+        shutil.copy2(target, bak)
+    return bak
+
+
+def prompt_choice(msg, choices):
+    """Prompt user for a choice. Returns the chosen key."""
+    options = " / ".join(f"[{k}]{v[1:]}" for k, v in choices.items())
+    while True:
+        reply = input(f"{msg} ({options}): ").strip().lower()
+        if reply in choices:
+            return reply
+        if not reply:
+            continue
+        print(f"  Invalid choice '{reply}'")
+
+
+def show_diff(source, target):
+    """Show diff between source and target."""
+    if not Path(target).exists():
+        print(f"  Target does not exist yet: {target}")
+        return
+    sudo = needs_sudo(target)
+    if sudo:
+        result = run_cmd(["diff", "-u", target, str(source)], sudo=True)
+    else:
+        result = subprocess.run(
+            ["diff", "-u", target, str(source)], capture_output=True, text=True
+        )
+    if result.stdout:
+        print(result.stdout)
+    elif result.returncode == 0:
+        print("  Files are identical.")
+
+
+def apply_overwrite(name, cfg, dry_run=False):
+    """Apply an overwrite strategy config."""
+    source = cfg["source_path"]
+    target = cfg["target"]
+    sudo = needs_sudo(target)
+
+    if not source.exists():
+        print(f"  ERROR: Source file missing: {source}")
+        return False
+
+    print("  Strategy: overwrite")
+    print(f"  Source:   {source}")
+    print(f"  Target:   {target}")
+    if sudo:
+        print("  (requires sudo)")
+
+    if dry_run:
+        show_diff(source, target)
+        return True
+
+    show_diff(source, target)
+
+    if Path(target).exists():
+        # Check if identical
+        if sudo:
+            result = run_cmd(["diff", "-q", target, str(source)], sudo=True)
+            if result.returncode == 0:
+                print("  Already up to date.")
+                return True
+        else:
+            if Path(target).read_bytes() == source.read_bytes():
+                print("  Already up to date.")
+                return True
+
+    choice = prompt_choice("  Action?", {"a": "apply", "s": "skip", "m": "merge manually"})
+
+    if choice == "s":
+        print("  Skipped.")
+        return True
+
+    if choice == "m":
+        editor = os.environ.get("EDITOR", "vim")
+        print(f"  Opening {target} in {editor} for manual editing...")
+        print(f"  Reference: {source}")
+        if sudo:
+            run_cmd([editor, target], sudo=True, capture=False)
+        else:
+            subprocess.run([editor, target])
+        return True
+
+    # Apply
+    bak = backup(target)
+    if bak:
+        print(f"  Backed up to {bak}")
+
+    target_dir = Path(target).parent
+    if not target_dir.exists():
+        if sudo:
+            run_cmd(["mkdir", "-p", str(target_dir)], sudo=True)
+        else:
+            target_dir.mkdir(parents=True, exist_ok=True)
+
+    if sudo:
+        run_cmd(["cp", str(source), target], sudo=True)
+    else:
+        shutil.copy2(source, target)
+
+    print("  Applied.")
+    return True
+
+
+def apply_patch(name, cfg, dry_run=False):
+    """Apply a patch strategy config."""
+    source = cfg["source_path"]
+    target = cfg["target"]
+    sudo = needs_sudo(target)
+
+    if not source.exists():
+        print(f"  ERROR: Patch file missing: {source}")
+        return False
+
+    print("  Strategy: patch")
+    print(f"  Patch:    {source}")
+    print(f"  Target:   {target}")
+    if sudo:
+        print("  (requires sudo)")
+
+    if not Path(target).exists():
+        print(f"  ERROR: Target does not exist: {target}")
+        return False
+
+    # Build patch command base: -p1 -d / lets patch resolve absolute paths from the header
+    patch_base = ["patch", "-p1", "-d", "/", "-i", str(source)]
+
+    # Check if already applied (reverse dry-run succeeds)
+    result = run_cmd(patch_base + ["--dry-run", "-R"], sudo=sudo)
+    if result.returncode == 0:
+        print("  Patch already applied.")
+        return True
+
+    # Dry-run forward
+    result = run_cmd(patch_base + ["--dry-run"], sudo=sudo)
+
+    if result.returncode == 0:
+        print("  Patch applies cleanly.")
+        if result.stdout:
+            print(result.stdout)
+
+        if dry_run:
+            return True
+
+        choice = prompt_choice("  Action?", {"a": "apply", "s": "skip"})
+        if choice == "s":
+            print("  Skipped.")
+            return True
+
+        bak = backup(target)
+        if bak:
+            print(f"  Backed up to {bak}")
+
+        result = run_cmd(patch_base, sudo=sudo)
+        if result.returncode == 0:
+            print("  Applied.")
+            return True
+        else:
+            print("  ERROR: Patch failed unexpectedly.")
+            if result.stderr:
+                print(result.stderr)
+            return False
+    else:
+        # Conflicts
+        print("  Patch does NOT apply cleanly:")
+        if result.stdout:
+            print(result.stdout)
+        if result.stderr:
+            print(result.stderr)
+
+        if dry_run:
+            return False
+
+        choice = prompt_choice("  Action?", {"e": "edit target manually", "s": "skip"})
+        if choice == "s":
+            print("  Skipped.")
+            return True
+        if choice == "e":
+            editor = os.environ.get("EDITOR", "vim")
+            print(f"  Opening {target} in {editor}...")
+            print(f"  Patch file for reference: {source}")
+            if sudo:
+                run_cmd([editor, target], sudo=True, capture=False)
+            else:
+                subprocess.run([editor, target])
+            return True
+
+    return False
+
+
+def apply_symlink(name, cfg, dry_run=False):
+    """Apply a symlink strategy config."""
+    source = cfg["source_path"].resolve()
+    target = Path(cfg["target"])
+    sudo = needs_sudo(str(target.parent)) if target.parent.exists() else needs_sudo(str(target.parent.parent))
+
+    if not source.exists():
+        print(f"  ERROR: Source file missing: {source}")
+        return False
+
+    print("  Strategy: symlink")
+    print(f"  Source:   {source}")
+    print(f"  Target:   {target}")
+    if sudo:
+        print("  (requires sudo)")
+
+    # Already correct symlink?
+    if target.is_symlink() and target.resolve() == source:
+        print("  Already linked correctly.")
+        return True
+
+    if dry_run:
+        if target.exists():
+            print(f"  Would back up {target} and create symlink.")
+        else:
+            print("  Would create symlink.")
+        return True
+
+    # Target exists but is not the right symlink
+    if target.exists() or target.is_symlink():
+        if target.is_symlink():
+            current = target.resolve()
+            print(f"  WARNING: Existing symlink points to {current}")
+            choice = prompt_choice("  Replace?", {"a": "apply", "s": "skip"})
+            if choice == "s":
+                print("  Skipped.")
+                return True
+        else:
+            choice = prompt_choice("  Target exists. Replace with symlink?", {"a": "apply", "s": "skip"})
+            if choice == "s":
+                print("  Skipped.")
+                return True
+
+        bak = backup(str(target))
+        if bak:
+            print(f"  Backed up to {bak}")
+
+        if sudo:
+            run_cmd(["rm", str(target)], sudo=True)
+        else:
+            target.unlink()
+
+    # Create parent dirs if needed
+    if not target.parent.exists():
+        if sudo:
+            run_cmd(["mkdir", "-p", str(target.parent)], sudo=True)
+        else:
+            target.parent.mkdir(parents=True, exist_ok=True)
+
+    if sudo:
+        run_cmd(["ln", "-s", str(source), str(target)], sudo=True)
+    else:
+        target.symlink_to(source)
+
+    print("  Linked.")
+    return True
+
+
+STRATEGIES = {
+    "overwrite": apply_overwrite,
+    "patch": apply_patch,
+    "symlink": apply_symlink,
+}
+
+
+def apply_config(name, cfg, dry_run=False):
+    """Apply a single config."""
+    if cfg.get("description"):
+        print(f"  {cfg['description']}")
+    strategy = cfg.get("strategy")
+    if strategy not in STRATEGIES:
+        print(f"  ERROR: Unknown strategy '{strategy}'")
+        return False
+    return STRATEGIES[strategy](name, cfg, dry_run)
+
+
+def cmd_list(configs):
+    """List all available configs."""
+    if not configs:
+        print("No configs found.")
+        return
+    for name, cfg in configs.items():
+        status = ""
+        target = Path(cfg["target"])
+        if cfg["strategy"] == "symlink":
+            if target.is_symlink() and target.resolve() == cfg["source_path"].resolve():
+                status = " [linked]"
+            elif target.exists():
+                status = " [not linked]"
+            else:
+                status = " [missing]"
+        elif cfg["strategy"] == "overwrite":
+            if target.exists():
+                if not needs_sudo(cfg["target"]):
+                    if target.read_bytes() == cfg["source_path"].read_bytes():
+                        status = " [up to date]"
+                    else:
+                        status = " [differs]"
+                else:
+                    status = " [exists, needs sudo to check]"
+            else:
+                status = " [not applied]"
+        elif cfg["strategy"] == "patch":
+            status = " [patch]"
+
+        desc = f"  # {cfg['description']}" if cfg.get("description") else ""
+        print(f"  {name:20s} {cfg['strategy']:10s} {cfg['target']}{status}{desc}")
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Apply config overrides from ~/.setup/config/",
+        usage="%(prog)s [--list | --dry-run] [name ...]",
+    )
+    parser.add_argument("names", nargs="*", default=[], help="Config(s) to apply (default: all)")
+    parser.add_argument("--list", action="store_true", help="List available configs")
+    parser.add_argument("--dry-run", "-n", action="store_true", help="Show what would happen")
+    args = parser.parse_args()
+
+    configs = load_configs()
+
+    if args.list:
+        cmd_list(configs)
+        return
+
+    targets = args.names if args.names else list(configs.keys())
+    if "all" in targets:
+        targets = list(configs.keys())
+
+    for name in targets:
+        if name not in configs:
+            print(f"Unknown config: {name}")
+            print(f"Available: {', '.join(configs.keys())}")
+            sys.exit(1)
+
+    ok = True
+    for name in targets:
+        print(f"\n[{name}]")
+        if not apply_config(name, configs[name], dry_run=args.dry_run):
+            ok = False
+
+    if not ok:
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
