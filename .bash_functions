@@ -28,7 +28,7 @@ scoff() {
 }
 
 mouse() {
-  connect DA:66:E9:2C:26:AD
+  connect DA:66:E9:2C:26:B0
 }
 
 title() {
