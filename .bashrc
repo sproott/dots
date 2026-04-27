@@ -57,6 +57,9 @@ alias stop="killall mpv"
 alias hledger="hledger --strict"
 alias topdf="libreoffice --headless --convert-to pdf"
 
+alias k="kubectl"
+complete -F _complete_alias k
+
 alias paru-r="paru -Rns"
 complete -F _complete_alias paru-r
 
