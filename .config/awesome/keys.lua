@@ -419,7 +419,7 @@ keys.global_keys =
     }
   ),
   awful.key(
-    {'Shift'},
+    {},
     'Print',
     function()
       awful.spawn.with_shell('selection_screenshot')
@@ -469,7 +469,7 @@ keys.global_keys =
     {},
     'XF86MonBrightnessUp',
     function()
-      awful.spawn.with_shell('xbacklight -inc 20')
+      awful.spawn.with_shell('brightnessctl set 20%+')
     end,
     {description = 'brightness up', group = 'video'}
   ),
@@ -477,7 +477,7 @@ keys.global_keys =
     {},
     'XF86MonBrightnessDown',
     function()
-      awful.spawn.with_shell('xbacklight -dec 20')
+      awful.spawn.with_shell('brightnessctl set 20%-')
     end,
     {description = 'brightness down', group = 'video'}
   ),

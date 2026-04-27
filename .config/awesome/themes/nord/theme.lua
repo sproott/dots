@@ -210,9 +210,11 @@ theme.on_screen_connect = function(s)
       -- Left widgets
       taglist_widget
     },
-    layout.fixed_horizontal {},
+    layout.fixed_horizontal {
+    },
     layout.fixed_horizontal {
       -- Right widgets
+      wibox.widget.systray(),
       keyboard_layout_widget,
       battery_widget,
       volume_widget,
