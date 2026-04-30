@@ -154,7 +154,4 @@ awful.spawn.with_shell('wallpaper ' .. (beautiful.wallpaper_dir or 'other'))
 awful.spawn.with_shell('remaps')
 
 awful.spawn.once('picom')
-awful.spawn.once('udiskie')
-awful.spawn.once('stretchly')
-awful.spawn.once('/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1')
 awful.spawn.once('xss-lock -- lockscreen')

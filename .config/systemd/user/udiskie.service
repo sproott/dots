@@ -1,0 +1,10 @@
+[Unit]
+Description=udiskie automount daemon
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/udiskie --tray
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

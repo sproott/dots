@@ -1,0 +1,11 @@
+[Unit]
+Description=Stretchly
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/bin/stretchly
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
