@@ -59,3 +59,44 @@ pydev() {
 freeport() {
   kill -9 $(lsof -tiTCP:"$1" -sTCP:LISTEN)
 }
+
+dotnetClearCommon() {
+    echo "- remove .paket"
+    rm -rf .paket
+
+    echo "- remove bin"
+    rm -rf bin/
+    rm -rf build/bin/
+    rm -rf src/bin/
+    rm -rf tests/bin/
+
+    echo "- remove obj"
+    rm -rf obj/
+    rm -rf build/obj/
+    rm -rf src/obj/
+    rm -rf tests/obj/
+
+    echo "- remove .fake"
+    rm -rf .fake
+
+    echo "- remove .ionide"
+    rm -rf .ionide
+
+    echo "- remove packages"
+    rm -rf packages
+
+    echo "- remove paket-files"
+    rm -rf paket-files
+
+    echo "done"
+}
+
+chocen() {
+  xrandr --output HDMI-A-0 --mode 1680x1050 --right-of eDP
+  wallpaper nord > /dev/null
+}
+
+brno() {
+  xrandr --output HDMI-A-0 --mode 1920x1080 --right-of eDP
+  wallpaper nord > /dev/null
+}

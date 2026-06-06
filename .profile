@@ -7,9 +7,6 @@ export PATH="$HOME/Android/Sdk/tools:$PATH"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$PATH:$HOME/.dotnet/tools"
 
-# nvm
-[ -s /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh
-
 # pyenv
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 command -v pyenv >/dev/null && eval "$(pyenv init - bash)"

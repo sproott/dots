@@ -23,11 +23,11 @@ shopt -s histappend
 # Starship
 eval "$(starship init bash)"
 
-# nvm
-source /usr/share/nvm/init-nvm.sh
+# fnm
+eval "$(fnm env --use-on-cd --shell bash)"
 
 # fuck
-# eval "$(thefuck --alias)"
+eval "$(pay-respects bash)"
 
 # pat.hs
 source /usr/share/paths/paths.sh
@@ -48,7 +48,6 @@ alias clip="xclip -selection clipboard"
 alias pl="paths list"
 alias valgrind="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose"
 alias sl="sl -ad -4"
-alias f="fuck"
 alias ce="code . && exit"
 alias d="fvm dart"
 alias fl="fvm flutter"
@@ -62,8 +61,8 @@ complete -F _complete_alias k
 alias paru-r="paru -Rns"
 complete -F _complete_alias paru-r
 
-alias go="paths go"
-complete -F _complete_alias go
+alias gp="paths go"
+complete -F _complete_alias gp
 
 alias config="git --git-dir=$HOME/.dots/ --work-tree=$HOME"
 complete -F _complete_alias config
