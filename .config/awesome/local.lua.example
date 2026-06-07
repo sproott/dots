@@ -1,0 +1,17 @@
+-- Per-machine / per-user overrides.
+--
+-- Copy this file to `local.lua` (which is gitignored) on each machine or user
+-- account, then edit the values below. It is loaded optionally — if `local.lua`
+-- does not exist, or `profile` has neither `label` nor `icon`, nothing is shown
+-- and the wibar looks exactly as it does by default.
+--
+-- The profile indicator appears in the center of the wibar, handy for telling
+-- apart two accounts (e.g. personal vs work) at a glance.
+
+return {
+  profile = {
+    label = 'Work',        -- text shown in the bar (optional)
+    icon  = '\u{f0b1}',    -- a Nerd Font glyph (optional); omit to show text only
+    color = function(t) return t.bg_urgent end,  -- receives the theme.color.palette table; or a raw hex string; omit for default
+  },
+}

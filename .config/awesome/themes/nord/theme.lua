@@ -1,4 +1,3 @@
-local gears = require('gears')
 local awful = require('awful')
 local wibox = require('wibox')
 
@@ -48,6 +47,14 @@ theme.font = 'monospace 10'
 theme.fonts = {
   icon = 'monospace 14',
   widget = theme.font
+}
+
+theme.color.palette = {
+  red = theme.color.aurora.red,
+  orange = theme.color.aurora.orange,
+  yellow = theme.color.aurora.yellow,
+  green = theme.color.aurora.green,
+  blue = theme.color.frost[4]
 }
 
 theme.bg_normal = theme.color.polar_night[1]
@@ -159,6 +166,28 @@ local clock =
 )
 local clock_widget = wrap_widget(clock.widget)
 
+-- Profile widget (per-machine, optional — configured via local.lua)
+local profile_widget = nil
+local ok, local_config = pcall(require, 'local')
+if ok and type(local_config) == 'table' and local_config.profile
+   and (local_config.profile.label or local_config.profile.icon) then
+  local create_profile_widget = require('widgets.profile')
+  local profile =
+    create_profile_widget(
+    {
+      label = local_config.profile.label,
+      icon = local_config.profile.icon,
+      color = (type(local_config.profile.color) == 'function'
+               and local_config.profile.color(theme.color.palette))
+              or local_config.profile.color
+              or theme.color.frost[2]
+    },
+    {icon = theme.fonts.icon, widget = theme.fonts.widget},
+    theme.spacing.small
+  )
+  profile_widget = wrap_widget(profile.widget)
+end
+
 -- }}}
 
 theme.on_screen_connect = function(s)
@@ -178,20 +207,38 @@ theme.on_screen_connect = function(s)
     }
   )
 
-  -- Add widgets to the wibox
+  -- Add widgets to the wibox.
+  -- expand='outside' gives the center its natural width and splits remaining
+  -- space equally between left and right (1fr auto 1fr), so center is always
+  -- at the true midpoint of the bar regardless of column content widths.
   s.mywibox.widget = {
     layout = wibox.layout.align.horizontal,
+    expand = 'outside',
     layout.fixed_horizontal {
-      -- Left widgets
+      -- Left (1fr)
       taglist_widget
     },
-    layout.fixed_horizontal {},
-    layout.fixed_horizontal {
-      -- Right widgets
-      keyboard_layout_widget,
-      volume_widget,
-      calendar_widget,
-      clock_widget
+    {
+      -- Center (auto)
+      profile_widget,
+      halign = 'center',
+      valign = 'center',
+      widget = wibox.container.place
+    },
+    {
+      -- Right (1fr): nested align pins content to the right edge while
+      -- passing through the full wibar height (unlike place, which constrains
+      -- to natural height and shrinks widgets like the volume progressbar)
+      layout = wibox.layout.align.horizontal,
+      nil,
+      nil,
+      layout.fixed_horizontal {
+        wibox.widget.systray(),
+        keyboard_layout_widget,
+        volume_widget,
+        calendar_widget,
+        clock_widget
+      }
     }
   }
 end
