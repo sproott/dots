@@ -12,6 +12,6 @@ return {
   profile = {
     label = 'Work',        -- text shown in the bar (optional)
     icon  = '\u{f0b1}',    -- a Nerd Font glyph (optional); omit to show text only
-    color = function(t) return t.bg_urgent end,  -- receives the theme.color.palette table; or a raw hex string; omit for default
+    color = function(c) return c.blue end,  -- receives the theme.color.palette table; or a raw hex string; omit for default
   },
 }
