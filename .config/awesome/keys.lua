@@ -411,7 +411,7 @@ keys.global_keys =
     {MODKEY, 'Control'},
     's',
     function()
-      awful.spawn('loginctl lock-session')
+      awful.spawn('loginctl lock-sessions')
     end,
     {
       description = 'lock the screen',
