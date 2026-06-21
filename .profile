@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # PATH additions for tools with env vars set in environment.d
+export PATH="$PNPM_HOME:$PATH"
 export PATH="$PNPM_HOME/bin:$PATH"
 export PATH="$HOME/.pub-cache/bin:$PATH"
 export PATH="$HOME/Android/Sdk/tools:$PATH"
