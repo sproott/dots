@@ -14,7 +14,15 @@ jbl() {
 }
 
 sc() {
-    connect E8:EE:CC:06:4D:82
+  connect "$SOUNDCORE"
+}
+
+scoff() {
+  disconnect "$SOUNDCORE"
+}
+
+mouse() {
+  connect DA:66:E9:2C:26:B4
 }
 
 title() {
@@ -97,6 +105,6 @@ chocen() {
 }
 
 brno() {
-  xrandr --output HDMI-A-0 --mode 1920x1080 --right-of eDP
+  xrandr --output DisplayPort-5 --mode 5120x2160 --right-of eDP
   wallpaper nord > /dev/null
 }

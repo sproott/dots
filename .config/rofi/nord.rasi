@@ -1,23 +1,23 @@
 * {
-	nord0: #2e3440;
-	nord1: #3b4252;
-	nord2: #434c5e;
-	nord3: #4c566a;
+    nord0: #2e3440;
+    nord1: #3b4252;
+    nord2: #434c5e;
+    nord3: #4c566a;
 
-	nord4: #d8dee9;
-	nord5: #e5e9f0;
-	nord6: #eceff4;
+    nord4: #d8dee9;
+    nord5: #e5e9f0;
+    nord6: #eceff4;
 
-	nord7: #8fbcbb;
-	nord8: #88c0d0;
-	nord9: #81a1c1;
-	nord10: #5e81ac;
-	nord11: #bf616a;
+    nord7: #8fbcbb;
+    nord8: #88c0d0;
+    nord9: #81a1c1;
+    nord10: #5e81ac;
+    nord11: #bf616a;
 
-	nord12: #d08770;
-	nord13: #ebcb8b;
-	nord14: #a3be8c;
-	nord15: #b48ead;
+    nord12: #d08770;
+    nord13: #ebcb8b;
+    nord14: #a3be8c;
+    nord15: #b48ead;
 
     foreground:  @nord9;
     backlight:   #ccffeedd;
@@ -32,9 +32,10 @@ window {
     location: center;
     anchor:   center;
     transparency: "screenshot";
-    padding: 10px;
-    border:  0px;
-    border-radius: 6px;
+    width: 35em;
+    padding: 0.5em;
+    border:  0em;
+    border-radius: 0.4em;
 
     background-color: @transparent;
     spacing: 0;
@@ -49,52 +50,54 @@ mainbox {
 
 message {
     color: @nord0;
-    padding: 5;
+    padding: 0.3em;
     border-color: @foreground;
-    border:  0px 2px 2px 2px;
+    border:  0em 0.2em 0.2em 0.2em;
     background-color: @nord7;
 }
 
 inputbar {
     color: @nord6;
-    padding: 11px;
+    padding: 0.6em;
+    spacing: 0.5em;
     background-color: #3b4252;
 
-    border: 1px;
-    border-radius:  6px 6px 0px 0px;
+    border: 0.1em;
+    border-radius:  0.4em 0.4em 0em 0em;
     border-color: @nord10;
 }
 
 entry, prompt, case-indicator {
     text-font: inherit;
-    text-color:inherit;
+    text-color: @nord6;
 }
 
 prompt {
-    margin: 0px 0.3em 0em 0em ;
+    margin: 0em 0.3em 0em 0em ;
 }
 
 listview {
-    padding: 8px;
-    border-radius: 0px 0px 6px 6px;
+    padding: 0.4em;
+    border-radius: 0em 0em 0.4em 0.4em;
     border-color: @nord10;
-    border: 0px 1px 1px 1px;
+    border: 0em 0.1em 0.1em 0.1em;
     background-color: rgba(46,52,64,0.9);
     dynamic: false;
 }
 
 element {
-    padding: 3px;
+    padding: 0.2em 0.5em;
+    spacing: 0.3em;
     vertical-align: 0.5;
-    border-radius: 4px;
+    border-radius: 0.3em;
     background-color: transparent;
     color: @foreground;
     text-color: rgb(216, 222, 233);
 }
 
 element.selected {
-	background-color: @nord7;
-	text-color: #2e3440;
+    background-color: @nord7;
+    text-color: #2e3440;
 }
 
 element.active {
@@ -103,21 +106,20 @@ element.active {
 
 element-text, element-icon {
     background-color: inherit;
-    text-color:       inherit;
+    text-color:        inherit;
 }
 
 button {
-    padding: 6px;
+    padding: 0.6em;
     color: @foreground;
     horizontal-align: 0.5;
 
-    border: 2px 0px 2px 2px;
-    border-radius: 4px 0px 0px 4px;
+    border: 0.2em 0em 0.2em 0.2em;
+    border-radius: 0.4em 0em 0em 0.4em;
     border-color: @foreground;
 }
 
 button selected normal {
-    border: 2px 0px 2px 2px;
+    border: 0.2em 0em 0.2em 0.2em;
     border-color: @foreground;
 }
-
