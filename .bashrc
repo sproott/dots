@@ -21,7 +21,7 @@ shopt -s expand_aliases
 shopt -s histappend
 
 # Starship
-eval "$(starship init bash)"
+[ "$STARSHIP_DISABLE" = "true" ] || eval "$(starship init bash)"
 
 # fnm
 eval "$(fnm env --use-on-cd --shell bash)"
@@ -69,3 +69,11 @@ complete -F _complete_alias config
 
 include ~/.bash_functions
 include ~/.profile
+
+# pnpm
+export PNPM_HOME="/home/david_hrabe/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end
