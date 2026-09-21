@@ -152,6 +152,7 @@ naughty.connect_signal('request::display',
 -- Autostart applications
 awful.spawn.with_shell('wallpaper ' .. (beautiful.wallpaper_dir or 'other'))
 awful.spawn.with_shell('remaps')
+awful.spawn.with_shell('xsettingsd')
 
 awful.spawn.once('picom')
 awful.spawn.once('xss-lock -- lockscreen')

@@ -1,0 +1,34 @@
+#!/bin/bash
+
+CURRENT_DPI=$(xrdb -query | grep -i "Xft.dpi" | awk '{print $2}')
+CURRENT_DPI=${CURRENT_DPI:-96}
+
+STANDARD_DPI=96
+HIDPI=144
+
+if [ "$CURRENT_DPI" -eq "$STANDARD_DPI" ]; then
+    NEW_DPI=$HIDPI
+    XSET_DPI=147456 
+else
+    NEW_DPI=$STANDARD_DPI
+    XSET_DPI=98304 
+fi
+
+# 1. Apply to X resources PERMANENTLY (For Rofi, AwesomeWM, etc.)
+touch ~/.Xresources
+sed -i '/^Xft\.dpi:/d' ~/.Xresources
+echo "Xft.dpi: $NEW_DPI" >> ~/.Xresources
+xrdb -merge ~/.Xresources
+
+# 2. Broadcast hardware DPI change via xrandr (Triggers Alacritty/Winit natively)
+xrandr --dpi $NEW_DPI
+
+# 3. Apply to XSETTINGS (For GTK / Firefox / VS Code)
+echo "Xft/DPI $XSET_DPI" > ~/.xsettingsd
+pkill -HUP -u "$USER" -x xsettingsd
+
+# 4. Restart AwesomeWM smoothly
+echo 'awesome.restart()' | awesome-client > /dev/null 2>&1
+sleep 1.5
+
+notify-send "DPI Toggled" "System DPI is now $NEW_DPI"
