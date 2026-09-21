@@ -12,6 +12,7 @@
   prune-branches = !git remote prune origin && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -d
   prune-branches-f = !git remote prune origin && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
   push-f = push --force-with-lease
+  recommit = "!f() { test -n \"$1\" || { echo 'Usage: git recommit <upstream>'; return 1; }; git rebase \"$1\" --exec 'git commit --amend --no-edit'; }; f"
 [push]
   autoSetupRemote = true
 [rerere]
