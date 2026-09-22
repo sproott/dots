@@ -105,6 +105,6 @@ chocen() {
 }
 
 brno() {
-  xrandr --output DisplayPort-5 --mode 5120x2160 --right-of eDP
+  xrandr --output DisplayPort-5 --mode 5120x2160 --right-of eDP --primary
   wallpaper nord > /dev/null
 }
