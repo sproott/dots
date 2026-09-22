@@ -2,6 +2,9 @@ local gears = require('gears')
 local wibox = require('wibox')
 local awful = require('awful')
 
+local xresources = require('beautiful.xresources')
+local dpi = xresources.apply_dpi
+
 local layout = require('util.layout')
 
 return function(colors, fonts, spacing)
@@ -11,15 +14,15 @@ return function(colors, fonts, spacing)
     wibox.widget {
     max_value = 100,
     value = 0,
-    forced_width = 100,
-    forced_height = 2,
-    border_width = 2,
+    forced_width = dpi(100),
+    forced_height = dpi(2),
+    border_width = dpi(2),
     color = colors.primary,
     background_color = colors.background,
     shape = gears.shape.rounded_bar,
     margins = {
-      top = 8,
-      bottom = 8
+      top = dpi(8),
+      bottom = dpi(8)
     },
     widget = wibox.widget.progressbar
   }
