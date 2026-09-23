@@ -1,24 +1,24 @@
 #!/bin/bash
 
-CURRENT_DPI=$(xrdb -query | grep -i "Xft.dpi" | awk '{print $2}')
-CURRENT_DPI=${CURRENT_DPI:-96}
-
 STANDARD_DPI=96
-HIDPI=144
-
-# Define your cursor sizes
+HIDPI=130
 STANDARD_CURSOR=24
-HIDPI_CURSOR=36
+HIDPI_CURSOR=32
+
+CURRENT_DPI=$(xrdb -query | grep -i "Xft.dpi" | awk '{print $2}')
+# Use the constant for the default fallback as well
+CURRENT_DPI=${CURRENT_DPI:-$STANDARD_DPI}
 
 if [ "$CURRENT_DPI" -eq "$STANDARD_DPI" ]; then
     NEW_DPI=$HIDPI
-    XSET_DPI=147456 
     NEW_CURSOR=$HIDPI_CURSOR
 else
     NEW_DPI=$STANDARD_DPI
-    XSET_DPI=98304 
     NEW_CURSOR=$STANDARD_CURSOR
 fi
+
+# XSETTINGS requires DPI multiplied by 1024
+XSET_DPI=$(( NEW_DPI * 1024 ))
 
 # 1. Apply to X resources PERMANENTLY (For root window and generic X11 apps)
 touch ~/.Xresources
