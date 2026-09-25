@@ -1,9 +1,9 @@
 #!/bin/bash
 
 STANDARD_DPI=96
-HIDPI=130
+HIDPI=120
 STANDARD_CURSOR=24
-HIDPI_CURSOR=32
+HIDPI_CURSOR=30
 
 CURRENT_DPI=$(xrdb -query | grep -i "Xft.dpi" | awk '{print $2}')
 # Use the constant for the default fallback as well
