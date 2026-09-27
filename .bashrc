@@ -71,9 +71,7 @@ include ~/.bash_functions
 include ~/.profile
 
 # pnpm
-export PNPM_HOME="/home/david_hrabe/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME/bin:"*) ;;
   *) export PATH="$PNPM_HOME/bin:$PATH" ;;
 esac
-# pnpm end
