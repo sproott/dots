@@ -100,11 +100,11 @@ dotnetClearCommon() {
 }
 
 chocen() {
-  xrandr --output HDMI-A-0 --mode 1680x1050 --right-of eDP
+  xrandr --output HDMI-A-0 --mode 1680x1050 --right-of eDP --output DisplayPort-5 --off
   wallpaper nord > /dev/null
 }
 
 brno() {
-  xrandr --output DisplayPort-5 --mode 5120x2160 --right-of eDP --primary
+  xrandr --output DisplayPort-5 --mode 5120x2160 --right-of eDP --primary --output HDMI-A-0 --off
   wallpaper nord > /dev/null
 }
