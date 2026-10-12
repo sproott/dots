@@ -408,6 +408,58 @@ keys.global_keys =
   gears.table.join(
   keys.global_keys,
   awful.key(
+    { MODKEY, "Shift" },
+    "s",
+    function ()
+      local s1 = awful.screen.focused()
+      -- Identify the next monitor (looping back to 1 if you are on the last one)
+      local s2 = screen[s1.index + 1] or screen[1]
+
+      -- Do nothing if only one monitor is connected
+      if s1 == s2 then return end
+
+      -- Iterate through all open clients and swap them
+      for _, c in ipairs(client.get()) do
+        local target_screen = nil
+
+        -- Determine if this client needs to be moved
+        if c.screen == s1 then
+          target_screen = s2
+        elseif c.screen == s2 then
+          target_screen = s1
+        end
+
+        if target_screen then
+          -- 1. Save the index of each tag the client is currently on
+          local tag_indices = {}
+          for _, t in ipairs(c:tags()) do
+            table.insert(tag_indices, t.index)
+          end
+
+          -- 2. Move the client to the new screen
+          c:move_to_screen(target_screen)
+
+          -- 3. Re-assign the client to the equivalent tags on the new screen
+          local new_tags = {}
+          for _, idx in ipairs(tag_indices) do
+            local t = target_screen.tags[idx]
+            if t then
+              table.insert(new_tags, t)
+            end
+          end
+
+          if #new_tags > 0 then
+            c:tags(new_tags)
+          end
+        end
+      end
+    end,
+    {
+      description = "swap all clients between monitors",
+      group = "screen"
+    }
+  ),
+  awful.key(
     {MODKEY, 'Control'},
     's',
     function()
