@@ -81,6 +81,8 @@ awful.screen.connect_for_each_screen(
 
 -- }}}
 
+require('util.screen_memory')
+
 client.connect_signal(
   'request::default_mousebindings',
   function()
@@ -203,3 +205,4 @@ awful.spawn.with_shell('xsettingsd')
 
 awful.spawn.once('picom')
 awful.spawn.once('xss-lock -- lockscreen')
+awful.spawn('autorandr-on-activate')

@@ -1,0 +1,18 @@
+#!/bin/bash
+# An X server on an inactive VT cannot reconfigure outputs, so hotplugs that
+# happen while another session is in front are re-applied on switching back.
+
+# Started on every awesome (re)start; only one watcher may run.
+exec 9> "$XDG_RUNTIME_DIR/autorandr-on-activate.lock"
+flock -n 9 || exit 0
+
+session_path=$(busctl --system call org.freedesktop.login1 /org/freedesktop/login1 \
+    org.freedesktop.login1.Manager GetSession s "$XDG_SESSION_ID" | awk '{print $2}' | tr -d '"')
+[ -n "$session_path" ] || exit 1
+
+stdbuf -oL gdbus monitor --system --dest org.freedesktop.login1 --object-path "$session_path" |
+    while read -r line; do
+        case "$line" in
+            *"'Active': <true>"*) autorandr --change ;;
+        esac
+    done
