@@ -8,7 +8,7 @@ include() {
 
 [ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
 
-alias cp="cp -i"                          # confirm before overwriting something
+[ -z "$CLAUDECODE" ] && alias cp="cp -i"  # confirm before overwriting something
 alias df='df -h'                          # human-readable sizes
 alias free='free -m'                      # show sizes in MB
 
@@ -69,10 +69,27 @@ alias config="git --git-dir=$HOME/.dots/ --work-tree=$HOME"
 complete -F _complete_alias config
 
 include ~/.bash_functions
-include ~/.profile
+command -v pyenv >/dev/null && eval "$(pyenv init - bash)"
 
-# pnpm
-case ":$PATH:" in
-  *":$PNPM_HOME/bin:"*) ;;
-  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
-esac
+## [Completion]
+## Completion scripts setup. Remove the following line to uninstall
+[ -f /home/davidh/.dart-cli-completion/bash-config.bash ] && . /home/davidh/.dart-cli-completion/bash-config.bash || true
+## [/Completion]
+
+###-begin-nr-completion-###
+
+if type complete &>/dev/null; then
+  _nr_completion() {
+    local words
+    local cur
+    local cword
+    _get_comp_words_by_ref -n =: cur words cword
+    IFS=$'\n'
+    COMPREPLY=($(COMP_CWORD=$cword COMP_LINE=$cur nr --completion ${words[@]}))
+  }
+  complete -F _nr_completion nr
+fi
+
+###-end-nr-completion-###
+
+include ~/.bashrc.local
