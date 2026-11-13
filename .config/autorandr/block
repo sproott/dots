@@ -1,0 +1,3 @@
+#!/bin/bash
+# Exit 0 = block. While locked, the locker window keeps its size, so a layout change exposes the new area.
+pgrep -u "$(id -u)" -x i3lock > /dev/null
