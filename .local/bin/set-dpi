@@ -1,0 +1,43 @@
+#!/bin/bash
+# Usage: set-dpi standard|hidpi
+
+STANDARD_DPI=96
+HIDPI=120
+STANDARD_CURSOR=24
+HIDPI_CURSOR=30
+
+case "$1" in
+    standard) NEW_DPI=$STANDARD_DPI; NEW_CURSOR=$STANDARD_CURSOR ;;
+    hidpi)    NEW_DPI=$HIDPI;        NEW_CURSOR=$HIDPI_CURSOR ;;
+    *) echo "Usage: $(basename "$0") standard|hidpi" >&2; exit 1 ;;
+esac
+
+CURRENT_DPI=$(xrdb -query | grep -i "Xft.dpi" | awk '{print $2}')
+if [ "$CURRENT_DPI" = "$NEW_DPI" ] && [ "$2" != "--force" ]; then
+    exit 0
+fi
+
+# XSETTINGS requires DPI multiplied by 1024
+XSET_DPI=$(( NEW_DPI * 1024 ))
+
+# 1. Apply to X resources PERMANENTLY (For root window and generic X11 apps)
+touch ~/.Xresources
+sed -i '/^Xft\.dpi:/d' ~/.Xresources
+sed -i '/^Xcursor\.size:/d' ~/.Xresources
+echo "Xft.dpi: $NEW_DPI" >> ~/.Xresources
+echo "Xcursor.size: $NEW_CURSOR" >> ~/.Xresources
+xrdb -merge ~/.Xresources
+
+# 2. Broadcast hardware DPI change via xrandr
+xrandr --dpi $NEW_DPI
+
+# 3. Apply to XSETTINGS (For GTK / Firefox / VS Code)
+echo "Xft/DPI $XSET_DPI" > ~/.xsettingsd
+echo "Gtk/CursorThemeSize $NEW_CURSOR" >> ~/.xsettingsd
+pkill -HUP -u "$USER" -x xsettingsd
+
+# 4. Restart AwesomeWM smoothly
+echo 'awesome.restart()' | awesome-client > /dev/null 2>&1
+sleep 1.5
+
+notify-send "DPI Changed" "System DPI is now $NEW_DPI"
