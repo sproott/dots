@@ -14,4 +14,11 @@ return {
     icon  = '\u{f0b1}',    -- a Nerd Font glyph (optional); omit to show text only
     color = function(c) return c.blue end,  -- receives the theme.color.palette table; or a raw hex string; omit for default
   },
+
+  -- Disk usage widget (right side of the wibar). Shows % used; once usage
+  -- reaches warn_percent it turns red and shows the space left instead.
+  disk = {
+    mount = '/',          -- any path on the filesystem to watch (default '/')
+    warn_percent = 90,    -- default 90
+  },
 }
