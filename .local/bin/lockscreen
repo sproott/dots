@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
 betterlockscreen -l --off 10 --show-layout
+# Profile switches are blocked while locked; catch up on what changed meanwhile.
+autorandr --change
