@@ -146,6 +146,22 @@ local keyboard_layout =
 )
 local keyboard_layout_widget = wrap_widget(keyboard_layout.widget)
 
+-- Disk widget (mount point and threshold configurable via local.lua)
+local ok, local_config = pcall(require, 'local')
+if not (ok and type(local_config) == 'table') then
+  local_config = {}
+end
+
+local create_disk_widget = require('widgets.disk')
+local disk =
+  create_disk_widget(
+  {primary = theme.color.frost[4], warning = theme.color.aurora.red},
+  {icon = theme.fonts.icon, widget = theme.fonts.widget},
+  theme.spacing.small,
+  local_config.disk or {}
+)
+local disk_widget = wrap_widget(disk.widget)
+
 -- Calendar widget
 local create_calendar_widget = require('widgets.calendar')
 local calendar =
@@ -168,8 +184,7 @@ local clock_widget = wrap_widget(clock.widget)
 
 -- Profile widget (per-machine, optional — configured via local.lua)
 local profile_widget = nil
-local ok, local_config = pcall(require, 'local')
-if ok and type(local_config) == 'table' and local_config.profile
+if local_config.profile
    and (local_config.profile.label or local_config.profile.icon) then
   local create_profile_widget = require('widgets.profile')
   local profile =
@@ -235,6 +250,7 @@ theme.on_screen_connect = function(s)
       layout.fixed_horizontal {
         wibox.widget.systray(),
         keyboard_layout_widget,
+        disk_widget,
         volume_widget,
         calendar_widget,
         clock_widget
