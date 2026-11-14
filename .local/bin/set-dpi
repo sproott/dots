@@ -38,6 +38,12 @@ pkill -HUP -u "$USER" -x xsettingsd
 
 # 4. Restart AwesomeWM smoothly
 echo 'awesome.restart()' | awesome-client > /dev/null 2>&1
-sleep 1.5
+# notify-send before the restarted awesome owns the notification bus name gets lost;
+# the short sleep lets the old instance drop the name first
+sleep 0.5
+for _ in $(seq 50); do
+    busctl --user status org.freedesktop.Notifications 2>/dev/null | grep -qx 'Comm=awesome' && break
+    sleep 0.1
+done
 
 notify-send "DPI Changed" "System DPI is now $NEW_DPI"

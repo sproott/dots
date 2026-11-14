@@ -8,7 +8,7 @@ type Option = { id: string; name: string };
 type Field = { id: string; name: string; type: string; options?: Option[] };
 type PrRef = { owner: string; repo: string; number: number };
 
-const usage = "Usage: pr-watch <pr-url | owner/repo#number | number>";
+const usage = "Usage: pr-watch <pr-url | owner/repo#number | number>...";
 
 const bail = (message: string): never => {
   p.cancel(message);
@@ -154,10 +154,10 @@ const inputText = async (field: Field, current: Map<string, string>) => {
   return (text as string | undefined)?.trim() || undefined;
 };
 
-const arg = process.argv[2];
-if (!arg || arg === "-h" || arg === "--help") {
+const args = process.argv.slice(2);
+if (!args.length || args.includes("-h") || args.includes("--help")) {
   console.log(usage);
-  process.exit(arg ? 0 : 1);
+  process.exit(args.length ? 0 : 1);
 }
 
 p.intro("PR watchlist");
@@ -165,39 +165,71 @@ p.intro("PR watchlist");
 const { owner: PROJECT_OWNER, number: PROJECT_NUMBER } = await loadConfig();
 
 const spin = p.spinner();
-spin.start("Loading PR and project fields");
-const [ref, PROJECT_ID] = await Promise.all([parsePr(arg), fetchProjectId()]);
-const [pr, fields] = await Promise.all([fetchPr(ref), fetchFields()]);
-spin.stop(`${ref.owner}/${ref.repo}#${ref.number} ${pr.title}${pr.itemId ? " (editing existing item)" : " (new item)"}`);
+spin.start(`Loading ${args.length > 1 ? `${args.length} PRs` : "PR"} and project fields`);
+const [refs, PROJECT_ID] = await Promise.all([Promise.all(args.map(parsePr)), fetchProjectId()]);
+const [prs, fields] = await Promise.all([Promise.all(refs.map(fetchPr)), fetchFields()]);
+spin.stop("Loaded");
+const label = (i: number) => {
+  const { owner, repo, number } = refs[i];
+  return `${owner}/${repo}#${number} ${prs[i].title}${prs[i].itemId ? " (editing existing item)" : " (new item)"}`;
+};
+for (const i of prs.keys()) p.log.info(label(i));
 
 const category = findField(fields, "Category");
 const attention = findField(fields, "Attention");
 const group = findField(fields, "Group");
 const note = findTextField(fields, "Note");
 
-const selections: [Field, string | undefined, string][] = [
-  [category, await selectOption(category, pr.current, false), "--single-select-option-id"],
-  [attention, await selectOption(attention, pr.current, false), "--single-select-option-id"],
-  [group, await selectOption(group, pr.current, true), "--single-select-option-id"],
-  [note, await inputText(note, pr.current), "--text"],
+type Selections = [Field, string | undefined, string][];
+
+const ask = async (current: Map<string, string>): Promise<Selections> => [
+  [category, await selectOption(category, current, false), "--single-select-option-id"],
+  [attention, await selectOption(attention, current, false), "--single-select-option-id"],
+  [group, await selectOption(group, current, true), "--single-select-option-id"],
+  [note, await inputText(note, current), "--text"],
 ];
 
-spin.start("Saving");
-const itemId =
-  pr.itemId ??
-  (await $`gh project item-add ${PROJECT_NUMBER} --owner ${PROJECT_OWNER} --url ${pr.url} --format json`.quiet().json()).id;
+let shared: Selections | undefined;
+if (prs.length > 1) {
+  const mode = await p.select({
+    message: `Set fields for ${prs.length} PRs`,
+    options: [
+      { value: "same", label: "Same values for all" },
+      { value: "each", label: "Answer per PR" },
+    ],
+  });
+  if (p.isCancel(mode)) bail("Cancelled.");
+  if (mode === "same") {
+    // Pre-fill only values every PR already agrees on.
+    const common = new Map([...prs[0].current].filter(([k, v]) => prs.every((pr) => pr.current.get(k) === v)));
+    shared = await ask(common);
+  }
+}
 
-for (const [field, value, flag] of selections) {
-  if (value === pr.current.get(field.id)) continue;
-  const target = ["--id", itemId, "--project-id", PROJECT_ID, "--field-id", field.id];
-  const res = value
-    ? await $`gh project item-edit ${target} ${flag} ${value}`.quiet().nothrow()
-    : await $`gh project item-edit ${target} --clear`.quiet().nothrow();
-  if (res.exitCode !== 0) {
-    spin.stop("Failed", 1);
-    bail(`Failed to set ${field.name}: ${res.stderr.toString().trim()}`);
+const answers: Selections[] = [];
+for (const i of prs.keys()) {
+  if (!shared && prs.length > 1) p.log.step(label(i));
+  answers.push(shared ?? (await ask(prs[i].current)));
+}
+
+spin.start("Saving");
+for (const [i, pr] of prs.entries()) {
+  const itemId =
+    pr.itemId ??
+    (await $`gh project item-add ${PROJECT_NUMBER} --owner ${PROJECT_OWNER} --url ${pr.url} --format json`.quiet().json()).id;
+
+  for (const [field, value, flag] of answers[i]) {
+    if (value === pr.current.get(field.id)) continue;
+    const target = ["--id", itemId, "--project-id", PROJECT_ID, "--field-id", field.id];
+    const res = value
+      ? await $`gh project item-edit ${target} ${flag} ${value}`.quiet().nothrow()
+      : await $`gh project item-edit ${target} --clear`.quiet().nothrow();
+    if (res.exitCode !== 0) {
+      spin.stop("Failed", 1);
+      bail(`Failed to set ${field.name} on ${pr.url}: ${res.stderr.toString().trim()}`);
+    }
   }
 }
 spin.stop("Saved");
 
-p.outro(pr.url);
+p.outro(prs.map((pr) => pr.url).join("\n"));
