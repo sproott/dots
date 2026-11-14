@@ -1,0 +1,203 @@
+#!/usr/bin/env bun
+import * as p from "@clack/prompts@1.8.1";
+import { $ } from "bun";
+import { homedir } from "node:os";
+import { join } from "node:path";
+
+type Option = { id: string; name: string };
+type Field = { id: string; name: string; type: string; options?: Option[] };
+type PrRef = { owner: string; repo: string; number: number };
+
+const usage = "Usage: pr-watch <pr-url | owner/repo#number | number>";
+
+const bail = (message: string): never => {
+  p.cancel(message);
+  process.exit(1);
+};
+
+const configPath = join(process.env.XDG_CONFIG_HOME || join(homedir(), ".config"), "pr-watch", "config.json");
+
+const loadConfig = async (): Promise<{ owner: string; number: string }> => {
+  const file = Bun.file(configPath);
+  if (!(await file.exists()))
+    bail(`Missing config ${configPath}\nCreate it with: {"owner": "<project owner>", "number": <project number>}`);
+  const config = await file.json().catch(() => bail(`Invalid JSON in ${configPath}`));
+  if (typeof config.owner !== "string" || !/^\d+$/.test(String(config.number)))
+    bail(`${configPath} needs "owner" (string) and "number" (project number)`);
+  return { owner: config.owner, number: String(config.number) };
+};
+
+const fetchProjectId = async (): Promise<string> => {
+  const res = await $`gh project view ${PROJECT_NUMBER} --owner ${PROJECT_OWNER} --format json --jq .id`
+    .quiet()
+    .nothrow();
+  if (res.exitCode !== 0) bail(`Failed to fetch project: ${res.stderr.toString().trim()}`);
+  return res.text().trim();
+};
+
+const parsePr = async (arg: string): Promise<PrRef> => {
+  const url = arg.match(/github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)/);
+  if (url) return { owner: url[1], repo: url[2], number: Number(url[3]) };
+
+  const short = arg.match(/^([^/\s]+)\/([^#\s]+)#(\d+)$/);
+  if (short) return { owner: short[1], repo: short[2], number: Number(short[3]) };
+
+  if (/^\d+$/.test(arg)) {
+    const repo = await $`gh repo view --json owner,name`.quiet().nothrow();
+    if (repo.exitCode !== 0) bail(`Bare PR number needs a GitHub repo in the current directory.\n${usage}`);
+    const { owner, name } = repo.json();
+    return { owner: owner.login, repo: name, number: Number(arg) };
+  }
+
+  return bail(`Unrecognized PR reference: ${arg}\n${usage}`);
+};
+
+const prQuery = `
+query($owner: String!, $repo: String!, $number: Int!) {
+  repository(owner: $owner, name: $repo) {
+    pullRequest(number: $number) { id url title }
+  }
+}`;
+
+const itemsQuery = `
+query($project: ID!, $after: String) {
+  node(id: $project) {
+    ... on ProjectV2 {
+      items(first: 100, after: $after) {
+        pageInfo { hasNextPage endCursor }
+        nodes {
+          id
+          content { ... on PullRequest { id } }
+          fieldValues(first: 30) {
+            nodes {
+              ... on ProjectV2ItemFieldSingleSelectValue {
+                optionId
+                field { ... on ProjectV2SingleSelectField { id } }
+              }
+              ... on ProjectV2ItemFieldTextValue {
+                text
+                field { ... on ProjectV2Field { id } }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+const graphql = async (query: string, vars: string[]) => {
+  const res = await $`gh api graphql -f query=${query} ${vars}`.quiet().nothrow();
+  if (res.exitCode !== 0) bail(`GitHub API request failed: ${res.stderr.toString().trim()}`);
+  return res.json().data;
+};
+
+const findProjectItem = async (prId: string) => {
+  let after: string | undefined;
+  do {
+    const vars = ["-F", `project=${PROJECT_ID}`, ...(after ? ["-F", `after=${after}`] : [])];
+    const { items } = (await graphql(itemsQuery, vars)).node;
+    const item = items.nodes.find((n: any) => n.content?.id === prId);
+    if (item) return item;
+    after = items.pageInfo.hasNextPage ? items.pageInfo.endCursor : undefined;
+  } while (after);
+  return undefined;
+};
+
+const fetchPr = async ({ owner, repo, number }: PrRef) => {
+  const vars = ["-F", `owner=${owner}`, "-F", `repo=${repo}`, "-F", `number=${number}`];
+  const pr = (await graphql(prQuery, vars)).repository?.pullRequest;
+  if (!pr) bail(`PR not found: ${owner}/${repo}#${number}`);
+
+  const item = await findProjectItem(pr.id);
+  const current = new Map<string, string>(
+    (item?.fieldValues.nodes ?? [])
+      .filter((v: any) => v.field?.id)
+      .map((v: any) => [v.field.id, v.optionId ?? v.text]),
+  );
+  return { url: pr.url as string, title: pr.title as string, itemId: item?.id as string | undefined, current };
+};
+
+const fetchFields = async (): Promise<Field[]> => {
+  const res = await $`gh project field-list ${PROJECT_NUMBER} --owner ${PROJECT_OWNER} --format json`
+    .quiet()
+    .nothrow();
+  if (res.exitCode !== 0) bail(`Failed to fetch project fields: ${res.stderr.toString().trim()}`);
+  return res.json().fields;
+};
+
+const findField = (fields: Field[], name: string): Field =>
+  fields.find((f) => f.name === name && f.options) ?? bail(`Project has no single-select field "${name}"`);
+
+const findTextField = (fields: Field[], name: string): Field =>
+  fields.find((f) => f.name === name && f.type === "ProjectV2Field") ?? bail(`Project has no text field "${name}"`);
+
+const NONE = "__none__";
+
+const selectOption = async (field: Field, current: Map<string, string>, optional: boolean) => {
+  const options = field.options!.map((o) => ({ value: o.id, label: o.name }));
+  const choice = await p.select({
+    message: optional ? `${field.name} (optional)` : field.name,
+    options: optional ? [{ value: NONE, label: "None" }, ...options] : options,
+    initialValue: current.get(field.id) ?? (optional ? NONE : undefined),
+  });
+  if (p.isCancel(choice)) bail("Cancelled.");
+  return choice === NONE ? undefined : (choice as string);
+};
+
+const inputText = async (field: Field, current: Map<string, string>) => {
+  const text = await p.text({
+    message: `${field.name} (optional)`,
+    initialValue: current.get(field.id) ?? "",
+  });
+  if (p.isCancel(text)) bail("Cancelled.");
+  return (text as string | undefined)?.trim() || undefined;
+};
+
+const arg = process.argv[2];
+if (!arg || arg === "-h" || arg === "--help") {
+  console.log(usage);
+  process.exit(arg ? 0 : 1);
+}
+
+p.intro("PR watchlist");
+
+const { owner: PROJECT_OWNER, number: PROJECT_NUMBER } = await loadConfig();
+
+const spin = p.spinner();
+spin.start("Loading PR and project fields");
+const [ref, PROJECT_ID] = await Promise.all([parsePr(arg), fetchProjectId()]);
+const [pr, fields] = await Promise.all([fetchPr(ref), fetchFields()]);
+spin.stop(`${ref.owner}/${ref.repo}#${ref.number} ${pr.title}${pr.itemId ? " (editing existing item)" : " (new item)"}`);
+
+const category = findField(fields, "Category");
+const attention = findField(fields, "Attention");
+const group = findField(fields, "Group");
+const note = findTextField(fields, "Note");
+
+const selections: [Field, string | undefined, string][] = [
+  [category, await selectOption(category, pr.current, false), "--single-select-option-id"],
+  [attention, await selectOption(attention, pr.current, false), "--single-select-option-id"],
+  [group, await selectOption(group, pr.current, true), "--single-select-option-id"],
+  [note, await inputText(note, pr.current), "--text"],
+];
+
+spin.start("Saving");
+const itemId =
+  pr.itemId ??
+  (await $`gh project item-add ${PROJECT_NUMBER} --owner ${PROJECT_OWNER} --url ${pr.url} --format json`.quiet().json()).id;
+
+for (const [field, value, flag] of selections) {
+  if (value === pr.current.get(field.id)) continue;
+  const target = ["--id", itemId, "--project-id", PROJECT_ID, "--field-id", field.id];
+  const res = value
+    ? await $`gh project item-edit ${target} ${flag} ${value}`.quiet().nothrow()
+    : await $`gh project item-edit ${target} --clear`.quiet().nothrow();
+  if (res.exitCode !== 0) {
+    spin.stop("Failed", 1);
+    bail(`Failed to set ${field.name}: ${res.stderr.toString().trim()}`);
+  }
+}
+spin.stop("Saved");
+
+p.outro(pr.url);
